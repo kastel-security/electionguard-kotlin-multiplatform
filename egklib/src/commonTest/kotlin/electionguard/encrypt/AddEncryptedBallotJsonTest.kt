@@ -1,7 +1,5 @@
 package electionguard.encrypt
 
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.unwrap
 import electionguard.ballot.EncryptedBallot
 import electionguard.core.*
 import electionguard.input.RandomBallotProvider
@@ -10,7 +8,6 @@ import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 
 class AddEncryptedBallotJsonTest {
     val input = "src/commonTest/data/workflow/allAvailableJson"
@@ -34,7 +31,7 @@ class AddEncryptedBallotJsonTest {
             electionRecord.manifest(),
             electionInit.config.chainConfirmationCodes,
             electionInit.config.configBaux0,
-            electionInit.jointPublicKey(),
+            electionInit.jointElGamalPublicKey(),
             electionInit.extendedBaseHash,
             device,
             outputDir,
@@ -71,7 +68,7 @@ class AddEncryptedBallotJsonTest {
                 electionRecord.manifest(),
                 electionInit.config.chainConfirmationCodes,
                 electionInit.config.configBaux0,
-                electionInit.jointPublicKey(),
+                electionInit.jointElGamalPublicKey(),
                 electionInit.extendedBaseHash,
                 device,
                 outputDir,
@@ -108,7 +105,7 @@ class AddEncryptedBallotJsonTest {
                 electionRecord.manifest(),
                 electionInit.config.chainConfirmationCodes,
                 electionInit.config.configBaux0,
-                electionInit.jointPublicKey(),
+                electionInit.jointElGamalPublicKey(),
                 electionInit.extendedBaseHash,
                 "device$it",
                 outputDir,
@@ -147,7 +144,7 @@ class AddEncryptedBallotJsonTest {
             electionRecord.manifest(),
             electionInit.config.chainConfirmationCodes,
             electionInit.config.configBaux0,
-            electionInit.jointPublicKey(),
+            electionInit.jointElGamalPublicKey(),
             electionInit.extendedBaseHash,
             device,
             outputDir,
@@ -186,7 +183,7 @@ class AddEncryptedBallotJsonTest {
                 electionRecord.manifest(),
                 electionInit.config.chainConfirmationCodes,
                 electionInit.config.configBaux0,
-                electionInit.jointPublicKey(),
+                electionInit.jointElGamalPublicKey(),
                 electionInit.extendedBaseHash,
                 device,
                 outputDir,
@@ -225,7 +222,7 @@ class AddEncryptedBallotJsonTest {
                 electionRecord.manifest(),
                 electionInit.config.chainConfirmationCodes,
                 electionInit.config.configBaux0,
-                electionInit.jointPublicKey(),
+                electionInit.jointElGamalPublicKey(),
                 electionInit.extendedBaseHash,
                 "device$it",
                 outputDir,

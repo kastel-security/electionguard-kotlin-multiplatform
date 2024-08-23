@@ -34,7 +34,7 @@ class DecryptionWithNonceTest {
             val encryptedBallot = ciphertextBallot.submit(EncryptedBallot.BallotState.CAST)
 
             // decrypt with primary nonce
-            val decryptionWithPrimaryNonce = DecryptWithNonce(group, init.jointPublicKey(), init.extendedBaseHash)
+            val decryptionWithPrimaryNonce = DecryptWithNonce(group, init.jointElGamalPublicKey(), init.extendedBaseHash)
             val decryptedBallotResult = with (decryptionWithPrimaryNonce) { encryptedBallot.decrypt(primaryNonce) }
             assertFalse(decryptedBallotResult is Err, "decryptionWithPrimaryNonce error on ballot ${ballot.ballotId} errors = $decryptedBallotResult")
             val decryptedBallot = decryptedBallotResult.unwrap()
@@ -84,7 +84,7 @@ class DecryptionWithNonceTest {
             val encryptedBallot = ciphertextBallot!!.submit(EncryptedBallot.BallotState.CAST)
 
             // decrypt with primary nonce
-            val decryptionWithPrimaryNonce = DecryptWithNonce(group, init.jointPublicKey(), init.extendedBaseHash)
+            val decryptionWithPrimaryNonce = DecryptWithNonce(group, init.jointElGamalPublicKey(), init.extendedBaseHash)
             val decryptedBallotResult = with (decryptionWithPrimaryNonce) { encryptedBallot.decrypt(primaryNonce) }
             assertFalse(decryptedBallotResult is Err, "decryptionWithPrimaryNonce error on ballot ${ballot.ballotId} errors = $decryptedBallotResult")
             val decryptedBallot = decryptedBallotResult.unwrap()

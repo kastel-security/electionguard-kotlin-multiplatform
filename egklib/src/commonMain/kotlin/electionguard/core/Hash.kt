@@ -28,13 +28,14 @@ package electionguard.core
 fun hashFunction(key: ByteArray, vararg elements: Any): UInt256 {
     val hmac = HmacSha256(key)
     var count = 0
-    val showHash = false // ((elements[0] as Byte) == 0x01.toByte())
-    if (showHash) {
-        println("hashFunction")
-    }
+//    val showHash = false // ((elements[0] as Byte) == 0x01.toByte())
+//    if (showHash) {
+//        println("hashFunction")
+//    }
     elements.forEach {
-        if (showHash) println(" $count $it ${it.javaClass.name}")
-        hmac.addToHash(it, showHash)
+// this is using javaClass and should not be in the commonMain source set
+//        if (showHash) println(" $count $it ${it.javaClass.name}")
+        hmac.addToHash(it, /*showHash*/)
         count++
     }
     return hmac.finish()

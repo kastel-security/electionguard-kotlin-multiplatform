@@ -7,8 +7,8 @@ import electionguard.core.*
  * DecryptingTrustee must stay private. Guardian is its public info in the election record.
  */
 data class DecryptingTrusteeDoerre(
-    val id: String,
-    val xCoordinate: Int,
+    private val idAttribute: String,
+    private val xCoordinateAttribute: Int,
     val publicKey: ElementModP, // Must match the public record
     val keyShare: ElementModQ, // P(i) = (P1 (i) + P2 (i) + · · · + Pn (i)) eq 65
     ) : DecryptingTrusteeIF {
@@ -22,11 +22,11 @@ data class DecryptingTrusteeDoerre(
     // perhaps we just need to cache one seed for every batch ??
 
     init {
-        require(xCoordinate > 0)
+        require(xCoordinateAttribute > 0)
     }
 
-    override fun id(): String = id
-    override fun xCoordinate(): Int = xCoordinate
+    override fun id(): String = idAttribute
+    override fun xCoordinate(): Int = xCoordinateAttribute
     override fun guardianPublicKey(): ElementModP = publicKey
 
     override fun decrypt(
@@ -44,7 +44,7 @@ data class DecryptingTrusteeDoerre(
             val mi = text powP keyShare // Mi = A ^ P(i), spec 2.0.0, eq 66
             // TODO controversial to send u, could cache it here.
             // try adding a constant random nonce to ui, and subtract it on the challenge.
-            results.add( PartialDecryption(id, mi, u + randomConstantNonce, a, b))
+            results.add( PartialDecryption(idAttribute, mi, u + randomConstantNonce, a, b))
         }
         return results
     }

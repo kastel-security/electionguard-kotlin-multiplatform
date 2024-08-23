@@ -109,7 +109,7 @@ class TallyDecryptionTestVector(
         val keyCeremonyTrustees: List<KeyCeremonyTrustee> = List(numberOfGuardians) {
             val seq = it + 1
             KeyCeremonyTrustee(group, "guardian$seq", seq, numberOfGuardians, quorum)
-        }.sortedBy { it.xCoordinate }
+        }.sortedBy { it.xCoordinate() }
 
         keyCeremonyExchange(keyCeremonyTrustees)
 
@@ -142,12 +142,12 @@ class TallyDecryptionTestVector(
         val encryptedTally = accumulator.build()
 
         val trusteesAll = keyCeremonyTrustees.map {
-            DecryptingTrusteeDoerre(it.id, it.xCoordinate, it.guardianPublicKey(), it.computeSecretKeyShare())
+            DecryptingTrusteeDoerre(it.id(), it.xCoordinate(), it.guardianPublicKey(), it.computeSecretKeyShare())
         }
         // leave out one of the trustees to make it a partial decryption
         val trusteesMinus1 = trusteesAll.filter { !missingCoordinates.contains(it.xCoordinate) }
 
-        val guardians = keyCeremonyTrustees.map { Guardian(it.id, it.xCoordinate, it.coefficientProofs()) }
+        val guardians = keyCeremonyTrustees.map { Guardian(it.id(), it.xCoordinate(), it.coefficientProofs()) }
         val guardiansWrapper = Guardians(group, guardians)
 
         val decryptor = DecryptorDoerre(group,
@@ -162,7 +162,7 @@ class TallyDecryptionTestVector(
             "Test tally partial decryption",
             publicKey.publishJson(),
             extendedBaseHash.publishJson(),
-            keyCeremonyTrustees.map { it.publishJsonE( !missingCoordinates.contains(it.xCoordinate) ) },
+            keyCeremonyTrustees.map { it.publishJsonE( !missingCoordinates.contains(it.xCoordinate()) ) },
             encryptedTally.publishJson(),
             decryptedTally.publishJson(),
         )
@@ -190,7 +190,7 @@ class TallyDecryptionTestVector(
         val trusteesAll = testVector.trustees.map { it.importDecryptingTrustee(group) }
         // leave out one of the trustees to make it a partial decryption
         val trusteesMinus1 = trusteesAll.filter { !missingCoordinates.contains(it.xCoordinate) }
-        val guardians = keyCeremonyTrustees.map { Guardian(it.id, it.xCoordinate, it.coefficientProofs()) }
+        val guardians = keyCeremonyTrustees.map { Guardian(it.id(), it.xCoordinate(), it.coefficientProofs()) }
         val guardiansWrapper = Guardians(group, guardians)
 
         val decryptor = DecryptorDoerre(group,

@@ -73,7 +73,7 @@ class KeyCeremonyTrusteeTest {
         val publicKeys2 : PublicKeys = trustee2.publicKeys().unwrap()
         val pil = group.randomElementModQ()
         val share : HashedElGamalCiphertext = trustee1.shareEncryption(pil, publicKeys2)
-        val encryptedShare = EncryptedKeyShare(trustee1.xCoordinate, trustee1.id, trustee2.id, share)
+        val encryptedShare = EncryptedKeyShare(trustee1.xCoordinate(), trustee1.id(), trustee2.id(), share)
 
         val pilbytes : ByteArray? = trustee2.shareDecryption(encryptedShare)
         assertNotNull(pilbytes)

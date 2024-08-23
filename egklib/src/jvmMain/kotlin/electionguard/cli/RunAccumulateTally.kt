@@ -99,7 +99,7 @@ class RunAccumulateTally {
 
             var countBad = 0
             var countOk = 0
-            val accumulator = AccumulateTally(group, manifest, name, electionInit.extendedBaseHash, electionInit.jointPublicKey())
+            val accumulator = AccumulateTally(group, manifest, name, electionInit.extendedBaseHash, electionInit.jointElGamalPublicKey())
             val encryptedBallots = if (encryptDir == null) consumerIn.iterateAllCastBallots() else consumerIn.iterateEncryptedBallotsFromDir(encryptDir, null)
             for (encryptedBallot in encryptedBallots) {
                 val errs = ErrorMessages("RunAccumulateTally ballotId=${encryptedBallot.ballotId}")

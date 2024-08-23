@@ -46,7 +46,7 @@ class RunExampleEncryption {
                 manifest,
                 electionInit.config.chainConfirmationCodes,
                 electionInit.config.configBaux0,
-                electionInit.jointPublicKey(),
+                electionInit.jointElGamalPublicKey(),
                 electionInit.extendedBaseHash,
                 device,
                 outputDir = outputDir,

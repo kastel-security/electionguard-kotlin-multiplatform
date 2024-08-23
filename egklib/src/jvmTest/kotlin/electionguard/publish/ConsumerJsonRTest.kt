@@ -4,8 +4,6 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.unwrap
 import electionguard.ballot.*
 import electionguard.core.productionGroup
-import electionguard.json.ElectionHashes
-import electionguard.json.ElectionParameters
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 

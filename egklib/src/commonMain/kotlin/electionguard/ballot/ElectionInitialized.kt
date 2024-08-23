@@ -17,7 +17,7 @@ data class ElectionInitialized(
         }
     }
 
-    fun jointPublicKey(): ElGamalPublicKey {
+    fun jointElGamalPublicKey(): ElGamalPublicKey {
         return ElGamalPublicKey(this.jointPublicKey)
     }
     fun cryptoExtendedBaseHash(): ElementModQ {

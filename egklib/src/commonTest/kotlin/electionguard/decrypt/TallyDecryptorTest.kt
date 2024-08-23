@@ -121,7 +121,7 @@ class TallyDecryptorTest {
         val ktrustees: List<KeyCeremonyTrustee> = List(nguardians) {
             val seq = it + 1
             KeyCeremonyTrustee(group, "guardian$seq", seq, nguardians, quorum)
-        }.sortedBy { it.xCoordinate }
+        }.sortedBy { it.xCoordinate() }
         // exchange PublicKeys
         ktrustees.forEach { t1 ->
             ktrustees.forEach { t2 ->
@@ -130,8 +130,8 @@ class TallyDecryptorTest {
         }
         // exchange SecretKeyShares
         ktrustees.forEach { t1 ->
-            ktrustees.filter { it.id != t1.id }.forEach { t2 ->
-                t2.receiveEncryptedKeyShare(t1.encryptedKeyShareFor(t2.id).unwrap())
+            ktrustees.filter { it.id() != t1.id() }.forEach { t2 ->
+                t2.receiveEncryptedKeyShare(t1.encryptedKeyShareFor(t2.id()).unwrap())
             }
         }
         ktrustees.forEach { it.isComplete() }

@@ -44,7 +44,7 @@ class MissingGuardianTests {
         val trustees: List<KeyCeremonyTrustee> = List(nguardians) {
             val seq = it + 1
             KeyCeremonyTrustee(group, "guardian$seq", seq, nguardians, quorum)
-        }.sortedBy { it.xCoordinate }
+        }.sortedBy { it.xCoordinate() }
 
         // exchange PublicKeys
         trustees.forEach { t1 ->
@@ -55,8 +55,8 @@ class MissingGuardianTests {
 
         // exchange SecretKeyShares
         trustees.forEach { t1 ->
-            trustees.filter { it.id != t1.id }.forEach { t2 ->
-                t2.receiveEncryptedKeyShare(t1.encryptedKeyShareFor(t2.id).unwrap())
+            trustees.filter { it.id() != t1.id() }.forEach { t2 ->
+                t2.receiveEncryptedKeyShare(t1.encryptedKeyShareFor(t2.id()).unwrap())
             }
         }
         trustees.forEach { it.isComplete() }

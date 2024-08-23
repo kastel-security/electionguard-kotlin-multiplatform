@@ -18,8 +18,8 @@ data class TrusteeJson(
 
 fun KeyCeremonyTrustee.publishJson(): TrusteeJson {
     return TrusteeJson(
-        this.id,
-        this.xCoordinate,
+        this.idAttribute,
+        this.xCoordinateAttribute,
         this.polynomial.coefficients.map { it.publishJson() },
         this.computeSecretKeyShare().publishJson(),
     )

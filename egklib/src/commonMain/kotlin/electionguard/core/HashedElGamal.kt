@@ -21,9 +21,11 @@ data class HashedElGamalCiphertext(
     // override because of the ByteArray
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+//        The replacement might not be semantically equivalent
+//        if (javaClass != other?.javaClass) return false
+        if (other !is HashedElGamalCiphertext) return false
 
-        other as HashedElGamalCiphertext
+//        other as HashedElGamalCiphertext
 
         if (c0 != other.c0) return false
         if (!c1.contentEquals(other.c1)) return false

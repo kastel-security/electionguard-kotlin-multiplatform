@@ -8,8 +8,8 @@ import electionguard.keyceremony.PublicKeys
 
 fun makeDoerreTrustee(ktrustee: KeyCeremonyTrustee, electionId : UInt256): DecryptingTrusteeDoerre {
     return DecryptingTrusteeDoerre(
-        ktrustee.id,
-        ktrustee.xCoordinate,
+        ktrustee.id(),
+        ktrustee.xCoordinate(),
         ktrustee.guardianPublicKey(),
         ktrustee.computeSecretKeyShare(),
     )
@@ -18,8 +18,8 @@ fun makeDoerreTrustee(ktrustee: KeyCeremonyTrustee, electionId : UInt256): Decry
 fun makeGuardian(trustee: KeyCeremonyTrustee): Guardian {
     val publicKeys = trustee.publicKeys().unwrap()
     return Guardian(
-        trustee.id,
-        trustee.xCoordinate,
+        trustee.id(),
+        trustee.xCoordinate(),
         publicKeys.coefficientProofs,
     )
 }

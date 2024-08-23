@@ -53,7 +53,7 @@ fun runFakeKeyCeremony(
     val trustees: List<KeyCeremonyTrustee> = List(nguardians) {
         val seq = it + 1
         KeyCeremonyTrustee(group, "guardian$seq", seq, nguardians, quorum)
-    }.sortedBy { it.xCoordinate }
+    }.sortedBy { it.xCoordinateAttribute }
 
     // exchange PublicKeys
     val exchangeResult = keyCeremonyExchange(trustees)

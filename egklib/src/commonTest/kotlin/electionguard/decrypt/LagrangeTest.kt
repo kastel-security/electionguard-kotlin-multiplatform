@@ -91,8 +91,8 @@ class LagrangeTest {
 
         // exchange SecretKeyShares
         trustees.forEach { t1 ->
-            trustees.filter { it.id != t1.id }.forEach { t2 ->
-                t2.receiveEncryptedKeyShare(t1.encryptedKeyShareFor(t2.id).unwrap())
+            trustees.filter { it.id() != t1.id() }.forEach { t2 ->
+                t2.receiveEncryptedKeyShare(t1.encryptedKeyShareFor(t2.id()).unwrap())
             }
         }
         assertEquals(y11 + y21, polly1.computeSecretKeyShare())
@@ -109,20 +109,20 @@ class LagrangeTest {
                       trustees: List<KeyCeremonyTrustee>,
                       present: List<Int>) {
         val available = trustees.filter {present.contains(it.xCoordinate())}
-        val lagrangeCoefficients = available.associate { it.id to group.computeLagrangeCoefficient(it.xCoordinate, present) }
+        val lagrangeCoefficients = available.associate { it.id() to group.computeLagrangeCoefficient(it.xCoordinate(), present) }
         lagrangeCoefficients.values.forEach { assertTrue( it.inBounds()) }
 
         val weightedSum = with(group) {
             trustees.map {
                 assertTrue( it.computeSecretKeyShare().inBounds())
-                val coeff = lagrangeCoefficients[it.id] ?: throw IllegalArgumentException()
+                val coeff = lagrangeCoefficients[it.id()] ?: throw IllegalArgumentException()
                 it.computeSecretKeyShare() * coeff
             }.addQ() // eq 7
         }
 
         var weightedSum2 = group.ZERO_MOD_Q
         trustees.forEach {
-            val coeff = lagrangeCoefficients[it.id] ?: throw IllegalArgumentException()
+            val coeff = lagrangeCoefficients[it.id()] ?: throw IllegalArgumentException()
             weightedSum2 += it.computeSecretKeyShare() * coeff
         }
         assertEquals(weightedSum, weightedSum2)

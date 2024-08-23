@@ -1,16 +1,11 @@
 package electionguard.tally
 
-import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.unwrap
 import electionguard.ballot.EncryptedTally
 import electionguard.cli.RunAccumulateTally
-import electionguard.core.GroupContext
-import electionguard.core.getSystemTimeInMillis
 import electionguard.core.productionGroup
 import electionguard.publish.makeConsumer
-import electionguard.util.ErrorMessages
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 class RunTallyAccumulationTest {
@@ -51,7 +46,7 @@ class RunTallyAccumulationTest {
         val electionInit = initResult.unwrap()
         val manifest = consumerIn.makeManifest(electionInit.config.manifestBytes)
 
-        val accumulator = AccumulateTally(group, manifest, "name", electionInit.extendedBaseHash, electionInit.jointPublicKey())
+        val accumulator = AccumulateTally(group, manifest, "name", electionInit.extendedBaseHash, electionInit.jointElGamalPublicKey())
         // nothing accumulated
         val tally: EncryptedTally = accumulator.build()
         assertNotNull(tally)

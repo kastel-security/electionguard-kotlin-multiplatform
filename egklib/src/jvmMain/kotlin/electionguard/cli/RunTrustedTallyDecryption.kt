@@ -131,7 +131,7 @@ class RunTrustedTallyDecryption {
             val decryptor = DecryptorDoerre(
                 group,
                 electionInit.extendedBaseHash,
-                electionInit.jointPublicKey(),
+                electionInit.jointElGamalPublicKey(),
                 guardians,
                 decryptingTrustees,
             )

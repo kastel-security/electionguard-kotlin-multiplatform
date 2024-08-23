@@ -61,15 +61,15 @@ fun runEncryptDecryptBallot(
     val trustees: List<KeyCeremonyTrustee> = List(nguardians) {
         val seq = it + 1
         KeyCeremonyTrustee(group, "guardian$seq", seq, nguardians, quorum)
-    }.sortedBy { it.xCoordinate }
+    }.sortedBy { it.xCoordinateAttribute }
     trustees.forEach { t1 ->
         trustees.forEach { t2 ->
             t1.receivePublicKeys(t2.publicKeys().unwrap())
         }
     }
     trustees.forEach { t1 ->
-        trustees.filter { it.id != t1.id }.forEach { t2 ->
-            t2.receiveEncryptedKeyShare(t1.encryptedKeyShareFor(t2.id).unwrap())
+        trustees.filter { it.idAttribute != t1.idAttribute }.forEach { t2 ->
+            t2.receiveEncryptedKeyShare(t1.encryptedKeyShareFor(t2.idAttribute).unwrap())
         }
     }
     val guardianList: List<Guardian> = trustees.map { makeGuardian(it) }

@@ -43,9 +43,11 @@ data class ElectionConfig(
     // override because of the byte arrays
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+//        Might not be equivalent
+        if (other !is ElectionConfig) return false
+//        if (javaClass != other?.javaClass) return false
 
-        other as ElectionConfig
+//        other as ElectionConfig
 
         if (configVersion != other.configVersion) return false
         if (constants != other.constants) return false

@@ -37,6 +37,11 @@ kotlin {
             }
     }
 
+    js(IR) {
+        browser()
+        binaries.executable()
+    }
+
     sourceSets {
         all { languageSettings.optIn("kotlin.RequiresOptIn") }
 

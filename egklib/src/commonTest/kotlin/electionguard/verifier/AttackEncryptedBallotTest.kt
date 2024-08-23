@@ -1,6 +1,5 @@
 package electionguard.verifier
 
-import com.github.michaelbull.result.Ok
 import electionguard.ballot.ContestData
 import electionguard.ballot.ElectionInitialized
 import electionguard.ballot.EncryptedBallot
@@ -175,7 +174,7 @@ fun decryptTally(
     val decryptor = DecryptorDoerre(
         group,
         electionInit.extendedBaseHash,
-        electionInit.jointPublicKey(),
+        electionInit.jointElGamalPublicKey(),
         guardians,
         decryptingTrustees,
         )

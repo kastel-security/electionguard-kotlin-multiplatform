@@ -46,7 +46,7 @@ class KeyCeremonyTest {
         )
         val init: ElectionInitialized = kc.makeElectionInitialized(config)
 
-        val strustees = trustees.sortedBy { it.xCoordinate }
+        val strustees = trustees.sortedBy { it.xCoordinate() }
         val skeys: List<ElementModP> = strustees.map {it.guardianPublicKey() }
         val expectedPublicKey: ElementModP =
             skeys.reduce { a, b -> a * b }
@@ -61,7 +61,7 @@ class KeyCeremonyTest {
         assertEquals(strustees.map { makeGuardian(it) }, init.guardians)
         assertNotNull(init.metadata["CreatedBy"])
 
-        assertEquals(ElGamalPublicKey(expectedPublicKey), init.jointPublicKey())
+        assertEquals(ElGamalPublicKey(expectedPublicKey), init.jointElGamalPublicKey())
         assertEquals(expectedExtendedBaseHash.toElementModQ(group), init.cryptoExtendedBaseHash())
         assertEquals(config.numberOfGuardians, init.numberOfGuardians())
     }

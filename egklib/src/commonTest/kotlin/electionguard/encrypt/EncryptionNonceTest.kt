@@ -35,7 +35,7 @@ class EncryptionNonceTest {
         RandomBallotProvider(electionRecord.manifest(), nballots).ballots().forEach { ballot ->
             val ciphertextBallot = encryptor.encrypt(ballot, ByteArray(0), ErrorMessages("testEncryptionNonces"))!!
             // decrypt with nonces
-            val decryptionWithNonce = VerifyEmbeddedNonces(group, electionRecord.manifest(), electionInit.jointPublicKey(), electionInit.extendedBaseHash)
+            val decryptionWithNonce = VerifyEmbeddedNonces(group, electionRecord.manifest(), electionInit.jointElGamalPublicKey(), electionInit.extendedBaseHash)
             val decryptedBallot = with (decryptionWithNonce) { ciphertextBallot.decrypt() }
             assertNotNull(decryptedBallot)
 

@@ -28,9 +28,11 @@ data class EncryptedBallot(
     // override because of codeBaux: ByteArray
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+//        Might not be equivalent
+        if (other !is EncryptedBallot) return false
+//        if (javaClass != other?.javaClass) return false
 
-        other as EncryptedBallot
+//        other as EncryptedBallot
 
         if (ballotId != other.ballotId) return false
         if (ballotStyleId != other.ballotStyleId) return false
