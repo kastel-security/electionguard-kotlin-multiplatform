@@ -145,7 +145,7 @@ class TallyDecryptionTestVector(
             DecryptingTrusteeDoerre(it.id(), it.xCoordinate(), it.guardianPublicKey(), it.computeSecretKeyShare())
         }
         // leave out one of the trustees to make it a partial decryption
-        val trusteesMinus1 = trusteesAll.filter { !missingCoordinates.contains(it.xCoordinate) }
+        val trusteesMinus1 = trusteesAll.filter { !missingCoordinates.contains(it.xCoordinate()) }
 
         val guardians = keyCeremonyTrustees.map { Guardian(it.id(), it.xCoordinate(), it.coefficientProofs()) }
         val guardiansWrapper = Guardians(group, guardians)
@@ -189,7 +189,7 @@ class TallyDecryptionTestVector(
         val keyCeremonyTrustees =  testVector.trustees.map { it.importKeyCeremonyTrustee(group, numberOfGuardians) }
         val trusteesAll = testVector.trustees.map { it.importDecryptingTrustee(group) }
         // leave out one of the trustees to make it a partial decryption
-        val trusteesMinus1 = trusteesAll.filter { !missingCoordinates.contains(it.xCoordinate) }
+        val trusteesMinus1 = trusteesAll.filter { !missingCoordinates.contains(it.xCoordinate()) }
         val guardians = keyCeremonyTrustees.map { Guardian(it.id(), it.xCoordinate(), it.coefficientProofs()) }
         val guardiansWrapper = Guardians(group, guardians)
 
