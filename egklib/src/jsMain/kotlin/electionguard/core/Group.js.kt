@@ -1,7 +1,13 @@
 package electionguard.core
 
+external class BigInt {
+    constructor(value: Any)
+    fun add(other: BigInt): BigInt
+    override fun toString(): String
+}
 
 actual class BigInteger: Comparable<BigInteger> {
+    private lateinit var value: BigInt
     actual companion object {
         actual fun valueOf(value: Long): BigInteger {
             TODO("Not yet implemented")
@@ -32,7 +38,7 @@ actual class BigInteger: Comparable<BigInteger> {
     }
 
     actual operator fun plus(other: BigInteger): BigInteger {
-        TODO("Not yet implemented")
+        return BigInteger(this.value.add(other.value).toString())
     }
 
     actual operator fun minus(other: BigInteger): BigInteger {
@@ -75,15 +81,15 @@ actual class BigInteger: Comparable<BigInteger> {
     }
 
     actual constructor(value: String) {
-        TODO("Not yet implemented")
+        this.value = BigInt(value)
     }
 
     actual constructor(signum: Int, magnitude: ByteArray) {
-        TODO("Not yet implemented")
+        this.value = BigInt("")
     }
 
     actual constructor(value: String, radix: Int) {
-        TODO("Not yet implemented")
+        this.value = BigInt("")
     }
 
 }

@@ -92,7 +92,8 @@ private val productionGroups3072 : Map<PowRadixOption, ProductionGroupContext> =
  *
  * Also, [ProductionMode] specifies the particular set of cryptographic constants we'll be using.
  */
-fun productionGroup(acceleration: PowRadixOption, mode: ProductionMode) : GroupContext =
+fun productionGroup(acceleration: PowRadixOption = PowRadixOption.NO_ACCELERATION,
+                    mode: ProductionMode = ProductionMode.Mode4096) : GroupContext =
     when(mode) {
         ProductionMode.Mode4096 -> productionGroups4096[acceleration] ?: throw Error("can't happen")
         ProductionMode.Mode3072 -> productionGroups3072[acceleration] ?: throw Error("can't happen")

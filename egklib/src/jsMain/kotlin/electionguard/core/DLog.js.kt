@@ -13,6 +13,8 @@ actual fun dLoggerOf(base: ElementModP): DLog {
 
 /** General-purpose discrete-log engine. */
 actual class DLog {
+
+    actual constructor(logBase: ElementModP)
     /** Returns the base used for this particular DLog instance. */
     actual fun base(): ElementModP {
         TODO("Not yet implemented")
