@@ -1,16 +1,89 @@
 package electionguard.core
 
-/**
- * Fetches the production-strength [GroupContext] with the desired amount of acceleration via
- * precomputation, which can result in significant extra memory usage.
- *
- * See [PowRadixOption] for the different memory use vs. performance profiles.
- *
- * Also, [ProductionMode] specifies the particular set of cryptographic constants we'll be using.
- */
-actual fun productionGroup(
-    acceleration: PowRadixOption,
-    mode: ProductionMode
-): GroupContext {
-    TODO("Not yet implemented")
+
+actual class BigInteger: Comparable<BigInteger> {
+    actual companion object {
+        actual fun valueOf(value: Long): BigInteger {
+            TODO("Not yet implemented")
+        }
+
+        actual val ZERO: BigInteger
+            get() = TODO("Not yet implemented")
+        actual val ONE: BigInteger
+            get() = TODO("Not yet implemented")
+        actual val TWO: BigInteger
+            get() = TODO("Not yet implemented")
+    }
+
+    actual infix fun shl(n: Int): BigInteger {
+        TODO("Not yet implemented")
+    }
+
+    actual infix fun shr(n: Int): BigInteger {
+        TODO("Not yet implemented")
+    }
+
+    actual infix fun and(other: BigInteger): BigInteger {
+        TODO("Not yet implemented")
+    }
+
+    actual infix fun or(other: BigInteger): BigInteger {
+        TODO("Not yet implemented")
+    }
+
+    actual operator fun plus(other: BigInteger): BigInteger {
+        TODO("Not yet implemented")
+    }
+
+    actual operator fun minus(other: BigInteger): BigInteger {
+        TODO("Not yet implemented")
+    }
+
+    actual operator fun times(other: BigInteger): BigInteger {
+        TODO("Not yet implemented")
+    }
+
+    actual operator fun div(other: BigInteger): BigInteger {
+        TODO("Not yet implemented")
+    }
+
+    actual fun modPow(
+        exponent: BigInteger,
+        m: BigInteger
+    ): BigInteger {
+        TODO("Not yet implemented")
+    }
+
+    actual fun modInverse(m: BigInteger): BigInteger {
+        TODO("Not yet implemented")
+    }
+
+    actual fun mod(m: BigInteger): BigInteger {
+        TODO("Not yet implemented")
+    }
+
+    actual fun shiftLeft(n: Int): BigInteger {
+        TODO("Not yet implemented")
+    }
+
+    actual override fun compareTo(other: BigInteger): Int {
+        TODO("Not yet implemented")
+    }
+
+    actual fun toByteArray(): ByteArray {
+        TODO("Not yet implemented")
+    }
+
+    actual constructor(value: String) {
+        TODO("Not yet implemented")
+    }
+
+    actual constructor(signum: Int, magnitude: ByteArray) {
+        TODO("Not yet implemented")
+    }
+
+    actual constructor(value: String, radix: Int) {
+        TODO("Not yet implemented")
+    }
+
 }

@@ -11,6 +11,8 @@ expect fun dLoggerOf(base: ElementModP): DLog
 
 /** General-purpose discrete-log engine. */
 expect class DLog {
+    /** Default constructor sets the base. */
+    constructor(logBase: ElementModP)
     /** Returns the base used for this particular DLog instance. */
     fun base(): ElementModP
 

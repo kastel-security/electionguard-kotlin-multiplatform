@@ -194,9 +194,6 @@ interface GroupContext {
      */
     fun randomElementModP(minimum: Int = 0) =
         binaryToElementModPsafe(randomBytes(MAX_BYTES_P), minimum)
-
-    /** debugging operation counts. TODO sidechannel attack? */
-    fun getAndClearOpCounts(): Map<String, Int>
 }
 
 interface Element {
