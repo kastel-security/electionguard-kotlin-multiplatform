@@ -1,54 +1,15 @@
 package electionguard.util
 
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlin.math.min
 
 /** Keep track of timing stats. Thread-safe. */
-class Stats {
-    private val mutex = Mutex()
-    private val stats = mutableMapOf<String, Stat>() // TODO need thread safe collection
-
-    fun of(who: String, thing: String = "decryption", what: String = "ballot"): Stat {
-        return runBlocking {
-            mutex.withLock {
-                stats.getOrPut(who) { Stat(thing, what) }
-            }
-        }
-    }
-
-    fun show(who: String) {
-        val stat = stats.get(who)
-        if (stat != null) println(stat.show()) else println("no stat named $who")
-    }
-
-    fun get(who: String) : Stat? = stats.get(who)
-
-    fun show(len: Int = 3) {
-        showLines(len).forEach { println(it) }
-    }
-
-    fun count() : Int {
-        return if (stats.isNotEmpty()) stats.values.first().count() else 0
-    }
-
-    fun showLines(len: Int = 3): List<String> {
-        val result = mutableListOf<String>()
-        if (stats.isEmpty()) {
-            result.add("stats is empty")
-            return result
-        }
-        var sum = 0L
-        stats.forEach {
-            result.add("${it.key.padStart(20, ' ')}: ${it.value.show(len)}")
-            sum += it.value.accum()
-        }
-        val total = stats.values.first().copy(sum)
-        val totalName = "total".padStart(20, ' ')
-        result.add("$totalName: ${total.show(len)}")
-        return result
-    }
+expect class Stats() {
+    fun of(who: String, thing: String = "decryption", what: String = "ballot"): Stat
+    fun show(who: String)
+    fun get(who: String) : Stat?
+    fun show(len: Int = 3)
+    fun count() : Int
+    fun showLines(len: Int = 3): List<String>
 }
 
 expect class Stat(thing: String, what: String) {

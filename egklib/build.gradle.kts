@@ -70,6 +70,16 @@ kotlin {
                     implementation(libs.bundles.jvmtest)
                 }
             }
+        val jsMain by getting {
+            dependencies {
+                implementation(npm("big-integer", "1.6.52"))
+            }
+        }
+        val jsTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
         /* val nativeMain by getting {
             dependencies {
                 implementation(project(":hacllib"))
