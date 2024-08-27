@@ -4,8 +4,8 @@ import electionguard.ballot.EncryptedBallot
 import electionguard.util.Stats
 import electionguard.core.productionGroup
 import electionguard.publish.readElectionRecord
-import org.junit.jupiter.api.Assertions.assertTrue
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 class DuplicateTrackingCodesTest {
     private val inputDir = "src/commonTest/data/workflow/allAvailableJson"

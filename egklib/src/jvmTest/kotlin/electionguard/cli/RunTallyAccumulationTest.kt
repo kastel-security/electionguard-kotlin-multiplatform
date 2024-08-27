@@ -1,10 +1,10 @@
-package electionguard.tally
+package electionguard.cli
 
 import com.github.michaelbull.result.unwrap
 import electionguard.ballot.EncryptedTally
-import electionguard.cli.RunAccumulateTally
 import electionguard.core.productionGroup
 import electionguard.publish.makeConsumer
+import electionguard.tally.AccumulateTally
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 

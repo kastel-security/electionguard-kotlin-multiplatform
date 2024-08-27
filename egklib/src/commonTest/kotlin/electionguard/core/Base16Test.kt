@@ -2,8 +2,6 @@ package electionguard.core
 
 import electionguard.core.Base16.fromHex
 import electionguard.core.Base16.toHex
-import io.kotest.assertions.throwables.shouldThrow
-import java.lang.RuntimeException
 import kotlin.test.*
 
 class Base16Test {

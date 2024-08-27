@@ -1,9 +1,10 @@
 package electionguard.core
 
-import electionguard.util.Stopwatch
 import electionguard.util.pad
 import electionguard.util.sigfig
 import kotlin.test.Test
+import kotlin.time.DurationUnit
+import kotlin.time.measureTime
 
 class PowRadixTiming {
 
@@ -79,10 +80,10 @@ class PowRadixTiming {
     fun timeAcc(group: GroupContext, count: Int, n:Int) {
         val nonces = List(n) { group.randomElementModQ() }
 
-        var stopwatch = Stopwatch()
-        repeat(n) { group.gPowP(nonces[it]) }
-        var duration = stopwatch.stop()
-        val peracc = duration.toDouble() / n / 1_000_000
+        val duration = measureTime {
+            repeat(n) { group.gPowP(nonces[it]) }
+        }
+        val peracc = duration.toDouble(DurationUnit.NANOSECONDS) / n / 1_000_000
         println("  ${count.pad(4)} acc $n = ${peracc.sigfig(3)} msec per acc")
     }
 
@@ -101,18 +102,18 @@ class PowRadixTiming {
         val nonces = List(n) { group.randomElementModQ() }
         val h = group.gPowP(group.randomElementModQ())
 
-        var stopwatch = Stopwatch()
-        repeat(n) { group.gPowP(nonces[it]) }
+        var duration = measureTime {
+            repeat(n) { group.gPowP(nonces[it]) }
+        }
 
-        var duration = stopwatch.stop()
-        val peracc = duration.toDouble() / n / 1_000_000
+        val peracc = duration.toDouble(DurationUnit.NANOSECONDS) / n / 1_000_000
         println(" acc took $duration msec for $n = $peracc msec per acc")
 
-        stopwatch.start()
-        repeat(n) { h powP nonces[it] }
+        duration = measureTime {
+            repeat(n) { h powP nonces[it] }
+        }
 
-        duration = stopwatch.stop()
-        val perexp = duration.toDouble() / n / 1_000_000
+        val perexp = duration.toDouble(DurationUnit.NANOSECONDS) / n / 1_000_000
         println(" exp took $duration msec for $n = $perexp msec per exp")
 
         println(" exp/acc took ${perexp/peracc}")

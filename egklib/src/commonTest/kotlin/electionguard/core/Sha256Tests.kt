@@ -65,7 +65,6 @@ class Sha256Tests {
     fun testSha256() {
         (0..9)
             .forEach { i ->
-                assertEquals(hashes[i], inputs[i].sha256())
                 assertEquals(hashes[i], internalSha256(inputs[i]))
             }
     }

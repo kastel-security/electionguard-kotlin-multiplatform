@@ -9,8 +9,8 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import org.junit.jupiter.api.Test
 import java.nio.file.FileSystems
-import java.nio.file.Path
 import kotlin.test.assertTrue
+import java.nio.file.Path
 
 class ElectionManifestTest {
     val topdir = "src/commonTest/data/testElectionRecord/egrust"

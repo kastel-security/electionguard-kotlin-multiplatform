@@ -488,6 +488,8 @@ class GroupTest {
 
 }
 
+//Op counts have been removed to make the group implementation pure kotlin multiplatform
+/*
 fun GroupContext.showOpCountResults(where: String): String {
     val opCounts = this.getAndClearOpCounts()
     return buildString {
@@ -497,3 +499,5 @@ fun GroupContext.showOpCountResults(where: String): String {
         }
     }
 }
+
+ */

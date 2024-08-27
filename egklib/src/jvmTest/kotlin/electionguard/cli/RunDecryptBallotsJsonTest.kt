@@ -1,4 +1,4 @@
-package electionguard.decryptBallot
+package electionguard.cli
 
 import electionguard.cli.RunTrustedBallotDecryption.Companion.runDecryptBallots
 import electionguard.cli.RunTrustedTallyDecryption.Companion.readDecryptingTrustees

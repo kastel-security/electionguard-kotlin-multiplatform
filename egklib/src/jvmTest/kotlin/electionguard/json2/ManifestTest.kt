@@ -1,6 +1,5 @@
 package electionguard.json2
 
-import com.github.michaelbull.result.getOrThrow
 import electionguard.ballot.Manifest
 import electionguard.core.*
 import electionguard.cli.ManifestBuilder
@@ -276,7 +275,7 @@ fun makeContest(id: String, seq : Int, type: Int, nsel : Int) = Manifest.Contest
         99,
         42,
         "name",
-        List(nsel) {makeSelection("id$it", it, "candidate$it")},
+        List(nsel) { makeSelection("id$it", it, "candidate$it") },
         if (Random.nextBoolean()) "title" else null,
         if (Random.nextBoolean()) "subtitle" else null,
     )

@@ -1,4 +1,4 @@
-package electionguard.encrypt
+package electionguard.cli
 
 import electionguard.cli.RunEncryptBallotTiming
 import kotlin.test.Test

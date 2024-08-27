@@ -2,9 +2,9 @@ package electionguard.input
 
 import electionguard.core.productionGroup
 import electionguard.publish.readElectionRecord
-import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
+import kotlin.test.assertEquals
 
 class RandomBallotProviderTest {
 

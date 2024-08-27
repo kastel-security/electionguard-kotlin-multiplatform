@@ -1,4 +1,4 @@
-package electionguard.keyceremony
+package electionguard.cli
 
 import electionguard.cli.RunTrustedKeyCeremony
 import electionguard.cli.RunVerifier

@@ -177,8 +177,6 @@ internal class TinyGroupContext(
     override fun gPowP(exp: ElementModQ): ElementModP = gModP powP exp
 
     override fun dLogG(p: ElementModP, maxResult: Int): Int? = dlogger.dLog(p, maxResult)
-
-    override fun getAndClearOpCounts() = emptyMap<String, Int>()
 }
 
 internal class TinyElementModP(val element: UInt, val groupContext: TinyGroupContext) : ElementModP {

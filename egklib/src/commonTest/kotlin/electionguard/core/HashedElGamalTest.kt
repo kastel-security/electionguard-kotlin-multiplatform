@@ -6,10 +6,10 @@ import electionguard.ballot.encryptContestData
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
-import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.math.roundToInt
 import kotlin.test.Test
 import kotlin.test.assertTrue
+import kotlin.test.assertEquals
 
 class HashedElGamalTest {
         val group = productionGroup()
@@ -18,7 +18,7 @@ class HashedElGamalTest {
 
     @Test
     fun testRoundtrip() {
-        roundtrip("what the heckeroo?".toByteArray())
+        roundtrip("what the heckeroo?".encodeToByteArray())
 
         val starting = getSystemTimeInMillis()
         var count = 0
@@ -28,7 +28,7 @@ class HashedElGamalTest {
                 Arb.string(minSize = 1, maxSize = 1000),
             ) { testMessage ->
                 // expect fun randomBytes(length: Int): ByteArray
-                roundtrip(testMessage.toByteArray())
+                roundtrip(testMessage.encodeToByteArray())
                 count++
             }
         }
@@ -64,7 +64,7 @@ class HashedElGamalTest {
 
     @Test
     fun testContestData() {
-        roundtripContestData("what the heckeroo?".toByteArray())
+        roundtripContestData("what the heckeroo?".encodeToByteArray())
     }
 
     fun roundtripContestData(testMessage : ByteArray) {
@@ -109,7 +109,7 @@ class HashedElGamalTest {
         val ballotNonce = UInt256.random() // 42U.toUInt256() // UInt256.random()
         //val extendedBaseHash = 11U.toUInt256() // UInt256.random()
         //val keypair = elGamalKeyPairFromSecret(1129U.toUInt256().toElementModQ(group))
-        compareWithContestData("what the heckeroo?".toByteArray(), extendedBaseHash, keypair, ballotNonce)
+        compareWithContestData("what the heckeroo?".encodeToByteArray(), extendedBaseHash, keypair, ballotNonce)
 
         var count = 0
         runTest {
@@ -118,8 +118,8 @@ class HashedElGamalTest {
                 Arb.string(minSize = 1, maxSize = 1000),
             ) { testMessage ->
                 // expect fun randomBytes(length: Int): ByteArray
-                roundtrip(testMessage.toByteArray())
-                compareWithContestData(testMessage.toByteArray(), extendedBaseHash, keypair, ballotNonce)
+                roundtrip(testMessage.encodeToByteArray())
+                compareWithContestData(testMessage.encodeToByteArray(), extendedBaseHash, keypair, ballotNonce)
                 count++
             }
         }
