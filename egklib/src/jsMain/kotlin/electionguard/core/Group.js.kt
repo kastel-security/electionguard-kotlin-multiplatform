@@ -1,40 +1,56 @@
 package electionguard.core
 
+import electionguard.core.Base16.toHex
+import kotlin.reflect.typeOf
+
+@JsModule(import = "big-integer")
+@JsNonModule
 external class BigInt {
     constructor(value: Any)
+    constructor(value: Any, radix: Number)
     fun add(other: BigInt): BigInt
-    override fun toString(): String
+    fun minus(other: BigInt): BigInt
+    fun multiply(other: BigInt): BigInt
+    fun divide(other: BigInt): BigInt
+    fun shiftLeft(n: Number): BigInt
+    fun shiftRight(n: Number): BigInt
+    fun and(other: BigInt): BigInt
+    fun or(other: BigInt): BigInt
+    fun mod(m: BigInt): BigInt
+    fun modInv(m: BigInt): BigInt
+    fun modPow(exp: BigInt, m: BigInt): BigInt
+    fun compare(other: BigInt): Number
+    fun toArray(radix: Number): Array<Any>
+    fun pow(exp: Number): BigInt
+    fun toString(radix: Number = definedExternally): String
 }
 
 actual class BigInteger: Comparable<BigInteger> {
     private lateinit var value: BigInt
     actual companion object {
         actual fun valueOf(value: Long): BigInteger {
-            TODO("Not yet implemented")
+            return BigInteger(value.toString(10))
         }
 
-        actual val ZERO: BigInteger
-            get() = TODO("Not yet implemented")
-        actual val ONE: BigInteger
-            get() = TODO("Not yet implemented")
-        actual val TWO: BigInteger
-            get() = TODO("Not yet implemented")
+        actual val ZERO: BigInteger = BigInteger("0")
+        actual val ONE: BigInteger = BigInteger("1")
+        actual val TWO: BigInteger = BigInteger("2")
     }
 
     actual infix fun shl(n: Int): BigInteger {
-        TODO("Not yet implemented")
+        return this.shiftLeft(n)
     }
 
     actual infix fun shr(n: Int): BigInteger {
-        TODO("Not yet implemented")
+        return BigInteger(this.value.shiftRight(n))
     }
 
     actual infix fun and(other: BigInteger): BigInteger {
-        TODO("Not yet implemented")
+        return BigInteger(this.value.and(other.value))
     }
 
     actual infix fun or(other: BigInteger): BigInteger {
-        TODO("Not yet implemented")
+        return BigInteger(this.value.or(other.value))
     }
 
     actual operator fun plus(other: BigInteger): BigInteger {
@@ -42,42 +58,59 @@ actual class BigInteger: Comparable<BigInteger> {
     }
 
     actual operator fun minus(other: BigInteger): BigInteger {
-        TODO("Not yet implemented")
+        return BigInteger(this.value.minus(other.value).toString())
     }
 
     actual operator fun times(other: BigInteger): BigInteger {
-        TODO("Not yet implemented")
+        return BigInteger(this.value.multiply(other.value).toString())
     }
 
     actual operator fun div(other: BigInteger): BigInteger {
-        TODO("Not yet implemented")
+        return BigInteger(this.value.divide(other.value).toString())
+    }
+    actual operator fun rem(m: BigInteger): BigInteger {
+        return this.mod(m)
     }
 
-    actual fun modPow(
-        exponent: BigInteger,
-        m: BigInteger
-    ): BigInteger {
-        TODO("Not yet implemented")
+    actual fun pow(exponent: Int): BigInteger {
+        return BigInteger(this.value.pow(exponent))
+    }
+    actual fun modPow(exponent: BigInteger, m: BigInteger): BigInteger {
+        return BigInteger(this.value.modPow(exponent.value, m.value))
     }
 
     actual fun modInverse(m: BigInteger): BigInteger {
-        TODO("Not yet implemented")
+        return BigInteger(this.value.modInv(m.value))
     }
 
     actual fun mod(m: BigInteger): BigInteger {
-        TODO("Not yet implemented")
+        return BigInteger(this.value.mod(m.value))
     }
 
     actual fun shiftLeft(n: Int): BigInteger {
-        TODO("Not yet implemented")
+        return BigInteger(this.value.shiftLeft(n))
     }
 
     actual override fun compareTo(other: BigInteger): Int {
-        TODO("Not yet implemented")
+        return this.value.compare(other.value).toInt()
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     actual fun toByteArray(): ByteArray {
-        TODO("Not yet implemented")
+        val asString = this.value.toString(16)
+        return asString.hexToByteArray(HexFormat.Default)
+    }
+
+    override fun toString(): String {
+        return this.value.toString()
+    }
+
+     fun equals(other: BigInteger): Boolean {
+        return this.compareTo(other) == 0
+    }
+
+    private constructor(value: BigInt) {
+        this.value = value
     }
 
     actual constructor(value: String) {
@@ -85,11 +118,14 @@ actual class BigInteger: Comparable<BigInteger> {
     }
 
     actual constructor(signum: Int, magnitude: ByteArray) {
-        this.value = BigInt("")
+        TODO("Not implemented")
     }
 
     actual constructor(value: String, radix: Int) {
-        this.value = BigInt("")
+        this.value = BigInt(value, radix)
+    }
+    actual constructor(value: ByteArray) {
+        this.value = BigInt(value.toHex())
     }
 
 }

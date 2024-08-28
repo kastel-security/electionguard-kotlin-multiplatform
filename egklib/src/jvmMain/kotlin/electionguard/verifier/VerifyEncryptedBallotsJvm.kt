@@ -27,6 +27,7 @@ import kotlinx.coroutines.yield
 private const val debugBallots = false
 
 /** Can be multithreaded. */
+
 @OptIn(ExperimentalCoroutinesApi::class)
 actual class VerifyEncryptedBallots actual constructor(
     actual val group: GroupContext,
@@ -36,7 +37,7 @@ actual class VerifyEncryptedBallots actual constructor(
     actual val config: ElectionConfig,
     private val nthreads: Int,
 ) {
-    actual val aggregator = SelectionAggregator() // for Verification 8 (Correctness of ballot aggregation)
+     actual val aggregator = SelectionAggregator() // for Verification 8 (Correctness of ballot aggregation)
 
     actual fun verifyBallots(
         ballots: Iterable<EncryptedBallot>,
@@ -252,3 +253,4 @@ actual class VerifyEncryptedBallots actual constructor(
         }
     }
 }
+

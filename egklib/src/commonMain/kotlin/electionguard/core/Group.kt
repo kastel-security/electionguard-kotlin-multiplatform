@@ -18,6 +18,7 @@ expect class BigInteger: Comparable<BigInteger> {
     constructor(value: String)
     constructor(signum: Int, magnitude: ByteArray)
     constructor(value: String, radix: Int)
+    constructor(value: ByteArray)
 
     infix fun shl(n: Int): BigInteger
     infix fun shr(n: Int): BigInteger
@@ -27,7 +28,9 @@ expect class BigInteger: Comparable<BigInteger> {
     operator fun minus(other: BigInteger): BigInteger
     operator fun times(other: BigInteger): BigInteger
     operator fun div(other: BigInteger): BigInteger
+    operator fun rem(m: BigInteger): BigInteger
 
+    fun pow(exponent: Int): BigInteger
     fun modPow(exponent: BigInteger, m: BigInteger): BigInteger
     fun modInverse(m: BigInteger): BigInteger
     fun mod(m: BigInteger): BigInteger

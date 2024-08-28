@@ -38,8 +38,14 @@ kotlin {
     }
 
     js(IR) {
-        browser()
         binaries.executable()
+        browser {
+            testTask {
+                useKarma {
+                    useFirefox()
+                }
+            }
+        }
     }
 
     sourceSets {

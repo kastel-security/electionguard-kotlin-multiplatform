@@ -1,7 +1,7 @@
 package electionguard.core
 
 actual class BigInteger: Comparable<BigInteger> {
-    private lateinit var value: java.math.BigInteger
+    private var value: java.math.BigInteger
 
     actual companion object {
         actual fun valueOf(value: Long): BigInteger {
@@ -24,6 +24,9 @@ actual class BigInteger: Comparable<BigInteger> {
     }
     actual constructor(signum: Int, magnitude: ByteArray) {
         this.value = java.math.BigInteger(signum, magnitude)
+    }
+    actual constructor(value: ByteArray) {
+        this.value = java.math.BigInteger(value)
     }
 
     actual infix fun shl(n: Int): BigInteger {
@@ -57,7 +60,13 @@ actual class BigInteger: Comparable<BigInteger> {
     actual operator fun div(other: BigInteger): BigInteger {
         return BigInteger(this.value / other.value)
     }
+    actual operator fun rem(m: BigInteger): BigInteger {
+        return this.mod(m)
+    }
 
+    actual fun pow(exponent: Int): BigInteger {
+        return BigInteger(this.value.pow(exponent))
+    }
     actual fun modPow(exponent: BigInteger, m: BigInteger): BigInteger {
         return BigInteger(this.value.modPow(exponent.value, m.value))
     }

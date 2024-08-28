@@ -1,10 +1,7 @@
 package electionguard.verifier
 
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.unwrap
 import electionguard.ballot.ElectionConfig
 import electionguard.ballot.EncryptedBallot
-import electionguard.ballot.EncryptedBallotChain
 import electionguard.ballot.ManifestIF
 import electionguard.core.*
 import electionguard.publish.ElectionRecord
@@ -26,7 +23,7 @@ expect class VerifyEncryptedBallots(
     val group: GroupContext
     val manifest: ManifestIF
     val jointPublicKey: ElGamalPublicKey
-    val extendedBaseHash: UInt256
+    val extendedBaseHash: UInt256 // He
     val config: ElectionConfig
 
     fun verifyBallots(

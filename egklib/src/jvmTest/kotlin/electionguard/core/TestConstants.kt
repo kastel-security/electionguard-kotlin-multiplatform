@@ -1,6 +1,6 @@
 package electionguard.core
 
-import java.math.BigInteger
+import electionguard.core.BigInteger
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.Test

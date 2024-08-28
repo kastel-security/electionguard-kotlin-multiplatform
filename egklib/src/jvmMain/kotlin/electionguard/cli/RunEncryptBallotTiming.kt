@@ -67,12 +67,10 @@ class RunEncryptBallotTiming {
             // time it
             val ballotProvider = RandomBallotProvider(manifest, nballots)
             var stopwatch = Stopwatch()
-            group.getAndClearOpCounts()
             ballotProvider.ballots().forEach { ballot ->
                 val encryptedBallot = encryptor.encrypt(ballot, ByteArray(0), ErrorMessages("testEncryption"))
                 requireNotNull(encryptedBallot)
             }
-            val opCounts = group.getAndClearOpCounts()
             var duration = stopwatch.stop()
 
             val perballot = duration.toDouble() / nballots / 1_000_000
@@ -84,9 +82,6 @@ class RunEncryptBallotTiming {
             println()
             if (showOperations) {
                 println("operations:")
-                println(buildString {
-                    opCounts.forEach { key, value -> println("  $key = $value") }
-                })
                 println("expect: ${6 * nencryptions * nballots + 2 * nballots}")
             }
         }

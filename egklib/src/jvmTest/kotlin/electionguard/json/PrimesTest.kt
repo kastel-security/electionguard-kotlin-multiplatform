@@ -3,7 +3,6 @@ package electionguard.json
 import electionguard.core.*
 import electionguard.core.Base64.fromBase64
 import electionguard.core.Base64.toBase64
-import java.math.BigInteger
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

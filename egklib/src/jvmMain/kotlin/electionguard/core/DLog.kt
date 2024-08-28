@@ -10,8 +10,11 @@ private const val MAX_DLOG: Int = 100_000
 
 actual fun dLoggerOf(base: ElementModP) = DLog(base)
 
-actual class DLog(val base: ElementModP) {
-
+actual class DLog {
+    private lateinit var base: ElementModP
+    actual constructor(logBase: ElementModP) {
+        this.base = logBase
+    }
     actual fun base() = base
 
     // We're taking advantage of Java's ConcurrentHashMap, which allows us to know
