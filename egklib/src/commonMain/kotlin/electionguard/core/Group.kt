@@ -37,6 +37,7 @@ expect class BigInteger: Comparable<BigInteger> {
     fun shiftLeft(n: Int): BigInteger
 
     override fun compareTo(other: BigInteger): Int
+    override fun equals(other: Any?): Boolean
 
 
     fun toByteArray(): ByteArray

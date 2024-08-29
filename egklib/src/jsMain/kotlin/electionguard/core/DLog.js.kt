@@ -12,14 +12,7 @@ actual fun dLoggerOf(base: ElementModP): DLog {
 }
 
 /** General-purpose discrete-log engine. */
-actual class DLog {
-
-    actual constructor(logBase: ElementModP)
-    /** Returns the base used for this particular DLog instance. */
-    actual fun base(): ElementModP {
-        TODO("Not yet implemented")
-    }
-
+actual class DLog actual constructor(actual val base: ElementModP) {
     /**
      * Given an element x for which there exists an e, such that (base)^e = x, this will find e,
      * so long as e is less than [maxResult], which if unspecified defaults to a platform-specific

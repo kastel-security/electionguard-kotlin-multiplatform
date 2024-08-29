@@ -10,13 +10,9 @@ private const val MAX_DLOG: Int = 100_000
 
 actual fun dLoggerOf(base: ElementModP) = DLog(base)
 
-actual class DLog {
-    private lateinit var base: ElementModP
-    actual constructor(logBase: ElementModP) {
-        this.base = logBase
-    }
-    actual fun base() = base
-
+actual class DLog actual constructor(
+    actual val base: ElementModP
+){
     // We're taking advantage of Java's ConcurrentHashMap, which allows us to know
     // we can safely attempt reads on the map without needing our global lock, which
     // we only need to use for writes.

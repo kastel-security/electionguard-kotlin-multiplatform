@@ -10,11 +10,11 @@ package electionguard.core
 expect fun dLoggerOf(base: ElementModP): DLog
 
 /** General-purpose discrete-log engine. */
-expect class DLog {
-    /** Default constructor sets the base. */
-    constructor(logBase: ElementModP)
-    /** Returns the base used for this particular DLog instance. */
-    fun base(): ElementModP
+expect class DLog(
+    base: ElementModP
+) {
+
+    val base: ElementModP
 
     /**
      * Given an element x for which there exists an e, such that (base)^e = x, this will find e,

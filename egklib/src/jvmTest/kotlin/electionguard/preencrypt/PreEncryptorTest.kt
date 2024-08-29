@@ -33,7 +33,6 @@ class PreEncryptorTest {
 
     // sanity check that PreEncryptor.preencrypt doesnt barf
     @Test
-    @Disabled
     fun testPreencrypt() {
         runTest {
             val electionRecord = readElectionRecord(group, input)
@@ -52,7 +51,6 @@ class PreEncryptorTest {
 
     // sanity check that Recorder.record doesnt barf
     @Test
-    @Disabled
     fun testRecord() {
         runTest {
             val electionRecord = readElectionRecord(group, input)
@@ -84,7 +82,6 @@ class PreEncryptorTest {
 
     // check that CiphertextBallot is correctly formed
     @Test
-    @Disabled
     fun testSingleLimit() {
         runTest {
             val ebuilder = ManifestBuilder("testSingleLimit")
@@ -100,7 +97,6 @@ class PreEncryptorTest {
     }
 
     @Test
-    @Disabled
     fun testSingleLimitProblem() {
         runTest {
             val ebuilder = ManifestBuilder("testSingleLimit")
@@ -115,7 +111,6 @@ class PreEncryptorTest {
     }
 
     @Test
-    @Disabled
     fun fuzzTestSingleLimit() {
         runTest {
             var count = 0
@@ -142,7 +137,6 @@ class PreEncryptorTest {
 
     // multiple selections per contest
     @Test
-    @Disabled
     fun testMultipleSelections() {
         runTest {
             val ebuilder = ManifestBuilder("testMultipleSelections")
@@ -159,7 +153,6 @@ class PreEncryptorTest {
     }
 
     @Test
-    @Disabled
     fun fuzzTestMultipleSelections() {
         runTest {
             var count = 0

@@ -87,6 +87,14 @@ actual class BigInteger: Comparable<BigInteger> {
         return this.value.compareTo(other.value)
     }
 
+    actual override fun equals(other: Any?): Boolean {
+        return if (other is BigInteger) {
+            this.value == other.value
+        } else {
+            false
+        }
+    }
+
     actual fun toByteArray(): ByteArray {
         return this.value.toByteArray()
     }

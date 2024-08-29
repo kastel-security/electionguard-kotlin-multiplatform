@@ -1,7 +1,6 @@
 package electionguard.core
 
 import electionguard.core.Base16.toHex
-import kotlin.reflect.typeOf
 
 @JsModule(import = "big-integer")
 @JsNonModule
@@ -105,8 +104,12 @@ actual class BigInteger: Comparable<BigInteger> {
         return this.value.toString()
     }
 
-     fun equals(other: BigInteger): Boolean {
-        return this.compareTo(other) == 0
+     actual override fun equals(other: Any?): Boolean {
+         return if (other is BigInteger) {
+             this.value == other.value
+         } else {
+             false
+         }
     }
 
     private constructor(value: BigInt) {
