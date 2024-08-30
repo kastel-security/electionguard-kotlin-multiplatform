@@ -113,12 +113,14 @@ class HashTest {
 
     @Test
     fun testCiphertext() {
-        val group = productionGroup()
-        val keypair = elGamalKeyPairFromRandom(group)
-        val ciphertext = 42.encrypt(keypair)
-        val h1 = hashFunction("hay1".encodeToByteArray(), 0x42, ciphertext)
-        val h2 = hashFunction("hay1".encodeToByteArray(), 0x42, ciphertext.pad, ciphertext.data)
-        assertEquals(h1, h2)
+        runTest {
+            val group = productionGroup()
+            val keypair = elGamalKeyPairFromRandom(group)
+            val ciphertext = 42.encrypt(keypair)
+            val h1 = hashFunction("hay1".encodeToByteArray(), 0x42, ciphertext)
+            val h2 = hashFunction("hay1".encodeToByteArray(), 0x42, ciphertext.pad, ciphertext.data)
+            assertEquals(h1, h2)
+        }
     }
 
     @Test

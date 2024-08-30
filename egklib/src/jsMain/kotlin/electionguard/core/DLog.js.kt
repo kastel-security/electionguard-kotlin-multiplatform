@@ -8,7 +8,7 @@ package electionguard.core
  * For computing DLog with a public key as the base, see [ElGamalPublicKey.dLog].
  */
 actual fun dLoggerOf(base: ElementModP): DLog {
-    TODO("Not yet implemented")
+    return DLog(base)
 }
 
 /** General-purpose discrete-log engine. */

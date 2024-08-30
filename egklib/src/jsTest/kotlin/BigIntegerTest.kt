@@ -10,6 +10,7 @@ import kotlin.test.assertTrue
 class BigIntegerTest {
     companion object {
         const val B1 = "1EBC1E9BCC5FB0D9AC8E88F3914483403929656924518C36C596AB14A1BE8A9E"
+        const val B1Neg = "-1EBC1E9BCC5FB0D9AC8E88F3914483403929656924518C36C596AB14A1BE8A9E"
         const val B2 = "7BE7222D305B814AC0FDA6DE3E4A352D66BC41CF4BEFB166436B63A66D82418D"
         const val B3 = "1a17149f0a34d268c22aca4c28a49d4891"
         const val BYTE_ARRAY = "[30,-68,30,-101,-52,95,-80,-39,-84,-114,-120,-13,-111,68,-125,64,57,41,101,105,36,81," +
@@ -33,7 +34,8 @@ class BigIntegerTest {
         val b1 = BigInteger(B1, 16)
         val b2 = BigInteger(B2, 16)
         val b3 = BigInteger(B3, 16)
-
+        val b1Neg = BigInteger(B1Neg, 16)
+        assertEquals(b1Neg, b1 * BigInteger("-1"))
         assertEquals(BYTE_ARRAY, Json.encodeToString(b1.toByteArray()))
         assertEquals(ADD, (b1 + b2).toString())
         assertEquals(SUBTRACT, (b1 - b2).toString())
@@ -46,5 +48,10 @@ class BigIntegerTest {
         assertEquals(MOD, b1.mod(b3).toString())
         assertEquals(MOD_INVERSE, b1.modInverse(b3).toString())
         assertEquals(POW, b1.modPow(b2, b3).toString())
+        assertEquals(b1, BigInteger(1, b1.toByteArray()))
+        assertEquals(b1, BigInteger(b1.toByteArray()))
+        assertEquals(b1, BigInteger(b1.toString(), 10))
+        assertEquals(b1, BigInteger(b1.toString()))
+        assertEquals(b1Neg, BigInteger(-1, b1.toByteArray()))
     }
 }

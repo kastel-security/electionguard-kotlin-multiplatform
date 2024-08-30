@@ -25,71 +25,79 @@ class HmacSha256Test {
 
     @Test
     fun parameterBaseHashTest() {
-        val primes = productionGroup().constants
+        runTest {
+            val primes = productionGroup().constants
 
-        // HP = H(HV ; 00, p, q, g)   spec 2.0 eq 4
-        // The symbol HV denotes the version byte array that encodes the used version of this specification.
-        // The array has length 32 and contains the UTF-8 encoding of the string "v2.0" followed by 00-
-        // bytes, i.e. HV = 76322E30 ∥ b(0, 28).
-        val version = protocolVersion.encodeToByteArray()
-        val HV = ByteArray(32) { if (it < version.size ) version[it] else 0 }
+            // HP = H(HV ; 00, p, q, g)   spec 2.0 eq 4
+            // The symbol HV denotes the version byte array that encodes the used version of this specification.
+            // The array has length 32 and contains the UTF-8 encoding of the string "v2.0" followed by 00-
+            // bytes, i.e. HV = 76322E30 ∥ b(0, 28).
+            val version = protocolVersion.encodeToByteArray()
+            val HV = ByteArray(32) { if (it < version.size) version[it] else 0 }
 
-        val callConcat = hashFunctionConcat(
-            HV,
-            0.toByte(),
-            primes.largePrime,
-            primes.smallPrime,
-            primes.generator,
-        )
-        assertEquals(1057, hashFunctionConcatSize(
-            HV,
-            0.toByte(),
-            primes.largePrime,
-            primes.smallPrime,
-            primes.generator,
-        ))
+            val callConcat = hashFunctionConcat(
+                HV,
+                0.toByte(),
+                primes.largePrime,
+                primes.smallPrime,
+                primes.generator,
+            )
+            assertEquals(
+                1057, hashFunctionConcatSize(
+                    HV,
+                    0.toByte(),
+                    primes.largePrime,
+                    primes.smallPrime,
+                    primes.generator,
+                )
+            )
 
-        val callUpdate = hashFunction(
-            HV,
-            0.toByte(),
-            primes.largePrime,
-            primes.smallPrime,
-            primes.generator,
-        )
-        assertEquals(callUpdate, callConcat)
+            val callUpdate = hashFunction(
+                HV,
+                0.toByte(),
+                primes.largePrime,
+                primes.smallPrime,
+                primes.generator,
+            )
+            assertEquals(callUpdate, callConcat)
 
-        val callParameter = parameterBaseHash(productionGroup().constants)
-        assertEquals(callUpdate, callParameter)
+            val callParameter = parameterBaseHash(productionGroup().constants)
+            assertEquals(callUpdate, callParameter)
+        }
     }
 
     @Test
     fun testIterator() {
-        val primes = productionGroup().constants
+        runTest {
+            val primes = productionGroup().constants
 
-        // HP = H(HV ; 00, p, q, g)  ; eq 4
-        val version = protocolVersion.encodeToByteArray()
-        val HV = ByteArray(32) { if (it < version.size ) version[it] else 0 }
+            // HP = H(HV ; 00, p, q, g)  ; eq 4
+            val version = protocolVersion.encodeToByteArray()
+            val HV = ByteArray(32) { if (it < version.size) version[it] else 0 }
 
-        val callConcat = hashFunctionConcat(
-            HV,
-            0.toByte(),
-            listOf(primes.largePrime, primes.smallPrime, primes.generator),
-        )
-        assertEquals(1057, hashFunctionConcatSize(
-            HV,
-            0.toByte(),
-            listOf(primes.largePrime, primes.smallPrime, primes.generator),
-        ))
+            val callConcat = hashFunctionConcat(
+                HV,
+                0.toByte(),
+                listOf(primes.largePrime, primes.smallPrime, primes.generator),
+            )
+            assertEquals(
+                1057, hashFunctionConcatSize(
+                    HV,
+                    0.toByte(),
+                    listOf(primes.largePrime, primes.smallPrime, primes.generator),
+                )
+            )
 
-        val callUpdate = hashFunction(
-            HV,
-            0.toByte(),
-            listOf(primes.largePrime, primes.smallPrime, primes.generator),
-        )
-        assertEquals(callUpdate, callConcat)
+            val callUpdate = hashFunction(
+                HV,
+                0.toByte(),
+                listOf(primes.largePrime, primes.smallPrime, primes.generator),
+            )
+            assertEquals(callUpdate, callConcat)
 
-        val callParameter = parameterBaseHash(productionGroup().constants)
-        assertEquals(callUpdate, callParameter)
+            val callParameter = parameterBaseHash(productionGroup().constants)
+            assertEquals(callUpdate, callParameter)
+        }
     }
 
     @Test

@@ -95,6 +95,10 @@ actual class BigInteger: Comparable<BigInteger> {
         }
     }
 
+    actual override fun toString(): String {
+        return this.value.toString()
+    }
+
     actual fun toByteArray(): ByteArray {
         return this.value.toByteArray()
     }

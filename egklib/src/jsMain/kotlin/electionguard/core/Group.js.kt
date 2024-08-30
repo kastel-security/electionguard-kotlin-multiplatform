@@ -5,6 +5,10 @@ import electionguard.core.Base16.toHex
 @JsModule(import = "big-integer")
 @JsNonModule
 external class BigInt {
+    class ArrayObject {
+        val value: Array<Number>
+        val isNegative: Boolean
+    }
     constructor(value: Any)
     constructor(value: Any, radix: Number)
     fun add(other: BigInt): BigInt
@@ -19,7 +23,7 @@ external class BigInt {
     fun modInv(m: BigInt): BigInt
     fun modPow(exp: BigInt, m: BigInt): BigInt
     fun compare(other: BigInt): Number
-    fun toArray(radix: Number): Array<Any>
+    fun toArray(radix: Number): ArrayObject
     fun pow(exp: Number): BigInt
     fun toString(radix: Number = definedExternally): String
 }
@@ -94,13 +98,11 @@ actual class BigInteger: Comparable<BigInteger> {
         return this.value.compare(other.value).toInt()
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
     actual fun toByteArray(): ByteArray {
-        val asString = this.value.toString(16)
-        return asString.hexToByteArray(HexFormat.Default)
+        return this.value.toArray(256).value.map { it.toByte() }.toByteArray()
     }
 
-    override fun toString(): String {
+    actual override fun toString(): String {
         return this.value.toString()
     }
 
@@ -121,14 +123,20 @@ actual class BigInteger: Comparable<BigInteger> {
     }
 
     actual constructor(signum: Int, magnitude: ByteArray) {
-        TODO("Not implemented")
+        if (signum == 1) {
+            this.value = BigInt(magnitude.toHex(), 16)
+        } else if (signum == -1) {
+            this.value = BigInt(magnitude.toHex(), 16).multiply(BigInt(-1))
+        } else {
+            throw IllegalArgumentException("Illegal signum")
+        }
     }
 
     actual constructor(value: String, radix: Int) {
         this.value = BigInt(value, radix)
     }
     actual constructor(value: ByteArray) {
-        this.value = BigInt(value.toHex())
+        this.value = BigInt(value.toHex(), 16)
     }
 
 }

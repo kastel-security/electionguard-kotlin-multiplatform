@@ -38,6 +38,7 @@ expect class BigInteger: Comparable<BigInteger> {
 
     override fun compareTo(other: BigInteger): Int
     override fun equals(other: Any?): Boolean
+    override fun toString(): String
 
 
     fun toByteArray(): ByteArray
