@@ -50,7 +50,7 @@ kotlin {
         browser {
             testTask {
                 useKarma {
-                    useFirefox()
+                    useFirefoxHeadless()
                 }
             }
         }
@@ -87,6 +87,7 @@ kotlin {
         val jsMain by getting {
             dependencies {
                 implementation(npm("big-integer", "1.6.52"))
+                implementation(npm("@noble/hashes", "1.0.0"))
             }
         }
         val jsTest by getting {
