@@ -70,6 +70,12 @@ kotlin {
                         }
                         ?.let { it.forEach { testBrowser -> testBrowser() } }
                         ?: useChromeHeadless()
+                    // pass -Dtests=... to specify which tests to run
+                    if (project.hasProperty("tests")) {
+                        setTestNameIncludePatterns(
+                            (project.property("tests") as String).split(",")
+                        )
+                    }
                 }
             }
         }
