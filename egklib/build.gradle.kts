@@ -39,6 +39,14 @@ kotlin {
 
     js(IR) {
         binaries.executable()
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
+                compilerOptions.freeCompilerArgs.add(
+                    "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi,kotlinx.serialization.ExperimentalSerializationApi"
+                )
+            }
+        }
         browser {
             testTask {
                 useKarma {
