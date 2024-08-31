@@ -1,3 +1,5 @@
+import java.util.*
+
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.serialization)
@@ -11,6 +13,7 @@ repositories {
 
 group = "electionguard-kotlin-multiplatform"
 version = "2.0.4-SNAPSHOT"
+
 
 kotlin {
     jvm {
@@ -50,7 +53,23 @@ kotlin {
         browser {
             testTask {
                 useKarma {
-                    useFirefoxHeadless()
+                    // specify the browser for testing in the 'local.properties' file of the root project
+                    // for example: 'test.browsers=firefox,chromeHeadless' will use both firefox and chromeHeadless for test execution
+                    // make sure the specified browsers are installed - it uses chromeHeadless by default.
+                    project.getLocalProperty("test.browsers")
+                        ?.let { (it as String).split(",") }
+                        ?.map {
+                            when(it) {
+                                "chrome" -> ::useChrome
+                                "chromeHeadless" -> ::useChromeHeadless
+                                "firefox" -> ::useFirefox
+                                "firefoxHeadless" -> ::useFirefoxHeadless
+                                else -> throw StopExecutionException("not a supported testbrowser: $it")
+
+                            }
+                        }
+                        ?.let { it.forEach { testBrowser -> testBrowser() } }
+                        ?: useChromeHeadless()
                 }
             }
         }
@@ -93,6 +112,10 @@ kotlin {
         val jsTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                //since we are using dynamically configured test browsers,
+                //we have to make sure this does not affect the yarn.lock file.
+                //Therefore we explicitly name each browser aside from chrome we use for testing here
+                runtimeOnly(npm("karma-firefox-launcher", "2.1.2"))
             }
         }
         /* val nativeMain by getting {
@@ -148,5 +171,15 @@ publishing {
         register<MavenPublication>("gpr") {
             from(components["java"])
         }
+    }
+}
+
+fun Project.getLocalProperty(name: String): Any? {
+    val properties = Properties()
+    try {
+        properties.load(rootProject.file("local.properties").reader())
+        return properties[name]
+    } catch (ignored: java.io.IOException) {
+        return null
     }
 }
