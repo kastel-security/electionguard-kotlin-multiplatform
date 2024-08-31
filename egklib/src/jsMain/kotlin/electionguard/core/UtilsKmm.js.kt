@@ -1,9 +1,9 @@
 package electionguard.core
 
+import kotlin.js.Date
+
 /** Get the current time in msecs since epoch */
-actual fun getSystemTimeInMillis(): Long {
-    TODO("Not yet implemented")
-}
+actual fun getSystemTimeInMillis() = Date().getMilliseconds().toLong()
 
 /** Does this path exist? */
 actual fun pathExists(path: String): Boolean {

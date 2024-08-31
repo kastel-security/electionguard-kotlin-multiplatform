@@ -77,6 +77,18 @@ fun Int.toByteArray() = this.toUInt().toByteArray()
 /** Convert an integer to a big-endian array of four bytes. */
 fun UInt.toByteArray() = ByteArray(4) { (this shr (24 - 8 * it) and 0xffU).toByte() }
 
+/** Convert a big-endian array of four bytes to an unsigned integer. */
+fun ByteArray.toUInt(): UInt {
+    require(this.size == 4) { "Byte array must be of length 4" }
+    return (this[0].toUInt() shl 24) or
+            ((this[1].toInt() and 0xFF).toUInt() shl 16) or
+            ((this[2].toInt() and 0xFF).toUInt() shl 8) or
+            (this[3].toInt() and 0xFF).toUInt()
+}
+
+/** Convert a big-endian array of four bytes to an integer. */
+fun ByteArray.toInt(): Int = this.toUInt().toInt()
+
 /**
  * If there are any null values in the map, the result is null, otherwise the result is the same
  * map, but typed without the nulls.
