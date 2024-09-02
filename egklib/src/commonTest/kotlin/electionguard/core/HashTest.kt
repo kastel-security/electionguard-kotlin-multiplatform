@@ -125,11 +125,13 @@ class HashTest {
 
     @Test
     fun testPublicKey() {
-        val group = productionGroup()
-        val keypair = elGamalKeyPairFromRandom(group)
-        val h1 = hashFunction("hay2".encodeToByteArray(), 0x422, keypair.publicKey)
-        val h2 = hashFunction("hay2".encodeToByteArray(), 0x422, keypair.publicKey.key)
-        assertEquals(h1, h2)
+        runTest {
+            val group = productionGroup()
+            val keypair = elGamalKeyPairFromRandom(group)
+            val h1 = hashFunction("hay2".encodeToByteArray(), 0x422, keypair.publicKey)
+            val h2 = hashFunction("hay2".encodeToByteArray(), 0x422, keypair.publicKey.key)
+            assertEquals(h1, h2)
+        }
     }
 
 }

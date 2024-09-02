@@ -7,6 +7,7 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
 import kotlin.math.roundToInt
+import kotlin.test.BeforeTest
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertTrue
@@ -15,16 +16,23 @@ import kotlin.time.DurationUnit
 import kotlin.time.measureTime
 
 class HashedElGamalTest {
-        val group = productionGroup()
-        val keypair = elGamalKeyPairFromRandom(group)
-        val extendedBaseHash = UInt256.random()
+    lateinit var group: GroupContext
+    lateinit var keypair: ElGamalKeypair
+    lateinit var extendedBaseHash: UInt256
+
+    fun setup() {
+        group = productionGroup()
+        keypair = elGamalKeyPairFromRandom(group)
+        extendedBaseHash = UInt256.random()
+    }
 
     @Test
-    @Ignore
     fun testRoundtrip() {
-        roundtrip("what the heckeroo?".encodeToByteArray())
         var count = 0
+        val took = measureTime {
             runTest {
+                setup()
+                roundtrip("what the heckeroo?".encodeToByteArray())
                 checkAll(
                     propTestSlowConfig,
                     Arb.string(minSize = 1, maxSize = 1000),
@@ -34,8 +42,9 @@ class HashedElGamalTest {
                     count++
                 }
             }
-        //val perTrip = if (count == 0) 0 else (took / count).roundToInt()
-        //println(" that took $took millisecs for $count roundtrips = $perTrip msecs/trip wallclock")
+        }.toDouble(DurationUnit.MILLISECONDS)
+        val perTrip = if (count == 0) 0 else (took / count).roundToInt()
+        println(" that took $took millisecs for $count roundtrips = $perTrip msecs/trip wallclock")
     }
 
     fun roundtrip(testMessage : ByteArray) {
@@ -64,9 +73,11 @@ class HashedElGamalTest {
     }
 
     @Test
-    @Ignore
     fun testContestData() {
-        roundtripContestData("what the heckeroo?".encodeToByteArray())
+        runTest {
+            setup()
+            roundtripContestData("what the heckeroo?".encodeToByteArray())
+        }
     }
 
     fun roundtripContestData(testMessage : ByteArray) {
@@ -84,7 +95,7 @@ class HashedElGamalTest {
             "contestId",
             42,
             UInt256.random(),
-        )
+            )
 
         val beta = subject.c0 powP keypair.secretKey.key
 
@@ -107,15 +118,14 @@ class HashedElGamalTest {
     }
 
     @Test
-    @Ignore
     fun testCompareContestData() {
-        val ballotNonce = UInt256.random() // 42U.toUInt256() // UInt256.random()
-        //val extendedBaseHash = 11U.toUInt256() // UInt256.random()
-        //val keypair = elGamalKeyPairFromSecret(1129U.toUInt256().toElementModQ(group))
-        compareWithContestData("what the heckeroo?".encodeToByteArray(), extendedBaseHash, keypair, ballotNonce)
-
         var count = 0
         runTest {
+            setup()
+            val ballotNonce = UInt256.random() // 42U.toUInt256() // UInt256.random()
+            //val extendedBaseHash = 11U.toUInt256() // UInt256.random()
+            //val keypair = elGamalKeyPairFromSecret(1129U.toUInt256().toElementModQ(group))
+            compareWithContestData("what the heckeroo?".encodeToByteArray(), extendedBaseHash, keypair, ballotNonce)
             checkAll(
                 propTestSlowConfig,
                 Arb.string(minSize = 1, maxSize = 1000),
