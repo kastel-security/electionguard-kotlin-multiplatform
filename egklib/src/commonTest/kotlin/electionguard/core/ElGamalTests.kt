@@ -6,6 +6,7 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
 import io.kotest.property.forAll
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -24,11 +25,13 @@ class ElGamalTests {
     }
 
     @Test
+    @Ignore // causes browser tests to crash
     fun encryptionBasicsLg() {
         encryptionBasics { productionGroup(PowRadixOption.LOW_MEMORY_USE) }
     }
 
     @Test
+    @Ignore // causes browser tests to crash
     fun encryptionBasicsSm() {
         encryptionBasics { tinyGroup() }
     }
