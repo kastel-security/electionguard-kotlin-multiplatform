@@ -10,11 +10,13 @@ import electionguard.encrypt.submit
 import electionguard.input.RandomBallotProvider
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 
+@Ignore // I/O is not supported in browser tests
 class DecryptionWithNonceTest {
     val input = "src/commonTest/data/workflow/allAvailableJson"
     private val nballots = 20

@@ -13,6 +13,7 @@ import electionguard.util.Stats
 import electionguard.verifier.VerifyEncryptedBallots
 import kotlin.test.*
 
+@Ignore // I/O is not supported in browser tests
 class AddEncryptedBallotTest {
     val group = productionGroup()
     val input = "src/commonTest/data/workflow/allAvailableJson"

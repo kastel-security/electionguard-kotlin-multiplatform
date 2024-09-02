@@ -6,9 +6,11 @@ import electionguard.input.RandomBallotProvider
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
+@Ignore // I/O is not supported in browser tests
 class AddEncryptedBallotJsonTest {
     val input = "src/commonTest/data/workflow/allAvailableJson"
     val outputDirJson = "testOut/encrypt/addEncryptedBallotJson"

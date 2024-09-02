@@ -3,10 +3,12 @@ package electionguard.encrypt
 import electionguard.core.*
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
+@Ignore // I/O is not supported in browser tests
 class EncryptTest {
     val input = "src/commonTest/data/workflow/allAvailableJson"
 

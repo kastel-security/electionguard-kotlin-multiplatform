@@ -7,11 +7,13 @@ import electionguard.input.RandomBallotProvider
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
 import kotlin.math.roundToInt
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 /** Verify the embedded nonces in an Encrypted Ballot. */
+@Ignore // I/O is not supported in browser tests
 class EncryptionNonceTest {
     val input = "src/commonTest/data/workflow/allAvailableJson"
     val nballots = 11

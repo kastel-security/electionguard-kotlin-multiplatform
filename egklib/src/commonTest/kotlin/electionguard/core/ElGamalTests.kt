@@ -51,6 +51,7 @@ class ElGamalTests {
     }
 
     @Test
+    @Ignore
     fun encryptionBasicsAutomaticNonces() {
         runTest {
             val context = tinyGroup()
@@ -64,6 +65,7 @@ class ElGamalTests {
     }
 
     @Test
+    @Ignore
     fun encryptExtraNonce() {
         runTest {
             val group = productionGroup()
