@@ -15,7 +15,7 @@ import java.util.*
 
 /** Publishes the Election Record to JSON files.  */
 @OptIn(ExperimentalSerializationApi::class)
-actual class PublisherJson actual constructor(topDir: String, createNew: Boolean) : Publisher {
+class PublisherJson(topDir: String, createNew: Boolean) : Publisher {
     private var jsonPaths: ElectionRecordJsonPaths = ElectionRecordJsonPaths(topDir)
     val jsonReader = Json { explicitNulls = false; ignoreUnknownKeys = true; prettyPrint = true }
 
@@ -27,9 +27,9 @@ actual class PublisherJson actual constructor(topDir: String, createNew: Boolean
         validateOutputDir(electionRecordDir, Formatter())
     }
 
-    actual override fun isJson() : Boolean = true
+    override fun isJson() : Boolean = true
 
-    actual override fun writeManifest(manifest: Manifest)  : String {
+    override fun writeManifest(manifest: Manifest)  : String {
         val manifestJson = manifest.publishJson()
         FileOutputStream(jsonPaths.manifestPath()).use { out ->
             jsonReader.encodeToStream(manifestJson, out)
@@ -38,7 +38,7 @@ actual class PublisherJson actual constructor(topDir: String, createNew: Boolean
         return jsonPaths.manifestPath()
     }
 
-    actual override fun writeElectionConfig(config: ElectionConfig) {
+    override fun writeElectionConfig(config: ElectionConfig) {
         val constantsJson = config.constants.publishJson()
         FileOutputStream(jsonPaths.electionConstantsPath()).use { out ->
             jsonReader.encodeToStream(constantsJson, out)
@@ -57,7 +57,7 @@ actual class PublisherJson actual constructor(topDir: String, createNew: Boolean
         }
     }
 
-    actual override fun writeElectionInitialized(init: ElectionInitialized) {
+    override fun writeElectionInitialized(init: ElectionInitialized) {
         writeElectionConfig(init.config)
 
         val contextJson = init.publishJson()
@@ -67,7 +67,7 @@ actual class PublisherJson actual constructor(topDir: String, createNew: Boolean
         }
     }
 
-    actual override fun writeTallyResult(tally: TallyResult) {
+    override fun writeTallyResult(tally: TallyResult) {
         writeElectionInitialized(tally.electionInitialized)
 
         val encryptedTallyJson = tally.encryptedTally.publishJson()
@@ -77,7 +77,7 @@ actual class PublisherJson actual constructor(topDir: String, createNew: Boolean
         }
     }
 
-    actual override fun writeDecryptionResult(decryption: DecryptionResult) {
+    override fun writeDecryptionResult(decryption: DecryptionResult) {
         writeTallyResult(decryption.tallyResult)
 
         val decryptedTallyJson = decryption.decryptedTally.publishJson()
@@ -87,7 +87,7 @@ actual class PublisherJson actual constructor(topDir: String, createNew: Boolean
         }
     }
 
-    actual override fun writePlaintextBallot(outputDir: String, plaintextBallots: List<PlaintextBallot>) {
+    override fun writePlaintextBallot(outputDir: String, plaintextBallots: List<PlaintextBallot>) {
         plaintextBallots.forEach { writePlaintextBallot(outputDir, it) }
     }
 
@@ -99,7 +99,7 @@ actual class PublisherJson actual constructor(topDir: String, createNew: Boolean
         }
     }
 
-    actual override fun writeTrustee(trusteeDir: String, trustee: KeyCeremonyTrustee) {
+    override fun writeTrustee(trusteeDir: String, trustee: KeyCeremonyTrustee) {
         val decryptingTrusteeJson = trustee.publishJson()
         FileOutputStream(jsonPaths.decryptingTrusteePath(trusteeDir, trustee.id())).use { out ->
             jsonReader.encodeToStream(decryptingTrusteeJson, out)
@@ -109,7 +109,7 @@ actual class PublisherJson actual constructor(topDir: String, createNew: Boolean
 
     ////////////////////////////////////////////////
 
-    actual override fun writeEncryptedBallotChain(closing: EncryptedBallotChain) {
+    override fun writeEncryptedBallotChain(closing: EncryptedBallotChain) {
         val jsonChain = closing.publishJson()
         val filename = jsonPaths.encryptedBallotChain(closing.encryptingDevice)
         FileOutputStream(filename).use { out ->
@@ -119,7 +119,7 @@ actual class PublisherJson actual constructor(topDir: String, createNew: Boolean
     }
 
     // batched is only used by proto, so is ignored here
-    actual override fun encryptedBallotSink(device: String?, batched: Boolean): EncryptedBallotSinkIF {
+    override fun encryptedBallotSink(device: String?, batched: Boolean): EncryptedBallotSinkIF {
         val ballotDir = if (device != null) jsonPaths.encryptedBallotDir(device) else jsonPaths.topDir
         validateOutputDir(Path.of(ballotDir), Formatter()) // TODO
         return EncryptedBallotDeviceSink(device)
@@ -141,7 +141,7 @@ actual class PublisherJson actual constructor(topDir: String, createNew: Boolean
 
     /////////////////////////////////////////////////////////////
 
-    actual override fun decryptedTallyOrBallotSink(): DecryptedTallyOrBallotSinkIF {
+    override fun decryptedTallyOrBallotSink(): DecryptedTallyOrBallotSinkIF {
         validateOutputDir(Path.of(jsonPaths.decryptedBallotDir()), Formatter())
         return DecryptedTallyOrBallotSink()
     }

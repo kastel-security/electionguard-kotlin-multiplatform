@@ -4,18 +4,21 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.*
+import electionguard.ballot.EncryptedBallot
+import electionguard.ballot.EncryptedBallotChain
+import electionguard.ballot.Manifest
+import electionguard.ballot.PlaintextBallot
 import electionguard.core.ElGamalPublicKey
 import electionguard.core.GroupContext
 import electionguard.core.UInt256
 import electionguard.core.hashFunction
 import electionguard.decryptBallot.DecryptWithNonce
 import electionguard.input.BallotInputValidation
-import electionguard.publish.*
+import electionguard.publish.Closeable
+import electionguard.publish.EncryptedBallotSinkIF
+import electionguard.publish.makeConsumer
+import electionguard.publish.makePublisher
 import electionguard.util.ErrorMessages
-import io.github.oshai.kotlinlogging.KotlinLogging
-
-private val logger = KotlinLogging.logger("AddEncryptedBallot")
 
 /** Encrypt a ballot and add to election record. Single threaded only. */
 class AddEncryptedBallot(
@@ -125,7 +128,7 @@ class AddEncryptedBallot(
     fun submit(ccode: UInt256, state: EncryptedBallot.BallotState): Result<EncryptedBallot, String> {
         val cballot = pending.remove(ccode)
         if (cballot == null) {
-            logger.error { "Tried to submit state=$state  unknown ballot ccode=$ccode" }
+            //logger.error { "Tried to submit state=$state  unknown ballot ccode=$ccode" }
             return Err("Tried to submit state=$state  unknown ballot ccode=$ccode")
         }
         return try {
@@ -133,7 +136,7 @@ class AddEncryptedBallot(
             sink.writeEncryptedBallot(eballot)
             Ok(eballot)
         } catch (t: Throwable) {
-            logger.throwing(t) // TODO
+            //logger.throwing(t) // TODO
             Err("Tried to submit Ciphertext ballot state=$state ccode=$ccode error = ${t.message}")
         }
     }
@@ -149,7 +152,7 @@ class AddEncryptedBallot(
     fun challengeAndDecrypt(ccode: UInt256): Result<PlaintextBallot, String> {
         val cballot = pending.remove(ccode)
         if (cballot == null) {
-            logger.error { "Tried to submit unknown ballot ccode=$ccode" }
+            //logger.error { "Tried to submit unknown ballot ccode=$ccode" }
             return Err("Tried to submit unknown ballot ccode=$ccode")
         }
         try {
@@ -164,7 +167,7 @@ class AddEncryptedBallot(
                 }
             }
         } catch (t: Throwable) {
-            logger.throwing(t) // TODO
+            //logger.throwing(t) // TODO
             return Err("Tried to challenge Ciphertext ballot ccode=$ccode error = ${t.message}")
         }
     }
@@ -174,7 +177,7 @@ class AddEncryptedBallot(
         if (pending.isNotEmpty()) {
             val copyPending = pending.toMap() // make copy so it can be modified
             copyPending.keys.forEach {
-                logger.error { "pending Ciphertext ballot ${it} was not submitted, marking 'UNKNOWN'" }
+                //logger.error { "pending Ciphertext ballot ${it} was not submitted, marking 'UNKNOWN'" }
                 submit(it, EncryptedBallot.BallotState.UNKNOWN)
             }
         }

@@ -29,17 +29,17 @@ private const val debugBallots = false
 /** Can be multithreaded. */
 
 @OptIn(ExperimentalCoroutinesApi::class)
-actual class VerifyEncryptedBallots actual constructor(
-    actual val group: GroupContext,
-    actual val manifest: ManifestIF,
-    actual val jointPublicKey: ElGamalPublicKey,
-    actual val extendedBaseHash: UInt256, // He
-    actual val config: ElectionConfig,
+class VerifyEncryptedBallots(
+    val group: GroupContext,
+    val manifest: ManifestIF,
+    val jointPublicKey: ElGamalPublicKey,
+    val extendedBaseHash: UInt256, // He
+    val config: ElectionConfig,
     private val nthreads: Int,
 ) {
-     actual val aggregator = SelectionAggregator() // for Verification 8 (Correctness of ballot aggregation)
+    val aggregator = SelectionAggregator() // for Verification 8 (Correctness of ballot aggregation)
 
-    actual fun verifyBallots(
+    fun verifyBallots(
         ballots: Iterable<EncryptedBallot>,
         errs: ErrorMessages,
         stats: Stats,
@@ -81,7 +81,7 @@ actual class VerifyEncryptedBallots actual constructor(
         return !errs.hasErrors()
     }
 
-    actual fun verifyEncryptedBallot(
+    fun verifyEncryptedBallot(
         ballot: EncryptedBallot,
         errs: ErrorMessages,
         stats: Stats
@@ -118,7 +118,7 @@ actual class VerifyEncryptedBallots actual constructor(
         return !errs.hasErrors()
     }
 
-    actual fun verifyEncryptedContest(
+    fun verifyEncryptedContest(
         contest: EncryptedBallot.Contest,
         isPreencrypt: Boolean,
         errs: ErrorMessages
@@ -177,7 +177,7 @@ actual class VerifyEncryptedBallots actual constructor(
     //////////////////////////////////////////////////////////////////////////////
     // ballot chaining, section 7
 
-    actual fun verifyConfirmationChain(consumer: ElectionRecord, errs: ErrorMessages): Boolean {
+    fun verifyConfirmationChain(consumer: ElectionRecord, errs: ErrorMessages): Boolean {
 
         consumer.encryptingDevices().forEach { device ->
             // println("verifyConfirmationChain device=$device")
@@ -196,7 +196,7 @@ actual class VerifyEncryptedBallots actual constructor(
                 //       Baux,j = H(Bj−1) ∥ Baux,0 .
                 var prevCC = H0
                 var first = true
-                ballots.forEach { ballot ->
+                ballots.forEach { ballot: EncryptedBallot ->
                     val expectedBaux = if (first) H0 else prevCC + config.configBaux0  // eq 7.D and 7.E
                     first = false
                     if (!expectedBaux.contentEquals(ballot.codeBaux)) {
@@ -254,3 +254,5 @@ actual class VerifyEncryptedBallots actual constructor(
     }
 }
 
+// check confirmation codes
+data class ConfirmationCode(val ballotId: String, val code: UInt256)

@@ -1,11 +1,8 @@
-package electionguard.decryptBallot
+package electionguard.decrypt
 
 import com.github.michaelbull.result.unwrap
 import electionguard.ballot.*
 import electionguard.core.*
-import electionguard.decrypt.DecryptingTrusteeDoerre
-import electionguard.decrypt.DecryptorDoerre
-import electionguard.decrypt.Guardians
 import electionguard.encrypt.Encryptor
 import electionguard.encrypt.submit
 import electionguard.input.RandomBallotProvider

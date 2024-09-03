@@ -24,7 +24,7 @@ private const val debug = false
 /** Box [9, 10, 11] (tally), and [12, 13, 14] (ballot). can be multithreaded. */
 // Note that 12,13,14 (ballot) are almost the same as 9,10,11 (tally). Only diff is 13.B,C
 @OptIn(ExperimentalCoroutinesApi::class)
-actual class VerifyDecryption actual constructor(
+class VerifyDecryption(
     val group: GroupContext,
     val manifest: ManifestIF,
     val publicKey: ElGamalPublicKey,
@@ -35,7 +35,7 @@ actual class VerifyDecryption actual constructor(
     val contestAndSelectionSet : Set<String> = manifest.contests.map { contest -> contest.selections.map {
         "${contest.contestId}/${it.selectionId}" } }.flatten().toSet()
 
-    actual fun verify(decrypted: DecryptedTallyOrBallot, isBallot: Boolean, errs: ErrorMessages, stats: Stats): Boolean {
+    fun verify(decrypted: DecryptedTallyOrBallot, isBallot: Boolean, errs: ErrorMessages, stats: Stats): Boolean {
         val starting = getSystemTimeInMillis()
 
         if (decrypted.electionId != extendedBaseHash) {
@@ -152,7 +152,7 @@ actual class VerifyDecryption actual constructor(
     ////////////////////////////////////////////////////////////////////////////////
     // coroutines
 
-    actual fun verifySpoiledBallotTallies(
+    fun verifySpoiledBallotTallies(
         ballots: Iterable<DecryptedTallyOrBallot>,
         nthreads: Int,
         errs: ErrorMessages,

@@ -21,7 +21,7 @@ import java.util.stream.Stream
 
 private val logger = KotlinLogging.logger("ConsumerJsonRJvm")
 
-actual class ConsumerJsonR actual constructor(val topDir: String, val group: GroupContext) : Consumer {
+class ConsumerJsonR(val topDir: String, val group: GroupContext) : Consumer {
     var fileSystem : FileSystem = FileSystems.getDefault()
     var fileSystemProvider : FileSystemProvider = fileSystem.provider()
     var jsonPaths = ElectionRecordJsonRPaths(topDir)
@@ -43,20 +43,20 @@ actual class ConsumerJsonR actual constructor(val topDir: String, val group: Gro
         }
     }
 
-    actual override fun topdir(): String {
+    override fun topdir(): String {
         return this.topDir
     }
 
-    actual override fun isJson() = true
+    override fun isJson() = true
 
-    actual override fun makeManifest(manifestBytes: ByteArray): Manifest {
+    override fun makeManifest(manifestBytes: ByteArray): Manifest {
         ByteArrayInputStream(manifestBytes).use { inp ->
             val json = jsonReader.decodeFromStream<ManifestJson>(inp)
             return json.import()
         }
     }
 
-    actual override fun readManifestBytes(filename : String): ByteArray {
+    override fun readManifestBytes(filename : String): ByteArray {
         // need to use fileSystemProvider for zipped files
         val manifestPath = fileSystem.getPath(filename)
         val manifestBytes =
@@ -66,7 +66,7 @@ actual class ConsumerJsonR actual constructor(val topDir: String, val group: Gro
         return manifestBytes
     }
 
-    actual override fun readElectionConfig(): Result<ElectionConfig, ErrorMessages> {
+    override fun readElectionConfig(): Result<ElectionConfig, ErrorMessages> {
         return readElectionConfig(
             fileSystem.getPath(jsonPaths.electionParametersPath()),
             fileSystem.getPath(jsonPaths.manifestCanonicalPath()),
@@ -74,7 +74,7 @@ actual class ConsumerJsonR actual constructor(val topDir: String, val group: Gro
         )
     }
 
-    actual override fun readElectionInitialized(): Result<ElectionInitialized, ErrorMessages> {
+    override fun readElectionInitialized(): Result<ElectionInitialized, ErrorMessages> {
         val config = readElectionConfig()
         if (config is Err) {
             return Err(config.error)
@@ -172,7 +172,7 @@ actual class ConsumerJsonR actual constructor(val topDir: String, val group: Gro
     ///////////////////////////////////////////////////////////////////////////
     // copied from ConsumerJson, to be replaced as rust serialization is defined
 
-    actual override fun encryptingDevices(): List<String> {
+    override fun encryptingDevices(): List<String> {
         val topBallotPath = Path.of(jsonPaths.encryptedBallotDir())
         if (!Files.exists(topBallotPath)) {
             return emptyList()
@@ -181,7 +181,7 @@ actual class ConsumerJsonR actual constructor(val topDir: String, val group: Gro
         return deviceDirs.map { it.getName( it.nameCount - 1).toString() }.toList() // last name in the path
     }
 
-    actual override fun readEncryptedBallotChain(device: String) : Result<EncryptedBallotChain, ErrorMessages> {
+    override fun readEncryptedBallotChain(device: String) : Result<EncryptedBallotChain, ErrorMessages> {
         val errs = ErrorMessages("readEncryptedBallotChain device '$device'")
         val ballotChainPath = Path.of(jsonPaths.encryptedBallotChain(device))
         if (!Files.exists(ballotChainPath)) {
@@ -198,10 +198,10 @@ actual class ConsumerJsonR actual constructor(val topDir: String, val group: Gro
         }
     }
 
-    actual override fun iterateEncryptedBallotsFromDir(ballotDir: String, filter : ((EncryptedBallot) -> Boolean)? ): Iterable<EncryptedBallot> = emptyList()
+    override fun iterateEncryptedBallotsFromDir(ballotDir: String, filter : ((EncryptedBallot) -> Boolean)? ): Iterable<EncryptedBallot> = emptyList()
 
 
-    actual override fun iterateEncryptedBallots(device: String, filter : ((EncryptedBallot) -> Boolean)? ): Iterable<EncryptedBallot> {
+    override fun iterateEncryptedBallots(device: String, filter : ((EncryptedBallot) -> Boolean)? ): Iterable<EncryptedBallot> {
         val deviceDirPath = Path.of(jsonPaths.encryptedBallotDir(device))
         if (!Files.exists(deviceDirPath)) {
             throw RuntimeException("ConsumerJson.iterateEncryptedBallots: $deviceDirPath doesnt exist")
@@ -215,7 +215,7 @@ actual class ConsumerJsonR actual constructor(val topDir: String, val group: Gro
         return Iterable { EncryptedBallotFileIterator(deviceDirPath, filter) }
     }
 
-    actual override fun iterateAllEncryptedBallots(filter : ((EncryptedBallot) -> Boolean)? ): Iterable<EncryptedBallot> {
+    override fun iterateAllEncryptedBallots(filter : ((EncryptedBallot) -> Boolean)? ): Iterable<EncryptedBallot> {
         val devices = encryptingDevices()
         return Iterable { DeviceIterator(devices.iterator(), filter) }
     }
@@ -242,7 +242,7 @@ actual class ConsumerJsonR actual constructor(val topDir: String, val group: Gro
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
-    actual override fun readTallyResult(): Result<TallyResult, ErrorMessages> {
+    override fun readTallyResult(): Result<TallyResult, ErrorMessages> {
         val init = readElectionInitialized()
         if (init is Err) {
             return Err(init.error)
@@ -253,7 +253,7 @@ actual class ConsumerJsonR actual constructor(val topDir: String, val group: Gro
         )
     }
 
-    actual override fun readDecryptionResult(): Result<DecryptionResult, ErrorMessages> {
+    override fun readDecryptionResult(): Result<DecryptionResult, ErrorMessages> {
         val tally = readTallyResult()
         if (tally is Err) {
             return Err(tally.error)
@@ -265,12 +265,12 @@ actual class ConsumerJsonR actual constructor(val topDir: String, val group: Gro
         )
     }
 
-    actual override fun hasEncryptedBallots(): Boolean {
+    override fun hasEncryptedBallots(): Boolean {
         return Files.exists(fileSystem.getPath(jsonPaths.encryptedBallotDir()))
     }
 
     // decrypted spoiled ballots
-    actual override fun iterateDecryptedBallots(): Iterable<DecryptedTallyOrBallot> {
+    override fun iterateDecryptedBallots(): Iterable<DecryptedTallyOrBallot> {
         val dirPath = fileSystem.getPath(jsonPaths.decryptedBallotDir())
         if (!Files.exists(dirPath)) {
             return emptyList()
@@ -279,7 +279,7 @@ actual class ConsumerJsonR actual constructor(val topDir: String, val group: Gro
     }
 
     // plaintext ballots in given directory, with filter
-    actual override fun iteratePlaintextBallots(
+    override fun iteratePlaintextBallots(
         ballotDir: String,
         filter: ((PlaintextBallot) -> Boolean)?
     ): Iterable<PlaintextBallot> {
@@ -291,7 +291,7 @@ actual class ConsumerJsonR actual constructor(val topDir: String, val group: Gro
     }
 
     // read the trustee in the given directory for the given guardianId
-    actual override fun readTrustee(trusteeDir: String, guardianId: String): Result<DecryptingTrusteeIF,ErrorMessages> {
+    override fun readTrustee(trusteeDir: String, guardianId: String): Result<DecryptingTrusteeIF,ErrorMessages> {
         val errs = ErrorMessages("readTrustee $guardianId from directory $trusteeDir")
         val filename = jsonPaths.decryptingTrusteePath(trusteeDir, guardianId)
         if (!Files.exists(fileSystem.getPath(filename))) {
@@ -300,7 +300,7 @@ actual class ConsumerJsonR actual constructor(val topDir: String, val group: Gro
         return readTrustee(fileSystem.getPath(filename))
     }
 
-    actual override fun readEncryptedBallot(ballotDir: String, ballotId: String) : Result<EncryptedBallot, ErrorMessages> {
+    override fun readEncryptedBallot(ballotDir: String, ballotId: String) : Result<EncryptedBallot, ErrorMessages> {
         val errs = ErrorMessages("readEncryptedBallot ballotId=$ballotId from directory $ballotDir")
         val ballotFilename = jsonPaths.encryptedBallotPath(ballotDir, ballotId)
         if (!Files.exists(fileSystem.getPath(ballotFilename))) {

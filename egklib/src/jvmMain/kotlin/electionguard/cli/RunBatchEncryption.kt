@@ -18,7 +18,10 @@ import electionguard.encrypt.Encryptor
 import electionguard.encrypt.submit
 import electionguard.input.BallotInputValidation
 import electionguard.input.ManifestInputValidation
-import electionguard.publish.*
+import electionguard.publish.EncryptedBallotSinkIF
+import electionguard.publish.makeConsumer
+import electionguard.publish.makeInputBallotSource
+import electionguard.publish.makePublisher
 import electionguard.util.ErrorMessages
 import electionguard.verifier.VerifyEncryptedBallots
 import kotlinx.cli.ArgParser

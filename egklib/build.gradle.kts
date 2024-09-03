@@ -71,11 +71,14 @@ kotlin {
                         }
                         ?.let { it.forEach { testBrowser -> testBrowser() } }
                         ?: useChromeHeadless()
-                    // pass -Ptests=... to specify which tests to run
+                    // pass  -Ptests=... to specify which tests to run
                     if (project.hasProperty("tests")) {
                         setTestNameIncludePatterns(
                             (project.property("tests") as String).split(",")
                         )
+                    } else {
+                        setTestNameIncludePatterns(listOf("electionguard.core.G*", "electionguard.core.B*",
+                            "electionguard.core.*"))
                     }
                 }
             }

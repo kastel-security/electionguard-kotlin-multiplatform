@@ -111,10 +111,10 @@ data class ElectionRecordJsonRPaths(val topDir : String) {
     fun encryptedBallotDevicePath(device: String, ballotId: String): String {
         val useDevice = device.replace(" ", "_")
         val id = ballotId.replace(" ", "_")
-        return "${encryptedBallotDir(useDevice)}/${ENCRYPTED_BALLOT_PREFIX}$id${JSON_SUFFIX}"
+        return "${encryptedBallotDir(useDevice)}/$ENCRYPTED_BALLOT_PREFIX$id$JSON_SUFFIX"
     }
 
     fun encryptedBallotChain(device: String): String {
-        return "${encryptedBallotDir(device)}/${ENCRYPTED_BALLOT_CHAIN}${JSON_SUFFIX}"
+        return "${encryptedBallotDir(device)}/$ENCRYPTED_BALLOT_CHAIN$JSON_SUFFIX"
     }
 }
