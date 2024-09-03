@@ -1,5 +1,7 @@
 package electionguard.core
 
+import js.typedarrays.Uint8Array
+
 /**
  * External class to access the Web Crypto Api
  */
@@ -13,7 +15,26 @@ external interface Window {
 
 external val window: Window
 
+external fun require(module: String): dynamic
+
 /** Get "secure" random bytes from the native platform */
-actual fun randomBytes(length: Int): ByteArray {
-    return window.crypto.getRandomValues(ByteArray(length))
+// this uses the Web Crypto API both in the browser and in Node.js
+actual fun randomBytes(length: Int) =
+    when (getPlatFormRandom()) {
+        Platform.BROWSER -> window.crypto.getRandomValues(ByteArray(length))
+        Platform.NODE -> require("crypto")
+            .getRandomValues(Uint8Array(length)).unsafeCast<ByteArray>()
+    }
+
+fun getPlatFormRandom(): Platform =
+    if (js("typeof window") != "undefined" && js("typeof document") != undefined)
+        Platform.BROWSER
+    else if (js("typeof process") != "undefined")
+        Platform.NODE
+    else
+        throw Error("Unknown platform")
+
+enum class Platform {
+    BROWSER,
+    NODE
 }

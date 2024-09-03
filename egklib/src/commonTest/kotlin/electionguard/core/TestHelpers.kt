@@ -5,9 +5,11 @@ package electionguard.core
 import kotlin.test.assertFalse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.runTest
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.random.Random
 import kotlin.random.nextUInt
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Kotest requires its properties to be executed as a suspending function. To make this all work,
@@ -19,7 +21,7 @@ import kotlin.random.nextUInt
 fun runTest(f: suspend TestScope.() -> Unit) {
     // another benefit of having this wrapper code: we don't have to have the OptIn thing
     // at the top of every unit test file
-    kotlinx.coroutines.test.runTest(EmptyCoroutineContext, 10_1000L, f)
+    runTest(EmptyCoroutineContext, timeout = 10_1000L.milliseconds, f)
 }
 
 /*

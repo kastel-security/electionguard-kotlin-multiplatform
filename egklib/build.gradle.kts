@@ -50,36 +50,8 @@ kotlin {
                 )
             }
         }
-        browser {
-            testTask {
-                dependsOn("cleanAllTests")
-                useKarma {
-                    // specify the browser for testing in the 'local.properties' file of the root project
-                    // for example: 'test.browsers=firefox,chromeHeadless' will use both firefox and chromeHeadless for test execution
-                    // make sure the specified browsers are installed - it uses chromeHeadless by default.
-                    project.getLocalProperty("test.browsers")
-                        ?.let { (it as String).split(",") }
-                        ?.map {
-                            when(it) {
-                                "chrome" -> ::useChrome
-                                "chromeHeadless" -> ::useChromeHeadless
-                                "firefox" -> ::useFirefox
-                                "firefoxHeadless" -> ::useFirefoxHeadless
-                                else -> throw StopExecutionException("not a supported testbrowser: $it")
-
-                            }
-                        }
-                        ?.let { it.forEach { testBrowser -> testBrowser() } }
-                        ?: useChromeHeadless()
-                    // pass -Ptests=... to specify which tests to run
-                    if (project.hasProperty("tests")) {
-                        setTestNameIncludePatterns(
-                            (project.property("tests") as String).split(",")
-                        )
-                    }
-                }
-            }
-        }
+        nodejs()
+        binaries.executable()
     }
 
     sourceSets {
@@ -112,6 +84,7 @@ kotlin {
             }
         val jsMain by getting {
             dependencies {
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-node-js:20.14.10-pre.800")
                 implementation(npm("big-integer", "1.6.52"))
                 implementation(npm("@noble/hashes", "1.0.0"))
             }
@@ -181,12 +154,3 @@ publishing {
     }
 }
 
-fun Project.getLocalProperty(name: String): Any? {
-    val properties = Properties()
-    try {
-        properties.load(rootProject.file("local.properties").reader())
-        return properties[name]
-    } catch (ignored: java.io.IOException) {
-        return null
-    }
-}
