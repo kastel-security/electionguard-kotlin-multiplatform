@@ -12,6 +12,7 @@ import electionguard.publish.makeConsumer
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
+import electionguard.util.Stats
 import electionguard.verifier.VerifyEncryptedBallots
 import kotlin.random.Random
 
@@ -102,7 +103,7 @@ class RunExampleEncryption {
 
             // Note we are verifying all ballots, not just CAST
             val errs = ErrorMessages("verifyBallots")
-            verifier.verifyBallots(record.encryptedAllBallots { true }, errs)
+            verifier.verifyBallots(record.encryptedAllBallots { true }, errs, Stats(), false)
             println("verifyEncryptedBallots: $errs")
 
             if (chained) {

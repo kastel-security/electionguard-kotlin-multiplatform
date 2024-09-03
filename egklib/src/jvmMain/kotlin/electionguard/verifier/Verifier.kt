@@ -215,14 +215,14 @@ class Verifier(val record: ElectionRecord, val nthreads: Int = 11) {
     fun verifyEncryptedBallots(stats : Stats): ErrorMessages {
         val errs = ErrorMessages("verifyDecryptedTally")
         val verifyBallots = VerifyEncryptedBallots(group, manifest, jointPublicKey, He, record.config(), nthreads)
-        verifyBallots.verifyBallots(record.encryptedAllBallots { true }, errs, stats)
+        verifyBallots.verifyBallots(record.encryptedAllBallots { true }, errs, stats, false)
         return errs
     }
 
     fun verifyEncryptedBallots(ballots: Iterable<EncryptedBallot>, stats : Stats): ErrorMessages {
         val errs = ErrorMessages("verifyDecryptedTally")
         val verifyBallots = VerifyEncryptedBallots(group, manifest, jointPublicKey, He, record.config(), nthreads)
-        verifyBallots.verifyBallots(ballots, errs, stats)
+        verifyBallots.verifyBallots(ballots, errs, stats, false)
         return errs
     }
 

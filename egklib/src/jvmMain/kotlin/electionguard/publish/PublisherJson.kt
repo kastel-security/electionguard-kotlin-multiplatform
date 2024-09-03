@@ -14,7 +14,7 @@ import java.nio.file.Path
 import java.util.*
 
 /** Publishes the Election Record to JSON files.  */
-@OptIn(ExperimentalSerializationApi::class)
+//@OptIn(ExperimentalSerializationApi::class)
 class PublisherJson(topDir: String, createNew: Boolean) : Publisher {
     private var jsonPaths: ElectionRecordJsonPaths = ElectionRecordJsonPaths(topDir)
     val jsonReader = Json { explicitNulls = false; ignoreUnknownKeys = true; prettyPrint = true }

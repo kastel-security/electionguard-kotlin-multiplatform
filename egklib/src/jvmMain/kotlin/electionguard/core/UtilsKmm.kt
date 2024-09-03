@@ -11,9 +11,9 @@ private val logger = KotlinLogging.logger("UtilsKmmJvm")
 
 actual fun getSystemTimeInMillis() : Long = System.currentTimeMillis()
 
-actual fun pathExists(path: String): Boolean = Files.exists(Path.of(path))
+fun pathExists(path: String): Boolean = Files.exists(Path.of(path))
 
-actual fun createDirectories(directory: String): Boolean {
+fun createDirectories(directory: String): Boolean {
     if (pathExists(directory)) {
         return true
     }
@@ -26,13 +26,13 @@ actual fun createDirectories(directory: String): Boolean {
     }
 }
 
-actual fun isDirectory(path: String): Boolean = Files.isDirectory(Path.of(path))
+fun isDirectory(path: String): Boolean = Files.isDirectory(Path.of(path))
 
-actual fun fileReadLines(filename: String): List<String> = File(filename).readLines()
+fun fileReadLines(filename: String): List<String> = File(filename).readLines()
 
-actual fun fileReadBytes(filename: String): ByteArray = File(filename).readBytes()
+fun fileReadBytes(filename: String): ByteArray = File(filename).readBytes()
 
-actual fun fileReadText(filename: String): String = File(filename).readText()
+fun fileReadText(filename: String): String = File(filename).readText()
 
 actual fun isBigEndian(): Boolean = nativeOrder() == ByteOrder.BIG_ENDIAN
 
