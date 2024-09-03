@@ -13,7 +13,6 @@ import electionguard.util.Stats
 import electionguard.verifier.VerifyEncryptedBallots
 import kotlin.test.*
 
-@Ignore // I/O is not supported in browser tests
 class AddEncryptedBallotTest {
     val group = productionGroup()
     val input = "src/commonTest/data/workflow/allAvailableJson"
@@ -340,7 +339,7 @@ fun checkOutput(group : GroupContext, outputDir: String, expectedCount: Int, cha
 
     val stats = Stats()
     val errs = ErrorMessages("verifyBallots")
-    verifyEncryptions.verifyBallots(record.encryptedAllBallots { true }, errs, stats)
+    verifyEncryptions.verifyBallots(record.encryptedAllBallots { true }, errs, stats, false)
     println(errs)
     assertFalse( errs.hasErrors())
     assertEquals( expectedCount, stats.count())

@@ -8,7 +8,6 @@ import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
 import kotlin.test.*
 
-@Ignore // I/O is not supported in browser tests
 class AddBallotSyncTest {
     val group = productionGroup()
     val inputProto = "src/commonTest/data/workflow/allAvailableProto"
