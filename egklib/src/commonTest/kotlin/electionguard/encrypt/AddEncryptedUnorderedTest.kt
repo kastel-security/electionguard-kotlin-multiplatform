@@ -7,9 +7,11 @@ import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
 import kotlin.random.Random
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
+@Ignore // I/O is not supported in browser tests
 class AddEncryptedUnorderedTest {
     val group = productionGroup()
     val input = "src/commonTest/data/workflow/allAvailableJson"

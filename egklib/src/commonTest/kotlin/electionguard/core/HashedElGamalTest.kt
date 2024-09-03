@@ -95,7 +95,7 @@ class HashedElGamalTest {
             "contestId",
             42,
             UInt256.random(),
-            )
+        )
 
         val beta = subject.c0 powP keypair.secretKey.key
 

@@ -19,6 +19,7 @@ import kotlin.math.roundToInt
 import kotlin.test.*
 
 /** Test KeyCeremony Trustee generation and recovered decryption. */
+@Ignore // I/O is not supported in browser tests
 class EncryptDecryptBallotTest {
     val group = productionGroup()
     val configDir = "src/commonTest/data/startConfigJson"

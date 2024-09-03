@@ -52,6 +52,7 @@ kotlin {
         }
         browser {
             testTask {
+                dependsOn("cleanAllTests")
                 useKarma {
                     // specify the browser for testing in the 'local.properties' file of the root project
                     // for example: 'test.browsers=firefox,chromeHeadless' will use both firefox and chromeHeadless for test execution
@@ -70,7 +71,7 @@ kotlin {
                         }
                         ?.let { it.forEach { testBrowser -> testBrowser() } }
                         ?: useChromeHeadless()
-                    // pass -Dtests=... to specify which tests to run
+                    // pass -Ptests=... to specify which tests to run
                     if (project.hasProperty("tests")) {
                         setTestNameIncludePatterns(
                             (project.property("tests") as String).split(",")

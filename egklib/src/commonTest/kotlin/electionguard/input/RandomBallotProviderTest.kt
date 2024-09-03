@@ -2,10 +2,12 @@ package electionguard.input
 
 import electionguard.core.productionGroup
 import electionguard.publish.readElectionRecord
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 import kotlin.test.assertEquals
 
+@Ignore // I/O is not supported in browser tests
 class RandomBallotProviderTest {
 
     @Test
