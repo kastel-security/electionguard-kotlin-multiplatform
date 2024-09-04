@@ -1,5 +1,3 @@
-import java.util.*
-
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.serialization)
@@ -41,7 +39,6 @@ kotlin {
     }
 
     js(IR) {
-        binaries.executable()
         compilations.all {
             compileTaskProvider.configure {
                 compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
@@ -84,18 +81,14 @@ kotlin {
             }
         val jsMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-node-js:20.14.10-pre.800")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-node-js:18.16.12-pre.686")
                 implementation(npm("big-integer", "1.6.52"))
                 implementation(npm("@noble/hashes", "1.0.0"))
             }
         }
         val jsTest by getting {
             dependencies {
-                implementation(kotlin("test"))
-                //since we are using dynamically configured test browsers,
-                //we have to make sure this does not affect the yarn.lock file.
-                //Therefore we explicitly name each browser aside from chrome we use for testing here
-                runtimeOnly(npm("karma-firefox-launcher", "2.1.2"))
+                implementation(kotlin("test-js"))
             }
         }
         /* val nativeMain by getting {
@@ -153,4 +146,3 @@ publishing {
         }
     }
 }
-
