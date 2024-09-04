@@ -15,3 +15,5 @@ jobs:
           cache: 'gradle'
       - name: JVM Test
         run: ./gradlew jvmTest
+      - name: Node Test
+        run: ./gradlew jsNodeTest
