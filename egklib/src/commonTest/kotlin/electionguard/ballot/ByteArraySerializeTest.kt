@@ -44,4 +44,10 @@ class ByteArraySerializeTest {
         val deserialized = serialized.decodeToContestData().unwrap()
         assertEquals(data, deserialized)
     }
+
+    @Test
+    fun simpleSerialization() {
+        val data = ContestData(listOf(1, 2, 3, 4), listOf("a string"))
+        testSerialization(data)
+    }
 }

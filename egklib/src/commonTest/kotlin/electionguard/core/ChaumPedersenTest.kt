@@ -8,8 +8,6 @@ import io.kotest.property.checkAll
 import kotlinx.coroutines.test.TestResult
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.test.BeforeTest
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -78,7 +76,6 @@ class ChaumPedersenTest {
     }
 
     @Test
-    @Ignore // causes the browser tests to crash
     fun testCCProofsKnownNonce(): TestResult {
         return runTest {
             val context = tinyGroup()

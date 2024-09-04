@@ -11,7 +11,6 @@ import kotlin.test.*
 
 private val group = productionGroup()
 
-@Ignore // causes the browser to crash when executing jsTest - maybe because of group.generatePolynomial()
 class TallyDecryptorTest {
     internal val triple : Triple<TallyDecryptor, Guardians, List<DecryptingTrusteeIF>> = makeTallyDecryptor(2, 2)
     val extendedBaseHash = triple.first.extendedBaseHash

@@ -1,83 +1,47 @@
 package electionguard.ballot
 
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
-import electionguard.core.toByteArray
-import electionguard.core.toInt
-
 /**
- * Encodes the given ContestData object to a ByteArray.
- *
- * This function converts the specified ContestData object into its corresponding byte array
- * and then returns a new ByteArray combining the length of the overvotes list, the overvotes list
- * itself, the length of the write-ins list, the write-ins list itself, the status of the contest,
- * and the fill string.
- *
- * @param fill the string to be used to fill the ByteArray
- * @return a ByteArray containing the length of the overvotes list, the overvotes list itself,
- * the length of the write-ins list, the write-ins list itself, the status of the contest, and the fill string
+ * A ByteArrayOutputStream wrapper for Kotlin/JS.
  */
-actual fun ContestData.encodeToByteArray(fill: String?): ByteArray {
-    // This is quite bad in terms of performance,
-    // we can use web.streams.WritableStream, but then we have to make this async
-    return this.overvotes.size.toByteArray() +
-        this.overvotes.map { it.toByteArray() }.fold(byteArrayOf()) { a, b -> a + b } +
-        this.writeIns.size.toByteArray() +
-        this.writeIns.map { encodeString(it) }.fold(byteArrayOf()) { a, b -> a + b } +
-        encodeString(this.status.name) +
-        if (!fill.isNullOrEmpty()) ByteArray(fill.length) else byteArrayOf()
-}
+actual class ByteArrayOutputStream actual constructor() {
+    private val buffer = mutableListOf<Byte>()
 
-/**
- * Encodes the given string to a ByteArray.
- *
- * This function converts the specified string into its corresponding byte array
- * and then returns a new ByteArray combining the length of the encoded string
- * and the encoded string itself.
- *
- * @param string the string to be encoded
- * @return a ByteArray containing the length of the encoded string followed by
- * the encoded string itself
- */
-fun encodeString(string: String): ByteArray {
-    val encodedString = string.encodeToByteArray()
-    return encodedString.size.toByteArray() + encodedString
-}
-
-
-/**
- * Decodes a byte array into a pair consisting of an integer and a string.
- *
- * @param bytes A ByteArray where the first 32 bytes represent the number of bytes the string has.
- * @return A Pair containing an integer (length of the encoded string) and the decoded string.
- */
-fun decodeString(bytes: ByteArray): Pair<Int, String> {
-    val length = bytes.copyOfRange(0, 4).toInt() + 4
-    return length to bytes.copyOfRange(4, length).decodeToString()
-}
-
-actual fun ByteArray.decodeToContestData(): Result<ContestData, String> {
-    var currentOffset = 0
-    val overVotesSize = this.copyOfRange(0, 4.also { currentOffset += it }).toInt()
-
-    val overVotes = this.copyOfRange(
-        currentOffset,
-        (currentOffset + overVotesSize * 4).also { currentOffset = it }
-    ).toList().chunked(4).map { it.toByteArray().toInt() }
-
-    val writeInsSize = this.copyOfRange(
-        currentOffset,
-        (currentOffset + 4).also { currentOffset = it }
-    ).toInt()
-    val writeIns = IntRange(0, writeInsSize - 1).map {
-        decodeString(this.copyOfRange(currentOffset, this.size))
-            .also { currentOffset += it.first }
-            .second
+    actual fun write(value: Int) {
+        buffer.add(value.toByte())
     }
 
-    val status = ContestDataStatus.valueOf(
-        decodeString(this.copyOfRange(currentOffset, this.size)).second
-    )
+    actual fun write(ba: ByteArray) {
+        buffer.addAll(ba.toList())
+    }
 
-    return Ok(ContestData(overVotes, writeIns, status))
+    actual fun toByteArray(): ByteArray {
+        return buffer.toByteArray()
+    }
+}
+
+/**
+ * A ByteArrayInputStream wrapper for Kotlin/JS.
+ */
+actual class ByteArrayInputStream actual constructor(private val buffer: ByteArray) {
+    private var pos = 0
+
+    actual fun read(): Int {
+        return if (pos < buffer.size) {
+            buffer[pos++].toInt() and 0xFF
+        } else {
+            -1 // Indicate end of stream
+        }
+    }
+
+    actual fun read(ba: ByteArray): Int {
+        if (pos >= buffer.size) return -1
+
+        val len = ba.size.coerceAtMost(buffer.size - pos)
+        for (i in 0 until len) {
+            ba[i] = buffer[pos++]
+        }
+
+        return len
+    }
+
 }
