@@ -5,7 +5,21 @@ import com.github.michaelbull.result.Result
 import electionguard.core.toByteArray
 import electionguard.core.toInt
 
+/**
+ * Encodes the given ContestData object to a ByteArray.
+ *
+ * This function converts the specified ContestData object into its corresponding byte array
+ * and then returns a new ByteArray combining the length of the overvotes list, the overvotes list
+ * itself, the length of the write-ins list, the write-ins list itself, the status of the contest,
+ * and the fill string.
+ *
+ * @param fill the string to be used to fill the ByteArray
+ * @return a ByteArray containing the length of the overvotes list, the overvotes list itself,
+ * the length of the write-ins list, the write-ins list itself, the status of the contest, and the fill string
+ */
 actual fun ContestData.encodeToByteArray(fill: String?): ByteArray {
+    // This is quite bad in terms of performance,
+    // we can use web.streams.WritableStream, but then we have to make this async
     return this.overvotes.size.toByteArray() +
         this.overvotes.map { it.toByteArray() }.fold(byteArrayOf()) { a, b -> a + b } +
         this.writeIns.size.toByteArray() +
