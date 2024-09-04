@@ -37,5 +37,7 @@ actual fun fileReadText(filename: String): String {
 
 /** Determine endianness of machine. */
 actual fun isBigEndian(): Boolean {
-    TODO("Not yet implemented")
+    //Simple test for endianness of ByteArray
+    val testArray = 0x1122.toByteArray()
+    return testArray[0] == 0x11.toByte()
 }
