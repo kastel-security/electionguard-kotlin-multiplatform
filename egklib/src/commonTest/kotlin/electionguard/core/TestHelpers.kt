@@ -2,7 +2,6 @@
 
 package electionguard.core
 
-import kotlin.test.assertFalse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestResult
 import kotlinx.coroutines.test.TestScope
@@ -10,7 +9,8 @@ import kotlinx.coroutines.test.runTest
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.random.Random
 import kotlin.random.nextUInt
-import kotlin.time.Duration.Companion.milliseconds
+import kotlin.test.assertFalse
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Kotest requires its properties to be executed as a suspending function. To make this all work,
@@ -24,7 +24,7 @@ fun runTest(f: suspend TestScope.() -> Unit): TestResult {
     // at the top of every unit test file
 
     //Edit: in order to use runTest in commonTest, we need to return the result - see documentation
-    return runTest(EmptyCoroutineContext, timeout = 10_1000L.milliseconds, f)
+    return runTest(EmptyCoroutineContext, timeout = 101.seconds, f)
 }
 
 /*
@@ -74,7 +74,7 @@ fun generateElementModQ(context: GroupContext): ElementModQ {
 }
 
 fun generateUInt256(context: GroupContext): UInt256 {
-    return generateElementModQ(context).toUInt256safe();
+    return generateElementModQ(context).toUInt256safe()
 }
 
 fun generateElementModP(context: GroupContext) = context.randomElementModP()

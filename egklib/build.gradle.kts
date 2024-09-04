@@ -47,7 +47,13 @@ kotlin {
                 )
             }
         }
-        nodejs()
+        nodejs {
+            testTask {
+                useMocha {
+                    timeout = "100s"
+                }
+            }
+        }
         binaries.executable()
     }
 
