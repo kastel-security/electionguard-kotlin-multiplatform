@@ -29,9 +29,8 @@ actual fun createDirectories(directory: String): Boolean {
 
 /** Is this path a directory? */
 actual fun isDirectory(path: String): Boolean {
-    val stats = lstatSync(path, options = null)
-    //TODO does this work?
-    return js("stats.isDirectory()") as Boolean
+    //TODO implement
+    return false
 }
 
 /** Read lines from a file. */

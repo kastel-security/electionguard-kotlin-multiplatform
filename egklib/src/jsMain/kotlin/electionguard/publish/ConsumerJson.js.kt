@@ -36,7 +36,6 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.json.Json
 import node.buffer.BufferEncoding
 import node.fs.readdirSync
-import node.path.path
 
 private val logger = KotlinLogging.logger("ConsumerJsonJs")
 
@@ -181,12 +180,13 @@ actual class ConsumerJson actual constructor(
 
     actual override fun encryptingDevices(): List<String> {
         val topBallotPath = jsonPaths.encryptedBallotDir()
-        if (!pathExists(topBallotPath) || !isDirectory(topBallotPath)) {
+        if (!pathExists(topBallotPath)) {
             return emptyList()
         }
         //This is required to resolve overload ambiguity
         val deviceDirs = listDir(topBallotPath)
-        return deviceDirs.map { path.parse(it).name }
+        //TODO figure out better way to parse paths
+        return deviceDirs.map { it.split("/", "\\")[-1] }
     }
 
     actual override fun readEncryptedBallotChain(device: String): Result<EncryptedBallotChain, ErrorMessages> {
@@ -433,6 +433,6 @@ actual class ConsumerJson actual constructor(
     }
 
     fun listDir(path: String): List<String> {
-        return readdirSync(path, options = null as BufferEncoding?).toList().map { node.path.path.join(path, it) }
+        return readdirSync(path, options = null as BufferEncoding?).toList().map { "$path/$it" }
     }
 }

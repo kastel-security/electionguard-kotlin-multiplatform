@@ -1,28 +1,22 @@
 package electionguard.publish
 
 import electionguard.ballot.protocolVersion
-import electionguard.cli.ManifestBuilder.Companion.electionScopeId
 import electionguard.core.productionGroup
-import kotlin.jvm.JvmStatic
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
-import java.util.stream.Stream
+import kotlin.test.Test
 
 class ConsumerJsonTest {
 
     companion object {
-        @JvmStatic
-        fun params(): Stream<Arguments> = Stream.of(
-            Arguments.of("src/commonTest/data/testElectionRecord/convertJson"),
-        )
+        const val electionScopeId = "TestManifest"
+        const val topdir = "../../../../egklib/src/commonTest/data/testElectionRecord/json1.52"
     }
 
     //@ParameterizedTest
-    @MethodSource("params")
-    fun readElectionRecord(topdir: String) {
+    @Test
+    fun readElectionRecord() {
         val group = productionGroup()
         val electionRecord = readElectionRecord(group, topdir)
         val electionInit = electionRecord.electionInit()
@@ -38,8 +32,8 @@ class ConsumerJsonTest {
     }
 
     //@ParameterizedTest
-    @MethodSource("params")
-    fun readSpoiledBallotTallys(topdir: String) {
+    @Test
+    fun readSpoiledBallotTallys() {
         val group = productionGroup()
         val consumerIn = makeConsumer(group, topdir)
         var count = 0
@@ -51,8 +45,8 @@ class ConsumerJsonTest {
     }
 
     //@ParameterizedTest
-    @MethodSource("params")
-    fun readEncryptedBallots(topdir: String) {
+    @Test
+    fun readEncryptedBallots() {
         val group = productionGroup()
         val consumerIn = makeConsumer(group, topdir)
         var count = 0
@@ -64,8 +58,8 @@ class ConsumerJsonTest {
     }
 
     //@ParameterizedTest
-    @MethodSource("params")
-    fun readEncryptedBallotsCast(topdir: String) {
+    @Test
+    fun readEncryptedBallotsCast() {
         val group = productionGroup()
         val consumerIn = makeConsumer(group, topdir)
         var count = 0
@@ -77,8 +71,8 @@ class ConsumerJsonTest {
     }
 
     //@ParameterizedTest
-    @MethodSource("params")
-    fun readSubmittedBallotsSpoiled(topdir: String) {
+    @Test
+    fun readSubmittedBallotsSpoiled() {
         val group = productionGroup()
         val consumerIn = makeConsumer(group, topdir)
         var count = 0
