@@ -6,6 +6,7 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
 import io.kotest.property.forAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,8 +16,8 @@ private fun smallInts() = Arb.int(min=0, max=1000)
 class ElGamalTests {
 
     @Test
-    fun noSmallKeys() {
-        runTest {
+    fun noSmallKeys(): TestResult {
+        return runTest {
             val context = tinyGroup()
             shouldThrow<ArithmeticException> { elGamalKeyPairFromSecret(0.toElementModQ(context)) }
             shouldThrow<ArithmeticException> { elGamalKeyPairFromSecret(1.toElementModQ(context)) }
@@ -36,8 +37,8 @@ class ElGamalTests {
         encryptionBasics { tinyGroup() }
     }
 
-    fun encryptionBasics(contextF: () -> GroupContext) {
-        runTest {
+    fun encryptionBasics(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             forAll(
                 propTestFastConfig,
@@ -52,8 +53,8 @@ class ElGamalTests {
 
     @Test
     @Ignore
-    fun encryptionBasicsAutomaticNonces() {
-        runTest {
+    fun encryptionBasicsAutomaticNonces(): TestResult {
+        return runTest {
             val context = tinyGroup()
 
             checkAll(elGamalKeypairs(context), smallInts()) { keypair, message ->
@@ -66,8 +67,8 @@ class ElGamalTests {
 
     @Test
     @Ignore
-    fun encryptExtraNonce() {
-        runTest {
+    fun encryptExtraNonce(): TestResult {
+        return runTest {
             val group = productionGroup()
 
             var count = 0
@@ -87,8 +88,8 @@ class ElGamalTests {
     }
 
     @Test
-    fun decryptWithNonce() {
-        runTest {
+    fun decryptWithNonce(): TestResult {
+        return runTest {
             val context = tinyGroup()
 
             checkAll(elGamalKeypairs(context), elementsModQNoZero(context), smallInts())
@@ -101,8 +102,8 @@ class ElGamalTests {
     }
 
     @Test
-    fun homomorphicAccumulation() {
-        runTest {
+    fun homomorphicAccumulation(): TestResult {
+        return runTest {
             val context = tinyGroup()
 
             forAll(

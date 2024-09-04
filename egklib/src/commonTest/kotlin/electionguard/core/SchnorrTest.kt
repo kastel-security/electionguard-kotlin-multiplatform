@@ -5,14 +5,15 @@ import com.github.michaelbull.result.Ok
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
 class SchnorrTest {
     @Test
-    fun testCorruption() {
-        runTest {
+    fun testCorruption(): TestResult {
+        return runTest {
             checkAll(
                 elGamalKeypairs(tinyGroup()),
                 Arb.int(1, 11),

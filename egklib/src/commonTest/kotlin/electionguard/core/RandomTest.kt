@@ -1,13 +1,14 @@
 package electionguard.core
 
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class RandomTest {
     @Test
-    fun randomnessIsRandom() {
+    fun randomnessIsRandom(): TestResult {
         // we'll go with 128-bit numbers, so coincidences are unlikely
-        runTest {
+        return runTest {
             val firstBytes = randomBytes(16)
 
             for (i in 0..100) {

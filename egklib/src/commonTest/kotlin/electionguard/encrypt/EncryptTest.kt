@@ -3,6 +3,7 @@ package electionguard.encrypt
 import electionguard.core.*
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -14,8 +15,8 @@ class EncryptTest {
 
     // sanity check that encryption doesnt barf
     @Test
-    fun testEncryption() {
-        runTest {
+    fun testEncryption(): TestResult {
+        return runTest {
             val group = productionGroup()
             val electionRecord = readElectionRecord(group, input)
             val electionInit = electionRecord.electionInit()!!
@@ -39,8 +40,8 @@ class EncryptTest {
 
     // test that if you pass in the same ballot nonce, you get the same encryption
     @Test
-    fun testEncryptionWithBallotNonce() {
-        runTest {
+    fun testEncryptionWithBallotNonce(): TestResult {
+        return runTest {
             val group = productionGroup()
             val electionRecord = readElectionRecord(group, input)
             val electionInit = electionRecord.electionInit()!!
@@ -68,8 +69,8 @@ class EncryptTest {
 
     // test sn encryption
     @Test
-    fun testEncryptionWithSN() {
-        runTest {
+    fun testEncryptionWithSN(): TestResult {
+        return runTest {
             val group = productionGroup()
             val electionRecord = readElectionRecord(group, input)
             val electionInit = electionRecord.electionInit()!!

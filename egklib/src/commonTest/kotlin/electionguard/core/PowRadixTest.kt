@@ -3,6 +3,7 @@
 package electionguard.core
 
 import io.kotest.property.checkAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -10,8 +11,8 @@ import kotlin.test.assertEquals
 
 class PowRadixTest {
     @Test
-    fun bitSlicingSimplePattern() {
-        runTest {
+    fun bitSlicingSimplePattern(): TestResult {
+        return runTest {
             val testBytes = ByteArray(32) { 0x8F.toByte() }
             val expectedSliceSmall = UShortArray(32) { (0x8F).toUShort() }
 
@@ -46,10 +47,10 @@ class PowRadixTest {
     }
 
     @Test
-    fun bitSlicingIncreasing() {
+    fun bitSlicingIncreasing(): TestResult {
         // most significant bits are at testBytes[0], which will start off with value
         // one and then increase on our way through the array
-        runTest {
+        return runTest {
             val testBytes = ByteArray(32) { (it + 1).toByte() }
             val expectedSliceSmall = UShortArray(32) { (32 - it).toUShort() }
 
@@ -72,8 +73,8 @@ class PowRadixTest {
     }
 
     @Test
-    fun bitSlicingBasics() {
-        runTest {
+    fun bitSlicingBasics(): TestResult {
+        return runTest {
             val option = PowRadixOption.LOW_MEMORY_USE
             val ctx = productionGroup(option)
             val g = ctx.G_MOD_P
@@ -109,11 +110,11 @@ class PowRadixTest {
         testExponentiationGeneric(PowRadixOption.EXTREME_MEMORY_USE)
     }
 
-    internal fun testExponentiationGeneric(option: PowRadixOption) {
+    internal fun testExponentiationGeneric(option: PowRadixOption): TestResult {
         // We're comparing the accelerated powRadix version (with the specified PowRadixOption)
         // with the unaccelerated version.
 
-        runTest {
+        return runTest {
             val ctxSlow = productionGroup(acceleration = PowRadixOption.NO_ACCELERATION)
             val powRadix = PowRadix(ctxSlow.G_MOD_P, option)
 

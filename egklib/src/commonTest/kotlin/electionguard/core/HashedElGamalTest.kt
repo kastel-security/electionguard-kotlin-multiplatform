@@ -6,6 +6,7 @@ import electionguard.ballot.encryptContestData
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.math.roundToInt
 import kotlin.test.BeforeTest
 import kotlin.test.Ignore
@@ -27,27 +28,26 @@ class HashedElGamalTest {
     }
 
     @Test
-    fun testRoundtrip() {
+    fun testRoundtrip() = runTest {
         var count = 0
         val took = measureTime {
-            runTest {
-                setup()
-                roundtrip("what the heckeroo?".encodeToByteArray())
-                checkAll(
-                    propTestSlowConfig,
-                    Arb.string(minSize = 1, maxSize = 1000),
-                ) { testMessage ->
-                    // expect fun randomBytes(length: Int): ByteArray
-                    roundtrip(testMessage.encodeToByteArray())
-                    count++
-                }
+            setup()
+            roundtrip("what the heckeroo?".encodeToByteArray())
+            checkAll(
+                propTestSlowConfig,
+                Arb.string(minSize = 1, maxSize = 1000),
+            ) { testMessage ->
+                // expect fun randomBytes(length: Int): ByteArray
+                roundtrip(testMessage.encodeToByteArray())
+                count++
             }
         }.toDouble(DurationUnit.MILLISECONDS)
         val perTrip = if (count == 0) 0 else (took / count).roundToInt()
         println(" that took $took millisecs for $count roundtrips = $perTrip msecs/trip wallclock")
     }
 
-    fun roundtrip(testMessage : ByteArray) {
+
+    fun roundtrip(testMessage: ByteArray) {
         val subject = testMessage.encryptToHashedElGamal(
             group,
             keypair.publicKey,
@@ -73,14 +73,14 @@ class HashedElGamalTest {
     }
 
     @Test
-    fun testContestData() {
-        runTest {
+    fun testContestData(): TestResult {
+        return runTest {
             setup()
             roundtripContestData("what the heckeroo?".encodeToByteArray())
         }
     }
 
-    fun roundtripContestData(testMessage : ByteArray) {
+    fun roundtripContestData(testMessage: ByteArray) {
         //  fun ByteArray.encryptContestData(
         //            publicKey: ElGamalPublicKey, // aka K
         //            extendedBaseHash: UInt256, // aka He
@@ -118,9 +118,9 @@ class HashedElGamalTest {
     }
 
     @Test
-    fun testCompareContestData() {
+    fun testCompareContestData(): TestResult {
         var count = 0
-        runTest {
+        return runTest {
             setup()
             val ballotNonce = UInt256.random() // 42U.toUInt256() // UInt256.random()
             //val extendedBaseHash = 11U.toUInt256() // UInt256.random()
@@ -135,11 +135,16 @@ class HashedElGamalTest {
                 compareWithContestData(testMessage.encodeToByteArray(), extendedBaseHash, keypair, ballotNonce)
                 count++
             }
+            println("count = $count")
         }
-        println("count = $count")
     }
 
-    fun compareWithContestData(testMessage : ByteArray, extendedBaseHash: UInt256, keypair: ElGamalKeypair, ballotNonce : UInt256) {
+    fun compareWithContestData(
+        testMessage: ByteArray,
+        extendedBaseHash: UInt256,
+        keypair: ElGamalKeypair,
+        ballotNonce: UInt256
+    ) {
         val contestId = "whatever"
         val contestIndex = 42
 
@@ -151,7 +156,8 @@ class HashedElGamalTest {
             ballotNonce,
         )
 
-        val contestDataNonce = hashFunction(extendedBaseHash.bytes, 0x20.toByte(), ballotNonce, contestIndex, ContestData.contestDataLabel)
+        val contestDataNonce =
+            hashFunction(extendedBaseHash.bytes, 0x20.toByte(), ballotNonce, contestIndex, ContestData.contestDataLabel)
         val result = testMessage.encryptToHashedElGamal(
             group,
             keypair.publicKey,

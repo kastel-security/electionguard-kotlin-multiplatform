@@ -5,14 +5,15 @@ import electionguard.core.*
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 class ShareEncryptDecryptTest {
     @Test
-    fun ShareEncryptDecryptFuzzTest() {
-        runTest {
+    fun ShareEncryptDecryptFuzzTest(): TestResult {
+        return runTest {
             val group = productionGroup()
             checkAll(
                 propTestFastConfig,

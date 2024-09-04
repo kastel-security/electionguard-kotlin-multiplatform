@@ -3,6 +3,7 @@ package electionguard.core
 import electionguard.core.Base16.fromHexSafe
 import electionguard.core.Base16.toHex
 import electionguard.core.Base64.fromBase64Safe
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -10,8 +11,8 @@ import kotlin.test.assertTrue
 
 class ConstantsTest {
     @Test
-    fun testGroupIsCompatible() {
-        runTest {
+    fun testGroupIsCompatible(): TestResult {
+        return runTest {
             val tinyGroup = tinyGroup()
             val productionGroup1 =
                 productionGroup(
@@ -49,8 +50,8 @@ class ConstantsTest {
     }
 
     @Test
-    fun testConstants() {
-        runTest {
+    fun testConstants(): TestResult {
+        return runTest {
             val group = productionGroup()
             val constants = group.constants
             println("smallPrime size= ${constants.smallPrime.size}")

@@ -9,12 +9,13 @@ import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.single
 import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.*
 
 class PublicKeysTest {
     @Test
-    fun testRoundtrip() {
-        runTest {
+    fun testRoundtrip(): TestResult {
+        return runTest {
             val group = productionGroup()
             checkAll(
                 iterations = 33,

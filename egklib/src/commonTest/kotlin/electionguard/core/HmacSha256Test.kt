@@ -2,6 +2,7 @@ package electionguard.core
 
 import electionguard.ballot.parameterBaseHash
 import electionguard.ballot.protocolVersion
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -24,8 +25,8 @@ class HmacSha256Test {
     }
 
     @Test
-    fun parameterBaseHashTest() {
-        runTest {
+    fun parameterBaseHashTest(): TestResult {
+        return runTest {
             val primes = productionGroup().constants
 
             // HP = H(HV ; 00, p, q, g)   spec 2.0 eq 4
@@ -67,8 +68,8 @@ class HmacSha256Test {
     }
 
     @Test
-    fun testIterator() {
-        runTest {
+    fun testIterator(): TestResult {
+        return runTest {
             val primes = productionGroup().constants
 
             // HP = H(HV ; 00, p, q, g)  ; eq 4

@@ -4,14 +4,15 @@ import electionguard.core.Base16.fromHexSafe
 import electionguard.core.Base16.toHex
 import io.kotest.property.checkAll
 import io.kotest.property.forAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
 class HashTest {
     @Test
-    fun sameAnswerTwiceInARow() {
-        runTest {
+    fun sameAnswerTwiceInARow(): TestResult {
+        return runTest {
             val context = productionGroup(PowRadixOption.LOW_MEMORY_USE)
             forAll(propTestFastConfig, elementsModP(context), elementsModQ(context)) { p, q ->
                 val h1 = hashFunction(p.byteArray(), q)
@@ -22,8 +23,8 @@ class HashTest {
     }
 
     @Test
-    fun basicHashProperties() {
-        runTest {
+    fun basicHashProperties(): TestResult {
+        return runTest {
             val context = productionGroup(PowRadixOption.LOW_MEMORY_USE)
             checkAll(propTestFastConfig, elementsModQ(context), elementsModQ(context)) { q1, q2 ->
                 val h1 = hashFunction(q1.byteArray(), q1)
@@ -34,8 +35,8 @@ class HashTest {
     }
 
     @Test
-    fun testNonce() {
-        runTest {
+    fun testNonce(): TestResult {
+        return runTest {
             val group = productionGroup()
             val contestDescriptionHashQ = "00C49A1E8053FBA95F6B7CD3F3B30B101CDD595C435A46AECF2872F47F1C601206".fromHexSafe()
                 .toUInt256safe().toElementModQ(group)
@@ -53,8 +54,8 @@ class HashTest {
     }
 
     @Test
-    fun testHexString() {
-        runTest {
+    fun testHexString(): TestResult {
+        return runTest {
             val group = productionGroup()
             test("A1E8053FBA95F6B7CD3F3B30B101CDD595C435A46AECF2872F47F1C601206", group)
             test("9A1E8053FBA95F6B7CD3F3B30B101CDD595C435A46AECF2872F47F1C601206", group)
@@ -75,8 +76,8 @@ class HashTest {
     }
 
     @Test
-    fun testElementModQ() {
-        runTest {
+    fun testElementModQ(): TestResult {
+        return runTest {
             val group = productionGroup()
             val s1q = "C49A1E8053FBA95F6B7CD3F3B30B101CDD595C435A46AECF2872F47F1C601206".fromHexSafe()
                 .toUInt256safe().toElementModQ(group).toHex()
@@ -91,8 +92,8 @@ class HashTest {
     }
 
     @Test
-    fun testElementModQToHex() {
-        runTest {
+    fun testElementModQToHex(): TestResult {
+        return runTest {
             val group = productionGroup()
             val subject = group.TWO_MOD_Q.toHex()
             println(" len = ${subject.length} hex = '${subject}'")
@@ -101,8 +102,8 @@ class HashTest {
     }
 
     @Test
-    fun testIterable() {
-        runTest {
+    fun testIterable(): TestResult {
+        return runTest {
             val h1 = hashFunction("hay1".encodeToByteArray(), listOf("hey2", "hey3"))
             val h2 = hashFunction("hay1".encodeToByteArray(), "hey2", "hey3")
             println(" h1 = ${h1}")
@@ -112,8 +113,8 @@ class HashTest {
     }
 
     @Test
-    fun testCiphertext() {
-        runTest {
+    fun testCiphertext(): TestResult {
+        return runTest {
             val group = productionGroup()
             val keypair = elGamalKeyPairFromRandom(group)
             val ciphertext = 42.encrypt(keypair)
@@ -124,8 +125,8 @@ class HashTest {
     }
 
     @Test
-    fun testPublicKey() {
-        runTest {
+    fun testPublicKey(): TestResult {
+        return runTest {
             val group = productionGroup()
             val keypair = elGamalKeyPairFromRandom(group)
             val h1 = hashFunction("hay2".encodeToByteArray(), 0x422, keypair.publicKey)

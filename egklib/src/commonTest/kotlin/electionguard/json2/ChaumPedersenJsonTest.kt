@@ -5,6 +5,7 @@ import electionguard.core.elementsModQ
 import electionguard.core.productionGroup
 import electionguard.core.runTest
 import io.kotest.property.checkAll
+import kotlinx.coroutines.test.TestResult
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -25,8 +26,8 @@ inline fun <reified T> jsonRoundTrip(value: T): T {
 
 class ChaumPedersenJsonTest {
     @Test
-    fun testRoundtrip() {
-        runTest {
+    fun testRoundtrip(): TestResult {
+        return runTest {
             val group = productionGroup()
             checkAll(
                 iterations = 33,

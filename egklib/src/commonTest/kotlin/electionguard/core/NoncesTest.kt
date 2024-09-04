@@ -1,12 +1,13 @@
 package electionguard.core
 
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class NoncesTest {
     @Test
-    fun sequencesAreLazy() {
-            runTest {
+    fun sequencesAreLazy(): TestResult {
+        return runTest {
             val context = productionGroup(PowRadixOption.LOW_MEMORY_USE)
             val nonces = Nonces(context.ONE_MOD_Q, "sample_text")
             val expected2 = nonces.asPair().toList()
@@ -23,8 +24,8 @@ class NoncesTest {
     }
 
     @Test
-    fun noncesSupportDestructuring() {
-        runTest {
+    fun noncesSupportDestructuring(): TestResult {
+        return runTest {
             val context = productionGroup(PowRadixOption.LOW_MEMORY_USE)
             val nonces = Nonces(context.ONE_MOD_Q, "sample_text")
             val expected0 = nonces[0]

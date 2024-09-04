@@ -4,6 +4,7 @@ package electionguard.core
 
 import kotlin.test.assertFalse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestResult
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import kotlin.coroutines.EmptyCoroutineContext
@@ -18,10 +19,12 @@ import kotlin.time.Duration.Companion.milliseconds
  * asserts or `forAll` calls or whatever else inside the `runTest` lambda body.
  */
 
-fun runTest(f: suspend TestScope.() -> Unit) {
+fun runTest(f: suspend TestScope.() -> Unit): TestResult {
     // another benefit of having this wrapper code: we don't have to have the OptIn thing
     // at the top of every unit test file
-    runTest(EmptyCoroutineContext, timeout = 10_1000L.milliseconds, f)
+
+    //Edit: in order to use runTest in commonTest, we need to return the result - see documentation
+    return runTest(EmptyCoroutineContext, timeout = 10_1000L.milliseconds, f)
 }
 
 /*

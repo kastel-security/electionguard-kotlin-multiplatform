@@ -17,6 +17,7 @@ import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.single
 import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -24,8 +25,8 @@ import kotlin.test.assertTrue
 class WebappDecryptionTest {
 
     @Test
-    fun testSetMissingRequest() {
-        runTest {
+    fun testSetMissingRequest(): TestResult {
+        return runTest {
             // we need the production mode, not the test mode, because 32-bit keys are too small
             val group =
                 productionGroup(
@@ -47,8 +48,8 @@ class WebappDecryptionTest {
     }
 
     @Test
-    fun testDecryptRequest() {
-        runTest {
+    fun testDecryptRequest(): TestResult {
+        return runTest {
             // we need the production mode, not the test mode, because 32-bit keys are too small
             val group =
                 productionGroup(
@@ -69,8 +70,8 @@ class WebappDecryptionTest {
     }
 
     @Test
-    fun testDecryptResponse() {
-        runTest {
+    fun testDecryptResponse(): TestResult {
+        return runTest {
             // we need the production mode, not the test mode, because 32-bit keys are too small
             val group =
                 productionGroup(
@@ -100,8 +101,8 @@ class WebappDecryptionTest {
     }
 
     @Test
-    fun testChallengeRequests() {
-        runTest {
+    fun testChallengeRequests(): TestResult {
+        return runTest {
             // we need the production mode, not the test mode, because 32-bit keys are too small
             val group =
                 productionGroup(
@@ -130,8 +131,8 @@ class WebappDecryptionTest {
 
 
     @Test
-    fun testChallengeResponses() {
-        runTest {
+    fun testChallengeResponses(): TestResult {
+        return runTest {
             // we need the production mode, not the test mode, because 32-bit keys are too small
             val group =
                 productionGroup(

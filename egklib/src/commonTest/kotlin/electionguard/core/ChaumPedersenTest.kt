@@ -5,6 +5,7 @@ import com.github.michaelbull.result.Ok
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.test.BeforeTest
@@ -15,8 +16,8 @@ import kotlin.test.assertTrue
 
 class ChaumPedersenTest {
     @Test
-    fun testCCKnownNonceProofsSimpleEncryptionZero() {
-        runTest {
+    fun testCCKnownNonceProofsSimpleEncryptionZero(): TestResult {
+        return runTest {
             val context = tinyGroup()
             val keypair = elGamalKeyPairFromSecret(context.TWO_MOD_Q)
             val nonce = context.TWO_MOD_Q
@@ -78,8 +79,8 @@ class ChaumPedersenTest {
 
     @Test
     @Ignore // causes the browser tests to crash
-    fun testCCProofsKnownNonce() {
-        runTest {
+    fun testCCProofsKnownNonce(): TestResult {
+        return runTest {
             val context = tinyGroup()
             checkAll(
                 elGamalKeypairs(context),
@@ -158,8 +159,8 @@ class ChaumPedersenTest {
     }
 
     @Test
-    fun testDisjunctiveProofKnownNonceSimple() {
-        runTest {
+    fun testDisjunctiveProofKnownNonceSimple(): TestResult {
+        return runTest {
             val context = tinyGroup()
             val keypair = elGamalKeyPairFromSecret(context.TWO_MOD_Q)
             val nonce = context.ONE_MOD_Q
@@ -243,8 +244,8 @@ class ChaumPedersenTest {
     }
 
     @Test
-    fun disjunctiveProofs() {
-        runTest {
+    fun disjunctiveProofs(): TestResult {
+        return runTest {
             val context = tinyGroup()
             checkAll(
                 Arb.int(min=0, max=1),
@@ -274,8 +275,8 @@ class ChaumPedersenTest {
     }
 
     @Test
-    fun testAccum() {
-        runTest {
+    fun testAccum(): TestResult {
+        return runTest {
             val context = productionGroup()
             val constant = 42
             val key = context.ONE_MOD_P
@@ -313,8 +314,8 @@ class ChaumPedersenTest {
     }
 
     @Test
-    fun testAccumDifferentNonces() {
-        runTest {
+    fun testAccumDifferentNonces(): TestResult {
+        return runTest {
             val context = productionGroup()
             val constant = 42
             val contestNonce = context.randomElementModQ(2)
@@ -390,9 +391,9 @@ class ChaumPedersenTest {
     }
 
     @Test
-    fun testRangeProofs() {
+    fun testRangeProofs(): TestResult {
         val context = tinyGroup()
-        runTest {
+        return runTest {
             checkAll(
                 Arb.int(0, 5),
                 Arb.int(0, 5),
@@ -419,9 +420,9 @@ class ChaumPedersenTest {
     }
 
     @Test
-    fun testBadRangeProofs() {
+    fun testBadRangeProofs(): TestResult {
         val context = tinyGroup()
-        runTest {
+        return runTest {
             checkAll(
                 propTestFastConfig,
                 Arb.int(0, 5),

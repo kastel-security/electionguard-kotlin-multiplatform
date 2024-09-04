@@ -2,6 +2,7 @@ package electionguard.json
 
 import electionguard.core.*
 import io.kotest.property.checkAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.*
 import kotlinx.serialization.json.*
 
@@ -25,8 +26,8 @@ class ElementsJsonRTest {
     }
 
     @Test
-    fun testElementProundtrip() {
-        runTest {
+    fun testElementProundtrip(): TestResult {
+        return runTest {
             val group = productionGroup()
             checkAll(elementsModP(group)) { p ->
                 assertEquals(p, p.publishJsonR().import(group))
@@ -36,8 +37,8 @@ class ElementsJsonRTest {
     }
 
     @Test
-    fun testElementQroundtrip() {
-        runTest {
+    fun testElementQroundtrip(): TestResult {
+        return runTest {
             val group = productionGroup()
             checkAll(elementsModQ(group)) { q ->
                 assertEquals(q, q.publishJsonR().import(group))
@@ -47,8 +48,8 @@ class ElementsJsonRTest {
     }
 
     @Test
-    fun testUInt256roundtrip() {
-        runTest {
+    fun testUInt256roundtrip(): TestResult {
+        return runTest {
             val context = productionGroup()
             checkAll(elementsModQ(context)) { q ->
                 val u : UInt256 = q.toUInt256safe()

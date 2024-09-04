@@ -3,6 +3,7 @@ package electionguard.json2
 import electionguard.core.*
 import electionguard.core.Base16.fromHex
 import io.kotest.property.checkAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.*
 import kotlinx.serialization.json.*
 
@@ -27,8 +28,8 @@ inline fun <reified T> jsonRoundTripWithStringPrimitive(value: T): T {
 
 class ElementsTest {
     @Test
-    fun testElementRoundtrip() {
-        runTest {
+    fun testElementRoundtrip(): TestResult {
+        return runTest {
             val group = productionGroup()
             checkAll(elementsModP(group), elementsModQ(group)) { p, q ->
                 assertEquals(p, p.publishJson().import(group))
@@ -42,8 +43,8 @@ class ElementsTest {
     }
 
     @Test
-    fun importTinyElements() {
-        runTest {
+    fun importTinyElements(): TestResult {
+        return runTest {
             val group = tinyGroup()
             checkAll(elementsModP(group), elementsModQ(group)) { p, q ->
                 // shorter round-trip from the core classes to JsonElement and back
@@ -58,8 +59,8 @@ class ElementsTest {
     }
 
     @Test
-    fun testUInt256Roundtrip() {
-        runTest {
+    fun testUInt256Roundtrip(): TestResult {
+        return runTest {
             val context = productionGroup()
             checkAll(elementsModQ(context)) { q ->
                 val u : UInt256 = q.toUInt256safe()

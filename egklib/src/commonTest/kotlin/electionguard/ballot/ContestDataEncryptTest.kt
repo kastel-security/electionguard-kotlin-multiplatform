@@ -70,7 +70,8 @@ class ContestDataEncryptTest {
         //        ballotNonce: UInt256,
         //        votesAllowed: Int
         val ballotNonce = UInt256.random()
-        val target: HashedElGamalCiphertext = contestData.encrypt(keypair.publicKey, extendedBaseHash, "contestId", 42, ballotNonce, 1)
+        val target: HashedElGamalCiphertext =
+            contestData.encrypt(keypair.publicKey, extendedBaseHash, "contestId", 42, ballotNonce, 1)
         assertEquals(64, target.c1.size)
         var took = getSystemTimeInMillis() - starting
         println(" contestData.encrypt took $took millisecs")
@@ -84,8 +85,9 @@ class ContestDataEncryptTest {
         // HMAC decryption
         starting = getSystemTimeInMillis()
 
-        val contestDataResult = target.decryptWithNonceToContestData(keypair.publicKey, extendedBaseHash, "contestId", 42, ballotNonce)
-        assertTrue( contestDataResult is Ok)
+        val contestDataResult =
+            target.decryptWithNonceToContestData(keypair.publicKey, extendedBaseHash, "contestId", 42, ballotNonce)
+        assertTrue(contestDataResult is Ok)
         val contestDataRoundtrip = contestDataResult.unwrap()
 
         took = getSystemTimeInMillis() - starting
@@ -103,130 +105,130 @@ class ContestDataEncryptTest {
     // fuzz test that ElGamal has a constant encryption length
     @Test
     @Ignore // causes browser tests to crash
-    fun hashedElGamalLength1vote1writein() {
-        runTest {
-            val group = tinyGroup()
-            val keypair = elGamalKeyPairFromRandom(group)
-            checkAll(
-                propTestSlowConfig,
-                Arb.int(min = 0, max = 10),
-                Arb.string(),
-            ) { nover, writein ->
-                val contestData = ContestData(MutableList(nover) { it }, listOf(writein))
-                if (debug) println("\ncontestData = $contestData")
-
-                val votes = 1
-                val target = contestData.encrypt(keypair.publicKey, extendedBaseHash, "contestId", 42, UInt256.random(), votes)
-                assertEquals((1 + votes) * 32, target.c1.size)
-            }
-        }
-    }
-
-    @Test
-    @Ignore // causes browser tests to crash
-    fun hashedElGamalLength1voteNwriteins() {
-        runTest {
-            val group = tinyGroup()
-            val keypair = elGamalKeyPairFromRandom(group)
-            checkAll(
-                propTestSlowConfig,
-                Arb.int(min = 0, max = 10),
-                Arb.string(),
-                Arb.int(min = 1, max = 4),
-            ) { nover, writein, nwriteins ->
-                val contestData = ContestData(MutableList(nover) { it }, MutableList(nwriteins) { writein })
-                if (debug) println("\ncontestData = $contestData")
-
-                val votes = 1
-                val target = contestData.encrypt(keypair.publicKey, extendedBaseHash, "contestId", 42, UInt256.random(), votes)
-                assertEquals((1 + votes) * 32, target.c1.size)
-            }
-        }
-    }
-
-    @Test
-    @Ignore // causes browser tests to crash
-    fun hashedElGamalLength2voteNwriteins() {
-        runTest {
-            val group = tinyGroup()
-            val keypair = elGamalKeyPairFromRandom(group)
-            checkAll(
-                propTestSlowConfig,
-                Arb.int(min = 0, max = 15),
-                Arb.string(),
-                Arb.int(min = 1, max = 5),
-            ) { nover, writein, nwriteins ->
-                val contestData = ContestData(MutableList(nover) { it }, MutableList(nwriteins) { writein })
-                if (debug) println("\ncontestData = $contestData")
-
-                val votes = 2
-                val target = contestData.encrypt(keypair.publicKey, extendedBaseHash, "contestId", 42, UInt256.random(), votes)
-                assertEquals((1 + votes) * 32, target.c1.size)
-            }
-        }
-    }
-
-    @Test
-    @Ignore // causes browser tests to crash
-    fun hashedElGamalLength1voteBigOvervote() {
-        runTest {
-            val group = tinyGroup()
-            val keypair = elGamalKeyPairFromRandom(group)
-            checkAll(
-                propTestSlowConfig,
-                Arb.int(min = 0, max = 100),
-                Arb.string(),
-                Arb.int(min = 1, max = 5),
-            ) { nover, writein, nwriteins ->
-                val contestData = ContestData(MutableList(nover) { it }, MutableList(nwriteins) { writein })
-                if (debug) println("\ncontestData = $contestData")
-
-                val votes = 1
-                val target = contestData.encrypt(keypair.publicKey, extendedBaseHash, "contestId", 42, UInt256.random(), votes)
-                assertEquals((1 + votes) * 32, target.c1.size)
-            }
-        }
-    }
-
-    @Test
-    @Ignore // causes browser tests to crash
-    fun hashedElGamalLength3voteBig() {
-        runTest {
-            val group = tinyGroup()
-            val keypair = elGamalKeyPairFromRandom(group)
-            checkAll(
-                propTestSlowConfig,
-                Arb.int(min = 0, max = 1000),
-                Arb.string(),
-                Arb.int(min = 1, max = 50),
-            ) { nover, writein, nwriteins ->
-                val contestData = ContestData(MutableList(nover) { it }, MutableList(nwriteins) { writein })
-                if (debug) println("\ncontestData = $contestData")
-
-                val votes = 3
-                val target = contestData.encrypt(keypair.publicKey, extendedBaseHash, "contestId", 42, UInt256.random(), votes)
-                if ((1 + votes) * 32 != target.c1.size) {
-                    println("${(1 + votes) * 32} != ${target.c1.size}")
-                }
-                assertEquals((1 + votes) * 32, target.c1.size)
-            }
-        }
-    }
-
-    @Test
-    @Ignore // causes browser tests to crash
-    fun problem() {
-        runTest {
-            val writein =
-                "]e\$B-AGbal7P<A4,O%)fS%%IV1pv8h,-+PDs9M.%z-=2 9uJE;ZGDNDYt,Fq=p\"(7caN4j:(?z mUFW1C;yir]"
-            val contestData = ContestData(MutableList(5) { it }, MutableList(3) { writein })
+    fun hashedElGamalLength1vote1writein() = runTest {
+        val group = tinyGroup()
+        val keypair = elGamalKeyPairFromRandom(group)
+        checkAll(
+            propTestSlowConfig,
+            Arb.int(min = 0, max = 10),
+            Arb.string(),
+        ) { nover, writein ->
+            val contestData = ContestData(MutableList(nover) { it }, listOf(writein))
             if (debug) println("\ncontestData = $contestData")
 
             val votes = 1
-            val target = contestData.encrypt(keypair.publicKey, extendedBaseHash, "contestId", 42, UInt256.random(), votes)
+            val target =
+                contestData.encrypt(keypair.publicKey, extendedBaseHash, "contestId", 42, UInt256.random(), votes)
+            assertEquals((1 + votes) * 32, target.c1.size)
+        }
+    }
+
+
+    @Test
+    @Ignore // causes browser tests to crash
+    fun hashedElGamalLength1voteNwriteins() = runTest {
+        val group = tinyGroup()
+        val keypair = elGamalKeyPairFromRandom(group)
+        checkAll(
+            propTestSlowConfig,
+            Arb.int(min = 0, max = 10),
+            Arb.string(),
+            Arb.int(min = 1, max = 4),
+        ) { nover, writein, nwriteins ->
+            val contestData = ContestData(MutableList(nover) { it }, MutableList(nwriteins) { writein })
+            if (debug) println("\ncontestData = $contestData")
+
+            val votes = 1
+            val target =
+                contestData.encrypt(keypair.publicKey, extendedBaseHash, "contestId", 42, UInt256.random(), votes)
+            assertEquals((1 + votes) * 32, target.c1.size)
+        }
+    }
+
+
+    @Test
+    @Ignore // causes browser tests to crash
+    fun hashedElGamalLength2voteNwriteins() = runTest {
+        val group = tinyGroup()
+        val keypair = elGamalKeyPairFromRandom(group)
+        checkAll(
+            propTestSlowConfig,
+            Arb.int(min = 0, max = 15),
+            Arb.string(),
+            Arb.int(min = 1, max = 5),
+        ) { nover, writein, nwriteins ->
+            val contestData = ContestData(MutableList(nover) { it }, MutableList(nwriteins) { writein })
+            if (debug) println("\ncontestData = $contestData")
+
+            val votes = 2
+            val target =
+                contestData.encrypt(keypair.publicKey, extendedBaseHash, "contestId", 42, UInt256.random(), votes)
+            assertEquals((1 + votes) * 32, target.c1.size)
+        }
+    }
+
+
+    @Test
+    @Ignore // causes browser tests to crash
+    fun hashedElGamalLength1voteBigOvervote() = runTest {
+        val group = tinyGroup()
+        val keypair = elGamalKeyPairFromRandom(group)
+        checkAll(
+            propTestSlowConfig,
+            Arb.int(min = 0, max = 100),
+            Arb.string(),
+            Arb.int(min = 1, max = 5),
+        ) { nover, writein, nwriteins ->
+            val contestData = ContestData(MutableList(nover) { it }, MutableList(nwriteins) { writein })
+            if (debug) println("\ncontestData = $contestData")
+
+            val votes = 1
+            val target =
+                contestData.encrypt(keypair.publicKey, extendedBaseHash, "contestId", 42, UInt256.random(), votes)
+            assertEquals((1 + votes) * 32, target.c1.size)
+        }
+    }
+
+
+    @Test
+    @Ignore // causes browser tests to crash
+    fun hashedElGamalLength3voteBig() = runTest {
+        val group = tinyGroup()
+        val keypair = elGamalKeyPairFromRandom(group)
+        checkAll(
+            propTestSlowConfig,
+            Arb.int(min = 0, max = 1000),
+            Arb.string(),
+            Arb.int(min = 1, max = 50),
+        ) { nover, writein, nwriteins ->
+            val contestData = ContestData(MutableList(nover) { it }, MutableList(nwriteins) { writein })
+            if (debug) println("\ncontestData = $contestData")
+
+            val votes = 3
+            val target =
+                contestData.encrypt(keypair.publicKey, extendedBaseHash, "contestId", 42, UInt256.random(), votes)
             if ((1 + votes) * 32 != target.c1.size) {
-                assertEquals((1 + votes) * 32, target.c1.size)
+                println("${(1 + votes) * 32} != ${target.c1.size}")
             }
+            assertEquals((1 + votes) * 32, target.c1.size)
+        }
+    }
+
+
+    @Test
+    @Ignore // causes browser tests to crash
+    fun problem() = runTest {
+        val writein =
+            "]e\$B-AGbal7P<A4,O%)fS%%IV1pv8h,-+PDs9M.%z-=2 9uJE;ZGDNDYt,Fq=p\"(7caN4j:(?z mUFW1C;yir]"
+        val contestData = ContestData(MutableList(5) { it }, MutableList(3) { writein })
+        if (debug) println("\ncontestData = $contestData")
+
+        val votes = 1
+        val target =
+            contestData.encrypt(keypair.publicKey, extendedBaseHash, "contestId", 42, UInt256.random(), votes)
+        if ((1 + votes) * 32 != target.c1.size) {
+            assertEquals((1 + votes) * 32, target.c1.size)
         }
     }
 }
+

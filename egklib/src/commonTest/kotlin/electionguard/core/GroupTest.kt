@@ -6,6 +6,7 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
 import io.kotest.property.forAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.*
 
 class GroupTest {
@@ -18,8 +19,8 @@ class GroupTest {
     @Test
     fun basicsSm() = basics { tinyGroup() }
 
-    fun basics(contextF: () -> GroupContext) {
-        runTest {
+    fun basics(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             val three = 3.toElementModQ(context)
             val four = 4.toElementModQ(context)
@@ -39,8 +40,8 @@ class GroupTest {
     @Test
     fun comparisonOperationsSm() = comparisonOperations { tinyGroup() }
 
-    fun comparisonOperations(contextF: () -> GroupContext) {
-        runTest {
+    fun comparisonOperations(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             val three = 3.toElementModQ(context)
             val four = 4.toElementModQ(context)
@@ -61,8 +62,8 @@ class GroupTest {
     @Test
     fun generatorsWorkSm() = generatorsWork { tinyGroup() }
 
-    fun generatorsWork(contextF: () -> GroupContext) {
-        runTest {
+    fun generatorsWork(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             forAll(propTestFastConfig, elementsModP(context)) { it.inBounds() }
             forAll(propTestFastConfig, elementsModQ(context)) { it.inBounds() }
@@ -80,15 +81,15 @@ class GroupTest {
     @Test
     fun validResiduesForGPowPSm() = validResiduesForGPowP { tinyGroup() }
 
-    fun validResiduesForGPowP(contextF: () -> GroupContext) {
-        runTest {
+    fun validResiduesForGPowP(contextF: () -> GroupContext): TestResult {
+        return runTest {
             forAll(propTestFastConfig, validResiduesOfP(contextF())) { it.isValidResidue() }
         }
     }
 
     @Test
-    fun binaryArrayRoundTrip() {
-        runTest {
+    fun binaryArrayRoundTrip(): TestResult {
+        return runTest {
             val context = productionGroup()
             forAll(propTestFastConfig, elementsModP(context)) {
                 it == context.binaryToElementModP(it.byteArray())
@@ -100,8 +101,8 @@ class GroupTest {
     }
 
     @Test
-    fun base64RoundTrip() {
-        runTest {
+    fun base64RoundTrip(): TestResult {
+        return runTest {
             val context = productionGroup()
             forAll(propTestFastConfig, elementsModP(context)) {
                 it == context.base64ToElementModP(it.base64())
@@ -130,8 +131,8 @@ class GroupTest {
     fun Element.base64(): String = byteArray().toBase64()
 
     @Test
-    fun baseConversionFails() {
-        runTest {
+    fun baseConversionFails(): TestResult {
+        return runTest {
             val context = productionGroup()
             listOf("", "@@", "-10", "1234567890".repeat(1000))
                 .forEach {
@@ -150,8 +151,8 @@ class GroupTest {
     @Test
     fun additionBasicsSm() = additionBasics { tinyGroup() }
 
-    fun additionBasics(contextF: () -> GroupContext) {
-        runTest {
+    fun additionBasics(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             checkAll(
                 propTestFastConfig,
@@ -177,8 +178,8 @@ class GroupTest {
     @Test
     fun additionWrappingQSm() = additionWrappingQ { tinyGroup() }
 
-    fun additionWrappingQ(contextF: () -> GroupContext) {
-        runTest {
+    fun additionWrappingQ(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             checkAll(propTestFastConfig, Arb.int(min=0, max= intTestQ - 1)) { i ->
                 val iq = i.toElementModQ(context)
@@ -200,8 +201,8 @@ class GroupTest {
     @Test
     fun multiplicationBasicsPSm() = multiplicationBasicsP { tinyGroup() }
 
-    fun multiplicationBasicsP(contextF: () -> GroupContext) {
-        runTest {
+    fun multiplicationBasicsP(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             checkAll(
                 propTestFastConfig,
@@ -227,8 +228,8 @@ class GroupTest {
     @Test
     fun multiplicationBasicsQsm() = multiplicationBasicsQ { tinyGroup() }
 
-    fun multiplicationBasicsQ(contextF: () -> GroupContext) {
-        runTest {
+    fun multiplicationBasicsQ(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             checkAll(
                 propTestFastConfig,
@@ -254,8 +255,8 @@ class GroupTest {
     @Test
     fun subtractionBasicsSm() = subtractionBasics { tinyGroup() }
 
-    fun subtractionBasics(contextF: () -> GroupContext) {
-        runTest {
+    fun subtractionBasics(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             checkAll(
                 propTestFastConfig,
@@ -279,8 +280,8 @@ class GroupTest {
     @Test
     fun negationSm() = negation { tinyGroup() }
 
-    fun negation(contextF: () -> GroupContext) {
-        runTest {
+    fun negation(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             forAll(propTestFastConfig, elementsModQ(context)) { context.ZERO_MOD_Q == (-it) + it }
         }
@@ -297,8 +298,8 @@ class GroupTest {
     @Test
     fun multiplicativeInversesPSm() = multiplicativeInversesP { tinyGroup() }
 
-    fun multiplicativeInversesP(contextF: () -> GroupContext) {
-        runTest {
+    fun multiplicativeInversesP(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             // our inverse code only works for elements in the subgroup, which makes it faster
             forAll(propTestFastConfig, validResiduesOfP(context)) {
@@ -318,8 +319,8 @@ class GroupTest {
     @Test
     fun multiplicativeInversesQSm() = multiplicativeInversesQ { tinyGroup() }
 
-    fun multiplicativeInversesQ(contextF: () -> GroupContext) {
-        runTest {
+    fun multiplicativeInversesQ(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             checkAll(propTestFastConfig, elementsModQNoZero(context)) {
                 assertEquals(context.ONE_MOD_Q, it.multInv() * it)
@@ -336,8 +337,8 @@ class GroupTest {
     @Test
     fun divisionPSm() = divisionP { tinyGroup() }
 
-    fun divisionP(contextF: () -> GroupContext) {
-        runTest {
+    fun divisionP(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             forAll(propTestFastConfig, validResiduesOfP(context), validResiduesOfP(context))
                 { a, b -> (a * b) / b == a }
@@ -353,8 +354,8 @@ class GroupTest {
     @Test
     fun exponentiationSm() = exponentiation { tinyGroup() }
 
-    fun exponentiation(contextF: () -> GroupContext) {
-        runTest {
+    fun exponentiation(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             forAll(propTestFastConfig, elementsModQ(context), elementsModQ(context)) { a, b ->
                 context.gPowP(a) * context.gPowP(b) == context.gPowP(a + b)
@@ -370,8 +371,8 @@ class GroupTest {
     fun acceleratedExponentiation3072() =
         acceleratedExponentiation { productionGroup(mode = ProductionMode.Mode3072) }
 
-    fun acceleratedExponentiation(contextF: () -> GroupContext) {
-        runTest {
+    fun acceleratedExponentiation(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             forAll(propTestFastConfig, elementsModQ(context), elementsModQ(context)) { a, b ->
                 val ga = context.gPowP(a)
@@ -394,8 +395,8 @@ class GroupTest {
     @Test
     fun subgroupInversesSm() = subgroupInverses { tinyGroup() }
 
-    fun subgroupInverses(contextF: () -> GroupContext) {
-        runTest {
+    fun subgroupInverses(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             forAll(propTestFastConfig, elementsModQ(context)) {
                 val p1 = context.gPowP(it)
@@ -416,8 +417,8 @@ class GroupTest {
     @Test
     fun iterableAdditionSm() = iterableAddition { tinyGroup() }
 
-    fun iterableAddition(contextF: () -> GroupContext) {
-        runTest {
+    fun iterableAddition(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             checkAll(
                 propTestFastConfig,
@@ -443,8 +444,8 @@ class GroupTest {
     @Test
     fun iterableMultiplicationSm() = iterableMultiplication { tinyGroup() }
 
-    fun iterableMultiplication(contextF: () -> GroupContext) {
-        runTest {
+    fun iterableMultiplication(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
             checkAll(
                 propTestFastConfig,
@@ -460,8 +461,8 @@ class GroupTest {
     }
 
     @Test
-    fun groupCompatibility() {
-        runTest {
+    fun groupCompatibility(): TestResult {
+        return runTest {
             val ctxP =
                 productionGroup(
                     acceleration = PowRadixOption.NO_ACCELERATION,

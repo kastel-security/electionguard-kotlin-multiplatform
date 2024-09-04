@@ -1,6 +1,7 @@
 package electionguard.core
 
 import io.kotest.property.checkAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -17,8 +18,8 @@ class MontgomeryGroupTest {
     fun montgomeryFormMultiplicationTiny() =
         montgomeryFormMultiplication { tinyGroup() }
 
-    fun montgomeryFormMultiplication(contextF: () -> GroupContext) {
-        runTest {
+    fun montgomeryFormMultiplication(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
 
             checkAll(
@@ -45,8 +46,8 @@ class MontgomeryGroupTest {
         montgomeryFormOutAndBack { tinyGroup() }
 
 
-    fun montgomeryFormOutAndBack(contextF: () -> GroupContext) {
-        runTest {
+    fun montgomeryFormOutAndBack(contextF: () -> GroupContext): TestResult {
+        return runTest {
             val context = contextF()
 
             checkAll(

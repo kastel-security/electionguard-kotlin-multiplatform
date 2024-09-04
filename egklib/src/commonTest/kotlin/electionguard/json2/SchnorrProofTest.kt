@@ -9,14 +9,15 @@ import electionguard.core.schnorrProof
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class SchnorrProofTest {
     @Test
-    fun testRoundtrip() {
-        runTest {
+    fun testRoundtrip(): TestResult {
+        return runTest {
             val group = productionGroup()
             checkAll(
                 iterations = 33,

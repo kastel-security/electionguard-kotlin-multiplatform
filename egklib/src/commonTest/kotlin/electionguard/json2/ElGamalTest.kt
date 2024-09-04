@@ -4,12 +4,13 @@ import electionguard.core.*
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.*
 
 class ElGamalTest {
     @Test
-    fun importExportForElGamal() {
-        runTest {
+    fun importExportForElGamal(): TestResult {
+        return runTest {
             val group = productionGroup()
             checkAll(
                 iterations = 33,
