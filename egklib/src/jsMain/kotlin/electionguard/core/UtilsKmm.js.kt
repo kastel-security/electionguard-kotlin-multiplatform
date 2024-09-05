@@ -1,14 +1,7 @@
 package electionguard.core
 
-import js.array.ReadonlyArray
-import node.ReadableStream
-import node.WritableStream
+import electionguard.util.jsObject
 import node.buffer.BufferEncoding
-import node.fs.BigIntStats
-import node.fs.Mode
-import node.fs.StatSyncFnBigIntOptions
-import node.fs.Stats
-import node.fs.exists
 import node.fs.existsSync
 import node.fs.mkdirSync
 import node.fs.readFileSync
@@ -25,10 +18,12 @@ actual fun pathExists(path: String): Boolean {
 }
 
 /** Create the named directory */
-actual fun createDirectories(directory: String): Boolean {
-    mkdirSync(directory, options = null)
-    return pathExists(directory)
-}
+actual fun createDirectories(directory: String): Boolean = runCatching {
+    mkdirSync(directory, jsObject { recursive = true } as Any)
+}.also {
+    println(it)
+}.isFailure
+
 
 /** Is this path a directory? */
 actual fun isDirectory(path: String): Boolean {

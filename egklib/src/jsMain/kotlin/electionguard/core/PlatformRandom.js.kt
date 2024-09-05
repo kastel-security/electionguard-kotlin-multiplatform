@@ -1,5 +1,6 @@
 package electionguard.core
 
+import electionguard.util.require
 import js.typedarrays.Uint8Array
 
 /**
@@ -14,8 +15,6 @@ external interface Window {
 }
 
 external val window: Window
-
-external fun require(module: String): dynamic
 
 /** Get "secure" random bytes from the native platform */
 // this uses the Web Crypto API both in the browser and in Node.js
