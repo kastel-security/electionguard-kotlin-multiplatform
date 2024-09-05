@@ -8,7 +8,7 @@ repositories {
     mavenCentral()
 }
 
-version = "2.1.0-PREVIEW"
+version = "2.1.1-PREVIEW"
 
 
 kotlin {
@@ -63,6 +63,7 @@ kotlin {
         val commonMain by
             getting {
                 dependencies {
+                    api(libs.bull.result)
                     implementation(libs.bundles.eglib)
                 }
             }
