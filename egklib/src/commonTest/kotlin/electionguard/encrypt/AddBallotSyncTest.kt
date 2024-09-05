@@ -2,17 +2,18 @@ package electionguard.encrypt
 
 import electionguard.ballot.EncryptedBallot
 import electionguard.core.productionGroup
+import electionguard.core.testResourcesDir
 import electionguard.input.RandomBallotProvider
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
 import kotlin.test.*
 
-@Ignore // I/O is not supported in browser tests
+
 class AddBallotSyncTest {
     val group = productionGroup()
-    val inputProto = "src/commonTest/data/workflow/allAvailableProto"
-    val inputJson = "src/commonTest/data/workflow/allAvailableJson"
+    val inputProto = "$testResourcesDir/workflow/allAvailableProto"
+    val inputJson = "$testResourcesDir/workflow/allAvailableJson"
     val outputDirTop = "testOut/encrypt/AddBallotSyncTest"
 
     val nballots = 4

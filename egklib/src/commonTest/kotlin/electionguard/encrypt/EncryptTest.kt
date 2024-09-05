@@ -1,17 +1,22 @@
 package electionguard.encrypt
 
-import electionguard.core.*
+import electionguard.core.ElGamalPublicKey
+import electionguard.core.UInt256
+import electionguard.core.hashFunction
+import electionguard.core.productionGroup
+import electionguard.core.runTest
+import electionguard.core.testResourcesDir
+import electionguard.core.toElementModQ
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
 import kotlinx.coroutines.test.TestResult
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-@Ignore // I/O is not supported in browser tests
+
 class EncryptTest {
-    val input = "src/commonTest/data/workflow/allAvailableJson"
+    val input = "$testResourcesDir/workflow/allAvailableJson"
 
     // sanity check that encryption doesnt barf
     @Test

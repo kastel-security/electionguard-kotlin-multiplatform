@@ -4,21 +4,23 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.unwrap
 import electionguard.ballot.EncryptedBallot
 import electionguard.ballot.makeContestData
-import electionguard.core.*
+import electionguard.core.ElGamalPublicKey
+import electionguard.core.UInt256
+import electionguard.core.productionGroup
+import electionguard.core.testResourcesDir
 import electionguard.encrypt.Encryptor
 import electionguard.encrypt.submit
 import electionguard.input.RandomBallotProvider
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 
-@Ignore // I/O is not supported in browser tests
+
 class DecryptionWithNonceTest {
-    val input = "src/commonTest/data/workflow/allAvailableJson"
+    val input = "$testResourcesDir/workflow/allAvailableJson"
     private val nballots = 20
 
     /** test DecryptionWithPrimaryNonce: encrypt ballot, decrypt with master nonce, check match. */

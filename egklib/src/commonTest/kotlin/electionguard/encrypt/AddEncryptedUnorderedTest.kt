@@ -1,20 +1,20 @@
 package electionguard.encrypt
 
 import electionguard.ballot.EncryptedBallot
-import electionguard.core.*
+import electionguard.core.productionGroup
+import electionguard.core.testResourcesDir
 import electionguard.input.RandomBallotProvider
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
 import kotlin.random.Random
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
-@Ignore // I/O is not supported in browser tests
+
 class AddEncryptedUnorderedTest {
     val group = productionGroup()
-    val input = "src/commonTest/data/workflow/allAvailableJson"
+    val input = "$testResourcesDir/workflow/allAvailableJson"
     val outputDirProto = "testOut/encrypt/AddEncryptedUnorderedTest"
 
     val nballots = 3

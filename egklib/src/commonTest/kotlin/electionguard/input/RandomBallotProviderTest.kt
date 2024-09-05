@@ -1,18 +1,18 @@
 package electionguard.input
 
 import electionguard.core.productionGroup
+import electionguard.core.testResourcesDir
 import electionguard.publish.readElectionRecord
-import kotlin.test.Ignore
 import kotlin.test.Test
-import kotlin.test.assertFailsWith
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
-@Ignore // I/O is not supported in browser tests
+
 class RandomBallotProviderTest {
 
     @Test
     fun testBadStyle() {
-        val inputDir = "src/commonTest/data/workflow/allAvailableJson"
+        val inputDir = "$testResourcesDir/workflow/allAvailableJson"
 
         val group = productionGroup()
         val electionRecord = readElectionRecord(group, inputDir)

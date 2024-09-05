@@ -2,20 +2,26 @@ package electionguard.encrypt
 
 import electionguard.ballot.Manifest
 import electionguard.ballot.PlaintextBallot
-import electionguard.core.*
+import electionguard.core.ElGamalPublicKey
+import electionguard.core.GroupContext
+import electionguard.core.UInt256
+import electionguard.core.getSystemTimeInMillis
+import electionguard.core.hashFunction
+import electionguard.core.productionGroup
+import electionguard.core.testResourcesDir
+import electionguard.core.toElementModQ
 import electionguard.input.RandomBallotProvider
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
 import kotlin.math.roundToInt
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 /** Verify the embedded nonces in an Encrypted Ballot. */
-@Ignore // I/O is not supported in browser tests
+
 class EncryptionNonceTest {
-    val input = "src/commonTest/data/workflow/allAvailableJson"
+    val input = "$testResourcesDir/workflow/allAvailableJson"
     val nballots = 11
 
     @Test
