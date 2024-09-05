@@ -5,11 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class UtilsKommTest {
-
-    companion object {
-        const val TEST_RESOURCES_DIR = "src/jsTest/resources"
-    }
+class UtilsKommTestJs {
 
     @Test
     fun testSimpleFileOperations() {
@@ -43,6 +39,13 @@ class UtilsKommTest {
         fileReadBytes("test/directory/test.txt").let {
             assertTrue { it.contentEquals(data.encodeToByteArray()) }
         }
+    }
+
+    @Test
+    fun accessResources() {
+        // the processed resources are put in kotlin subdirectory of the working directory
+        // build/js/packages/electionguard-kotlin-multiplatform-egklib-test
+        assertTrue { pathExists("kotlin/testFile.txt") }
     }
 
 }

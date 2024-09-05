@@ -41,6 +41,8 @@ fun assertContentNotEquals(a: ByteArray, b: ByteArray, message: String? = null) 
     assertFalse(a.contentEquals(b), message)
 }
 
+expect val testResourcesDir: String
+
 fun generateRangeChaumPedersenProofKnownNonce(
     context: GroupContext
 ): ChaumPedersenRangeProofKnownNonce {
