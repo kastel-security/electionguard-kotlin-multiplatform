@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.serialization)
     application
     id("maven-publish")
+    id("com.adarshr.test-logger") version "4.0.0"
 }
 
 repositories {
@@ -49,6 +50,7 @@ kotlin {
         }
         nodejs {
             testTask {
+                environment["NODE_OPTIONS"] = "--max-old-space-size=4096"
                 useMocha {
                     timeout = "0s" // disables timeouts
                     environment["MOCHA_OPTIONS"] = "--parallel"
@@ -110,7 +112,7 @@ kotlin {
     jvmToolchain(17)
 }
 
-tasks.withType<Test> { testLogging { showStandardStreams = true } }
+//tasks.withType<Test> { testLogging { showStandardStreams = true } }
 
 // LOOK some kind of javascript security thing, but may be causing coupled projects
 // https://docs.gradle.org/current/userguide/multi_project_configuration_and_execution.html#sec:decoupled_projects
