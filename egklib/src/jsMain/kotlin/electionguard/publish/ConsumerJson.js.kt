@@ -27,6 +27,7 @@ import electionguard.json2.ElectionInitializedJson
 import electionguard.json2.EncryptedBallotChainJson
 import electionguard.json2.EncryptedBallotJson
 import electionguard.json2.EncryptedTallyJson
+import electionguard.json2.ManifestJson
 import electionguard.json2.PlaintextBallotJson
 import electionguard.json2.TrusteeJson
 import electionguard.json2.import
@@ -61,7 +62,8 @@ actual class ConsumerJson actual constructor(
     }
 
     actual override fun makeManifest(manifestBytes: ByteArray): Manifest {
-        return jsonReader.decodeFromString(manifestBytes.decodeToString())
+        val manifestJson = jsonReader.decodeFromString<ManifestJson>(manifestBytes.decodeToString())
+        return manifestJson.import()
     }
 
     actual override fun readElectionConfig(): Result<ElectionConfig, ErrorMessages> {

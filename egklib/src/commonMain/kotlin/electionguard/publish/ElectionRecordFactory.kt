@@ -4,6 +4,7 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.unwrapError
 import electionguard.ballot.*
+import electionguard.core.Base16.toHex
 import electionguard.core.ElementModP
 import electionguard.core.GroupContext
 import electionguard.core.UInt256

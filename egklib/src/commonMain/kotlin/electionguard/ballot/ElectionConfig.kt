@@ -142,7 +142,7 @@ fun parameterBaseHash(primes : ElectionConstants) : UInt256 {
 
     return hashFunction(
         HV,
-        0x00.toByte(),
+        byteArrayOf(0x00),
         primes.largePrime,
         primes.smallPrime,
         primes.generator,
@@ -156,7 +156,7 @@ fun manifestHash(Hp: UInt256, manifestBytes : ByteArray) : UInt256 {
     // len(B1 ) = 5 + len(manifest)
     return hashFunction(
         Hp.bytes,
-        0x01.toByte(),
+        byteArrayOf(0x01),
         manifestBytes.size, // b(len(file), 4) ∥ b(file, len(file)) , section 5.1.5
         manifestBytes,
     )
@@ -169,7 +169,7 @@ fun electionBaseHash(Hp: UInt256, HM: UInt256, n : Int, k : Int) : UInt256 {
     //  len(B1 ) = 41
     return hashFunction(
         Hp.bytes,
-        0x02.toByte(),
+        byteArrayOf(0x02),
         HM,
         n,
         k,
