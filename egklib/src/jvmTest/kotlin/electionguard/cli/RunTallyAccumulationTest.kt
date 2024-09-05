@@ -5,6 +5,7 @@ import electionguard.ballot.EncryptedTally
 import electionguard.core.productionGroup
 import electionguard.publish.makeConsumer
 import electionguard.tally.AccumulateTally
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
@@ -23,6 +24,7 @@ class RunTallyAccumulationTest {
     }
 
     @Test
+    @Ignore // there is no proto test data
     fun runTallyAccumulationTestProto() {
         RunAccumulateTally.main(
             arrayOf(

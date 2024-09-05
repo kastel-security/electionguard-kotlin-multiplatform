@@ -2,16 +2,13 @@ plugins {
     kotlin("multiplatform")
     alias(libs.plugins.serialization)
     application
-    id("maven-publish")
-    id("com.adarshr.test-logger") version "4.0.0"
 }
 
 repositories {
     mavenCentral()
 }
 
-group = "electionguard-kotlin-multiplatform"
-version = "2.0.4-SNAPSHOT"
+version = "2.1.0-PREVIEW"
 
 
 kotlin {
@@ -135,23 +132,4 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>()
     .configureEach { kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn" }
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-}
-
-// publish github package
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/votingworks/electionguard-kotlin-multiplatform")
-            credentials {
-                username = project.findProperty("github.user") as String? ?: System.getenv("GITHUB_USER")
-                password = project.findProperty("github.key") as String? ?: System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
-    publications {
-        register<MavenPublication>("gpr") {
-            from(components["java"])
-        }
-    }
 }
