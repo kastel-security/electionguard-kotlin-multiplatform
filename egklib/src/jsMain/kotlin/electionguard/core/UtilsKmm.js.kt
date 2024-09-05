@@ -1,15 +1,18 @@
 package electionguard.core
 
+import js.array.ReadonlyArray
+import node.ReadableStream
+import node.WritableStream
+import node.buffer.BufferEncoding
 import node.fs.BigIntStats
 import node.fs.Mode
 import node.fs.StatSyncFnBigIntOptions
 import node.fs.Stats
 import node.fs.exists
 import node.fs.existsSync
-import node.fs.fstatSync
-import node.fs.lstatSync
-import node.fs.mkdir
 import node.fs.mkdirSync
+import node.fs.readFileSync
+import node.fs.readdirSync
 import kotlin.js.Date
 
 /** Get the current time in msecs since epoch */
@@ -29,23 +32,27 @@ actual fun createDirectories(directory: String): Boolean {
 
 /** Is this path a directory? */
 actual fun isDirectory(path: String): Boolean {
-    //TODO implement
-    return false
+    return try {
+        readdirSync(path, options = null as BufferEncoding?)
+        true
+    } catch (t: Throwable) {
+        false
+    }
 }
 
 /** Read lines from a file. */
 actual fun fileReadLines(filename: String): List<String> {
-    return fileReadLines(filename)
+    return fileReadText(filename).split("[\r\n|\n]")
 }
 
 /** Read all the bytes in a file. */
 actual fun fileReadBytes(filename: String): ByteArray {
-    return fileReadBytes(filename)
+    return fileReadText(filename).encodeToByteArray()
 }
 
 /** Read all int text in a file. */
 actual fun fileReadText(filename: String): String {
-    return fileReadText(filename)
+    return readFileSync(filename, BufferEncoding.utf8)
 }
 
 /** Determine endianness of machine. */
