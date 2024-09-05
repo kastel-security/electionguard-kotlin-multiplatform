@@ -3,15 +3,20 @@ package electionguard.keyceremony
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.unwrap
-import electionguard.core.*
-import kotlin.test.*
+import electionguard.core.ElementModQ
+import electionguard.core.HashedElGamalCiphertext
+import electionguard.core.productionGroup
+import electionguard.core.toElementModQ
+import electionguard.core.toUInt256safe
+import kotlin.test.Test
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
-@Ignore // causes the browser to crash when executing jsTest - may when calling group.generatePolynomial()
 class KeyCeremonyTrusteeTest {
 
     @Test
-    @Ignore
     fun testPublicKeys() {
         val group = productionGroup()
         val trustee = KeyCeremonyTrustee(group, "id", 42, 4, 4)
@@ -32,7 +37,6 @@ class KeyCeremonyTrusteeTest {
     }
 
     @Test
-    @Ignore
     fun testReceivePublicKeysBadQuorum() {
         val group = productionGroup()
         val trustee1 = KeyCeremonyTrustee(group, "id1", 41, 5, 4)
@@ -44,7 +48,6 @@ class KeyCeremonyTrusteeTest {
     }
 
     @Test
-    @Ignore
     fun testReceivePublicKeysBadReceiver() {
         val group = productionGroup()
         val trustee1 = KeyCeremonyTrustee(group, "id1", 41, 5, 4)
@@ -54,7 +57,6 @@ class KeyCeremonyTrusteeTest {
     }
 
     @Test
-    @Ignore
     fun testReceivePublicKeysBadProofs() {
         val group = productionGroup()
         val trustee1 = KeyCeremonyTrustee(group, "id1", 41, 5, 4)
@@ -70,7 +72,6 @@ class KeyCeremonyTrusteeTest {
     }
 
     @Test
-    @Ignore
     fun testShareEncryptDecrypt() {
         val group = productionGroup()
         val trustee1 = KeyCeremonyTrustee(group, "id1", 41, 5, 4)
@@ -88,7 +89,6 @@ class KeyCeremonyTrusteeTest {
     }
 
     @Test
-    @Ignore
     fun testReceiveSecretKeyShare() {
         val group = productionGroup()
         val trustee1 = KeyCeremonyTrustee(group, "id1", 41, 5, 4)
@@ -122,7 +122,6 @@ class KeyCeremonyTrusteeTest {
     }
 
     @Test
-    @Ignore
     fun testValidateSecretKeyShare() {
         val group = productionGroup()
         val trustee1 = KeyCeremonyTrustee(group, "id1", 41, 5, 4)
@@ -162,7 +161,6 @@ class KeyCeremonyTrusteeTest {
     }
 
     @Test
-    @Ignore
     fun testKeyShareFor() {
         val group = productionGroup()
         val trustee1 = KeyCeremonyTrustee(group, "id1", 41, 5, 4)
@@ -189,7 +187,6 @@ class KeyCeremonyTrusteeTest {
     }
 
     @Test
-    @Ignore
     fun testReceiveKeyShare() {
         val group = productionGroup()
         val trustee1 = KeyCeremonyTrustee(group, "id1", 41, 5, 4)

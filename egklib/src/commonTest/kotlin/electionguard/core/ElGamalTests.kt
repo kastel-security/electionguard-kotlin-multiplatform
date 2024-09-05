@@ -7,7 +7,6 @@ import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
 import io.kotest.property.forAll
 import kotlinx.coroutines.test.TestResult
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -26,13 +25,11 @@ class ElGamalTests {
     }
 
     @Test
-    @Ignore // causes browser tests to crash
     fun encryptionBasicsLg() {
         encryptionBasics { productionGroup(PowRadixOption.LOW_MEMORY_USE) }
     }
 
     @Test
-    @Ignore // causes browser tests to crash
     fun encryptionBasicsSm() {
         encryptionBasics { tinyGroup() }
     }
@@ -52,7 +49,6 @@ class ElGamalTests {
     }
 
     @Test
-    @Ignore
     fun encryptionBasicsAutomaticNonces(): TestResult {
         return runTest {
             val context = tinyGroup()
@@ -66,7 +62,6 @@ class ElGamalTests {
     }
 
     @Test
-    @Ignore
     fun encryptExtraNonce(): TestResult {
         return runTest {
             val group = productionGroup()

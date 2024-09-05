@@ -50,7 +50,8 @@ kotlin {
         nodejs {
             testTask {
                 useMocha {
-                    timeout = "100s"
+                    timeout = "0s" // disables timeouts
+                    environment["MOCHA_OPTIONS"] = "--parallel"
                 }
             }
         }

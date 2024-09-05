@@ -2,7 +2,6 @@ package electionguard.core
 
 import electionguard.util.pad
 import electionguard.util.sigfig
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.time.DurationUnit
 import kotlin.time.measureTime
@@ -10,7 +9,6 @@ import kotlin.time.measureTime
 class PowRadixTiming {
 
     @Test
-    @Ignore
     fun timeLow() {
         println("PowRadixOption.LOW_MEMORY_USE")
         val groupLow = productionGroup(PowRadixOption.LOW_MEMORY_USE, ProductionMode.Mode4096 )
@@ -31,7 +29,6 @@ class PowRadixTiming {
     //9000 acc 1000 = .752 msec per acc
 
     @Test
-    @Ignore
     fun timeHigh() {
         println("PowRadixOption.HIGH_MEMORY_USE")
         val groupHigh = productionGroup(PowRadixOption.HIGH_MEMORY_USE, ProductionMode.Mode4096 )
@@ -52,7 +49,6 @@ class PowRadixTiming {
     //9000 acc 1000 = .540 msec per acc
 
     @Test
-    @Ignore
     fun timeExtreme() {
         println("PowRadixOption.EXTREME_MEMORY_USE")
         val groupExtreme = productionGroup(PowRadixOption.EXTREME_MEMORY_USE, ProductionMode.Mode4096 )
@@ -92,7 +88,6 @@ class PowRadixTiming {
     }
 
     @Test
-    @Ignore
     // compare exp vs acc
     fun timeExp() {
         println("compare exp vs acc")
@@ -126,7 +121,6 @@ class PowRadixTiming {
 
 
     @Test
-    @Ignore
     fun timeMultiply() {
         println("compare exp vs acc")
         val group = productionGroup()
