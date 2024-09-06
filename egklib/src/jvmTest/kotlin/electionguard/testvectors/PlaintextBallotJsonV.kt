@@ -1,7 +1,7 @@
 package electionguard.testvectors
 
-import electionguard.ballot.ManifestIF
-import electionguard.ballot.PlaintextBallot
+import electionguard.model.ManifestIF
+import electionguard.model.PlaintextBallot
 import kotlinx.serialization.Serializable
 
 @Serializable

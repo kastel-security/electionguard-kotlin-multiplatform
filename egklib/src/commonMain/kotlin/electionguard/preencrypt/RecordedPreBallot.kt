@@ -1,6 +1,8 @@
 package electionguard.preencrypt
 
-import electionguard.core.*
+import electionguard.core.ElGamalCiphertext
+import electionguard.core.ElementModQ
+import electionguard.core.UInt256
 
 /**
  * The result of RecordPreBallot.record(), for use by the "Recording Tool" processing a marked pre-encrypted ballot.

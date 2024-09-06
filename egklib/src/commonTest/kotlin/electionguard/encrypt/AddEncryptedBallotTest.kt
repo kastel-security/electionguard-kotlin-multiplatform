@@ -2,7 +2,7 @@ package electionguard.encrypt
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.EncryptedBallot
+import electionguard.model.EncryptedBallot
 import electionguard.core.*
 import electionguard.input.RandomBallotProvider
 import electionguard.publish.makeConsumer

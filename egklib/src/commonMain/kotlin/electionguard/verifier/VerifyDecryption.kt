@@ -1,7 +1,7 @@
 package electionguard.verifier
 
-import electionguard.ballot.DecryptedTallyOrBallot
-import electionguard.ballot.ManifestIF
+import electionguard.model.DecryptedTallyOrBallot
+import electionguard.model.ManifestIF
 import electionguard.core.*
 import electionguard.util.ErrorMessages
 import electionguard.util.Stats

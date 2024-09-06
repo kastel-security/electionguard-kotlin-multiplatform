@@ -1,8 +1,8 @@
 package electionguard.testvectors
 
-import electionguard.ballot.electionExtendedHash
+import electionguard.model.electionExtendedHash
 import electionguard.core.*
-import electionguard.json2.*
+import electionguard.json.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString

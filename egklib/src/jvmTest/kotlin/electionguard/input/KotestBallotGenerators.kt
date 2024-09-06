@@ -1,6 +1,6 @@
 package electionguard.input
 
-import electionguard.ballot.Manifest
+import electionguard.model.Manifest
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.*
 import kotlinx.datetime.Clock

@@ -1,7 +1,7 @@
 package electionguard.input
 
-import electionguard.ballot.Manifest
-import electionguard.ballot.PlaintextBallot
+import electionguard.model.Manifest
+import electionguard.model.PlaintextBallot
 import electionguard.cli.ManifestBuilder
 
 class BallotInputBuilder internal constructor(val manifest: Manifest, val id: String) {

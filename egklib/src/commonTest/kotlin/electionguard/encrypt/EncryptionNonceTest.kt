@@ -1,11 +1,11 @@
 package electionguard.encrypt
 
-import electionguard.ballot.Manifest
-import electionguard.ballot.PlaintextBallot
+import electionguard.model.Manifest
+import electionguard.model.PlaintextBallot
 import electionguard.core.ElGamalPublicKey
 import electionguard.core.GroupContext
 import electionguard.core.UInt256
-import electionguard.core.getSystemTimeInMillis
+import electionguard.util.getSystemTimeInMillis
 import electionguard.core.hashFunction
 import electionguard.core.productionGroup
 import electionguard.core.testResourcesDir

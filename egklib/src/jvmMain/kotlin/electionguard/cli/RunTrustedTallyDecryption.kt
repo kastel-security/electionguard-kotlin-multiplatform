@@ -4,14 +4,15 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.partition
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.DecryptionResult
+import electionguard.model.SelectionDecryptionResult
 import electionguard.core.GroupContext
 import electionguard.core.getSystemDate
-import electionguard.core.getSystemTimeInMillis
+import electionguard.util.getSystemTimeInMillis
 import electionguard.core.productionGroup
 import electionguard.decrypt.DecryptingTrusteeIF
 import electionguard.decrypt.DecryptorDoerre
 import electionguard.decrypt.Guardians
+import electionguard.model.DecryptionResult
 import electionguard.publish.*
 import electionguard.util.ErrorMessages
 import electionguard.util.mergeErrorMessages

@@ -4,9 +4,9 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.ElectionConfig
+import electionguard.model.ElectionConfig
 import electionguard.core.GroupContext
-import electionguard.core.getSystemTimeInMillis
+import electionguard.util.getSystemTimeInMillis
 import electionguard.core.productionGroup
 import electionguard.keyceremony.KeyCeremonyTrustee
 import electionguard.keyceremony.keyCeremonyExchange

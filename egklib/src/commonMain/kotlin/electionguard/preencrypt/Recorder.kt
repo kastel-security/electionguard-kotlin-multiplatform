@@ -1,11 +1,13 @@
 package electionguard.preencrypt
 
-import electionguard.ballot.ContestData
-import electionguard.ballot.ContestDataStatus
-import electionguard.ballot.ManifestIF
 import electionguard.core.*
 import electionguard.encrypt.CiphertextBallot
+import electionguard.model.ContestData
+import electionguard.model.ContestDataStatus
+import electionguard.model.ManifestIF
+import electionguard.model.PreEncryptedContest
 import electionguard.util.ErrorMessages
+import electionguard.util.getSystemTimeInMillis
 
 /**
  * The crypto part of the "The Recording Tool".

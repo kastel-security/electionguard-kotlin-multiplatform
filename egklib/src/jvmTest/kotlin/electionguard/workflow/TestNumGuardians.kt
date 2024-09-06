@@ -1,6 +1,6 @@
 package electionguard.workflow
 
-import electionguard.ballot.DecryptedTallyOrBallot
+import electionguard.model.DecryptedTallyOrBallot
 import electionguard.cli.RunAccumulateTally.Companion.runAccumulateBallots
 import electionguard.cli.RunBatchEncryption.Companion.batchEncryption
 import electionguard.cli.RunCreateElectionConfig

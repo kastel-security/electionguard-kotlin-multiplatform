@@ -4,11 +4,11 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.getError
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.DecryptedTallyOrBallot
-import electionguard.ballot.ElectionConstants
-import electionguard.ballot.Guardian
-import electionguard.ballot.LagrangeCoordinate
-import electionguard.ballot.Manifest
+import electionguard.model.DecryptedTallyOrBallot
+import electionguard.model.ElectionConstants
+import electionguard.model.Guardian
+import electionguard.model.LagrangeCoordinate
+import electionguard.model.Manifest
 import electionguard.core.Base16.toHex
 import electionguard.core.GroupContext
 import electionguard.core.SchnorrProof
@@ -61,7 +61,13 @@ class RunShowElectionRecord {
             fun has(show: String) = want.contains("all") || want.contains(show)
         }
 
-        fun showElectionRecord(group: GroupContext, inputDir: String, showSet: ShowSet, details: Boolean, ballotStyle : String?) {
+        fun showElectionRecord(
+            group: GroupContext,
+            inputDir: String,
+            showSet: ShowSet,
+            details: Boolean,
+            ballotStyle: String?
+        ) {
             val consumer = makeConsumer(group, inputDir)
             val electionRecord = readElectionRecord(consumer)
             println("ShowElectionRecord from $inputDir, stage = ${electionRecord.stage()}")
@@ -149,10 +155,10 @@ class RunShowElectionRecord {
             val builder = StringBuilder(5000)
             builder.appendLine("\nManifest scopeId=${this.electionScopeId} type=${this.electionType} spec=${this.specVersion}")
             builder.appendLine("  gpus: ${this.geopoliticalUnits}")
-            if (wantBallotStyle == null ) {
+            if (wantBallotStyle == null) {
                 builder.appendLine("  styles: ${this.ballotStyles}\n")
             } else {
-                val ballotStyle = this.ballotStyles.find {it.ballotStyleId == wantBallotStyle}
+                val ballotStyle = this.ballotStyles.find { it.ballotStyleId == wantBallotStyle }
                 if (ballotStyle == null) {
                     builder.appendLine("  NOT FOUND ballot style '$wantBallotStyle'")
                     return builder.toString()
@@ -160,7 +166,8 @@ class RunShowElectionRecord {
                     builder.appendLine("  ballot style: ${ballotStyle}")
                 }
             }
-            val wantContests = if (wantBallotStyle == null) this.contests else this.styleToContestsMap[wantBallotStyle]?: emptyList()
+            val wantContests =
+                if (wantBallotStyle == null) this.contests else this.styleToContestsMap[wantBallotStyle] ?: emptyList()
             builder.append(wantContests.showContests(details))
             return builder.toString()
         }
@@ -170,7 +177,7 @@ class RunShowElectionRecord {
             this.forEach { contest ->
                 if (details) {
                     builder.append("  Contest ${contest.sequenceOrder} '${contest.contestId}': geo=${contest.geopoliticalUnitId}, ")
-                    if (contest.votesAllowed != 1 || contest.optionSelectionLimit != 1)  builder.append("limits=${contest.votesAllowed}/${contest.optionSelectionLimit}")
+                    if (contest.votesAllowed != 1 || contest.optionSelectionLimit != 1) builder.append("limits=${contest.votesAllowed}/${contest.optionSelectionLimit}")
                     if (contest.voteVariation != Manifest.VoteVariationType.one_of_m) builder.append(", ${contest.voteVariation}")
                     builder.appendLine()
                     contest.selections.forEach {

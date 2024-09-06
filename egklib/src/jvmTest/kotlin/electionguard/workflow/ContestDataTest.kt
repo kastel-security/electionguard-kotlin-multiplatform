@@ -2,7 +2,7 @@ package electionguard.workflow
 
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.*
+import electionguard.model.*
 import electionguard.core.*
 import electionguard.encrypt.Encryptor
 import electionguard.encrypt.cast

@@ -1,14 +1,18 @@
 package electionguard.testvectors
 
 import com.github.michaelbull.result.Err
-import electionguard.ballot.*
-import electionguard.core.*
+import electionguard.cli.ManifestBuilder
+import electionguard.core.ElGamalPublicKey
+import electionguard.core.UInt256
+import electionguard.core.productionGroup
 import electionguard.decryptBallot.DecryptWithNonce
-import electionguard.json2.*
 import electionguard.encrypt.Encryptor
 import electionguard.encrypt.submit
-import electionguard.cli.ManifestBuilder
 import electionguard.input.RandomBallotProvider
+import electionguard.json.*
+import electionguard.model.EncryptedBallot
+import electionguard.model.Manifest
+import electionguard.model.PlaintextBallot
 import electionguard.util.ErrorMessages
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString

@@ -1,7 +1,7 @@
 package electionguard.input
 
-import electionguard.ballot.Manifest
-import electionguard.ballot.PlaintextBallot
+import electionguard.model.Manifest
+import electionguard.model.PlaintextBallot
 import kotlin.random.Random
 
 /** Create nballots randomly generated fake Ballots, used for testing.  */

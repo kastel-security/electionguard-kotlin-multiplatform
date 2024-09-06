@@ -2,16 +2,16 @@ package electionguard.cli
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.EncryptedTally
-import electionguard.ballot.TallyResult
 import electionguard.core.GroupContext
 import electionguard.core.getSystemDate
-import electionguard.core.getSystemTimeInMillis
 import electionguard.core.productionGroup
+import electionguard.model.EncryptedTally
+import electionguard.model.TallyResult
 import electionguard.publish.makeConsumer
 import electionguard.publish.makePublisher
 import electionguard.tally.AccumulateTally
 import electionguard.util.ErrorMessages
+import electionguard.util.getSystemTimeInMillis
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType

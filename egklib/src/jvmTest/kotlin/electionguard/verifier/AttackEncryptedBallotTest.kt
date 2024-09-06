@@ -1,10 +1,10 @@
 package electionguard.verifier
 
-import electionguard.ballot.ContestData
-import electionguard.ballot.ElectionInitialized
-import electionguard.ballot.EncryptedBallot
-import electionguard.ballot.EncryptedTally
-import electionguard.ballot.DecryptedTallyOrBallot
+import electionguard.model.ContestData
+import electionguard.model.ElectionInitialized
+import electionguard.model.EncryptedBallot
+import electionguard.model.EncryptedTally
+import electionguard.model.DecryptedTallyOrBallot
 import electionguard.cli.RunTrustedTallyDecryption.Companion.readDecryptingTrustees
 import electionguard.core.*
 import electionguard.decrypt.DecryptingTrusteeIF

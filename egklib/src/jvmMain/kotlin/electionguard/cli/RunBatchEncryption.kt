@@ -4,41 +4,36 @@ package electionguard.cli
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.*
-import electionguard.core.ElGamalPublicKey
-import electionguard.core.ElementModP
-import electionguard.core.GroupContext
-import electionguard.util.Stats
-import electionguard.core.UInt256
-import electionguard.core.getSystemDate
-import electionguard.core.getSystemTimeInMillis
-import electionguard.core.productionGroup
+import electionguard.core.*
 import electionguard.decryptBallot.DecryptWithNonce
 import electionguard.encrypt.Encryptor
 import electionguard.encrypt.submit
 import electionguard.input.BallotInputValidation
 import electionguard.input.ManifestInputValidation
-import electionguard.publish.*
+import electionguard.model.ElectionConfig
+import electionguard.model.EncryptedBallot
+import electionguard.model.ManifestIF
+import electionguard.model.PlaintextBallot
+import electionguard.publish.EncryptedBallotSinkIF
+import electionguard.publish.makeConsumer
+import electionguard.publish.makeInputBallotSource
+import electionguard.publish.makePublisher
 import electionguard.util.ErrorMessages
+import electionguard.util.Stats
+import electionguard.util.getSystemTimeInMillis
+import electionguard.util.createDirectories
 import electionguard.verifier.VerifyEncryptedBallots
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.default
 import kotlinx.cli.required
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.produce
-import kotlinx.coroutines.joinAll
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.yield
 import kotlin.math.roundToInt
-import io.github.oshai.kotlinlogging.KotlinLogging
 
 private val logger = KotlinLogging.logger("RunBatchEncryption")
 
@@ -281,7 +276,7 @@ class RunBatchEncryption {
             // Must save invalid ballots
             if (invalidBallots.isNotEmpty()) {
                 val useInvalidDir = if (invalidDir != null) invalidDir else if (outputDir != null) "$outputDir/invalid" else "$encryptDir/invalid"
-                electionguard.core.createDirectories(useInvalidDir)
+                createDirectories(useInvalidDir)
                 publisher.writePlaintextBallot(useInvalidDir, invalidBallots)
                 println(" wrote ${invalidBallots.size} invalid ballots to $useInvalidDir")
             }

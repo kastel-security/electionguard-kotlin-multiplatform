@@ -1,11 +1,12 @@
 package electionguard.encrypt
 
-import electionguard.ballot.ContestData
-import electionguard.ballot.ContestDataStatus
-import electionguard.ballot.ManifestIF
-import electionguard.ballot.PlaintextBallot
 import electionguard.core.*
+import electionguard.model.ContestData
+import electionguard.model.ContestDataStatus
+import electionguard.model.ManifestIF
+import electionguard.model.PlaintextBallot
 import electionguard.util.ErrorMessages
+import electionguard.util.getSystemTimeInMillis
 
 /**
  * Encrypt Plaintext Ballots into Ciphertext Ballots.
@@ -65,7 +66,7 @@ class Encryptor(
 
         val encryptedSn: ElGamalCiphertext? = if (this.sn != null) {
             val snNonce = hashFunction(extendedBaseHashB, 0x110.toByte(), ballotNonce).toElementModQ(group)
-            this.sn.encrypt(jointPublicKey, snNonce) // eq 24
+            this.sn!!.encrypt(jointPublicKey, snNonce) // eq 24
         } else null
 
         return CiphertextBallot(

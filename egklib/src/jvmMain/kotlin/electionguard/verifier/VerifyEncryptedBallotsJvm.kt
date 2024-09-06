@@ -2,27 +2,21 @@ package electionguard.verifier
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.ElectionConfig
-import electionguard.ballot.EncryptedBallot
-import electionguard.ballot.EncryptedBallotChain
-import electionguard.ballot.ManifestIF
 import electionguard.core.*
+import electionguard.model.ElectionConfig
+import electionguard.model.EncryptedBallot
+import electionguard.model.EncryptedBallotChain
+import electionguard.model.ManifestIF
 import electionguard.publish.ElectionRecord
 import electionguard.util.ErrorMessages
 import electionguard.util.Stats
+import electionguard.util.getSystemTimeInMillis
 import electionguard.util.sigfig
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.produce
-import kotlinx.coroutines.joinAll
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.yield
 
 private const val debugBallots = false
 

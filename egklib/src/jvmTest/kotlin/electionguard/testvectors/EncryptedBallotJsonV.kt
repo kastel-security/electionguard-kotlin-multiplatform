@@ -1,13 +1,13 @@
 package electionguard.testvectors
 
-import electionguard.ballot.EncryptedBallot.BallotState
-import electionguard.ballot.EncryptedBallotIF
-import electionguard.ballot.ManifestIF
+import electionguard.model.EncryptedBallot.BallotState
+import electionguard.model.EncryptedBallotIF
+import electionguard.model.ManifestIF
 import electionguard.core.ElGamalCiphertext
 import electionguard.core.GroupContext
 import electionguard.core.UInt256
 import electionguard.encrypt.CiphertextBallot
-import electionguard.json2.*
+import electionguard.json.*
 import kotlinx.serialization.Serializable
 
 @Serializable

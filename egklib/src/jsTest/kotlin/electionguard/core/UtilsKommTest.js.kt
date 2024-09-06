@@ -1,5 +1,6 @@
 package electionguard.core
 
+import electionguard.util.*
 import node.fs.writeFileSync
 import kotlin.test.Test
 import kotlin.test.assertFalse

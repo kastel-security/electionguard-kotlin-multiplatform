@@ -1,7 +1,7 @@
 package electionguard.publish
 
-import electionguard.ballot.*
 import electionguard.keyceremony.KeyCeremonyTrustee
+import electionguard.model.*
 
 /** Write the Election Record as protobuf or json files. */
 interface Publisher {

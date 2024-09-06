@@ -1,9 +1,12 @@
 package electionguard.verifier
 
-import electionguard.ballot.EncryptedBallot
-import electionguard.ballot.EncryptedTally
-import electionguard.core.*
+import electionguard.core.ElGamalCiphertext
+import electionguard.core.GroupContext
+import electionguard.model.EncryptedBallot
+import electionguard.model.EncryptedTally
 import electionguard.util.ErrorMessages
+import electionguard.util.getSystemTimeInMillis
+import kotlin.collections.set
 
 /**
  * Verification 8 (Correctness of ballot aggregation)

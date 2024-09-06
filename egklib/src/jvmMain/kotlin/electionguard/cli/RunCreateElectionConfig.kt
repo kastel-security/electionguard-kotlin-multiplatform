@@ -1,7 +1,7 @@
 package electionguard.cli
 
-import electionguard.ballot.makeElectionConfig
-import electionguard.ballot.protocolVersion
+import electionguard.model.makeElectionConfig
+import electionguard.model.protocolVersion
 import electionguard.core.getSystemDate
 import electionguard.core.productionGroup
 import electionguard.publish.makePublisher

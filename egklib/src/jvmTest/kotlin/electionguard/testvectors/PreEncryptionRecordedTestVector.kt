@@ -1,11 +1,12 @@
 package electionguard.testvectors
 
-import electionguard.ballot.EncryptedBallot
-import electionguard.ballot.Manifest
+import electionguard.model.EncryptedBallot
+import electionguard.model.Manifest
 import electionguard.core.*
 import electionguard.encrypt.cast
 import electionguard.cli.ManifestBuilder
-import electionguard.json2.*
+import electionguard.json.*
+import electionguard.model.PreEncryptedBallot
 import electionguard.preencrypt.*
 import electionguard.preencrypt.MarkedPreEncryptedBallot
 import electionguard.preencrypt.MarkedPreEncryptedContest

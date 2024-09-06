@@ -1,7 +1,7 @@
 package electionguard.cli
 
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.EncryptedTally
+import electionguard.model.EncryptedTally
 import electionguard.core.productionGroup
 import electionguard.publish.makeConsumer
 import electionguard.tally.AccumulateTally

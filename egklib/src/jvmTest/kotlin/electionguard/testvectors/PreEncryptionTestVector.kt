@@ -1,10 +1,13 @@
 package electionguard.testvectors
 
-import electionguard.ballot.Manifest
-import electionguard.core.*
 import electionguard.cli.ManifestBuilder
-import electionguard.json2.*
-import electionguard.preencrypt.*
+import electionguard.core.UInt256
+import electionguard.core.productionGroup
+import electionguard.json.*
+import electionguard.model.Manifest
+import electionguard.model.PreEncryptedBallot
+import electionguard.preencrypt.PreEncryptor
+import electionguard.preencrypt.sigma
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

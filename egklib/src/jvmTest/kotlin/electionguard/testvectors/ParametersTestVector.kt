@@ -1,11 +1,11 @@
 package electionguard.testvectors
 
-import electionguard.ballot.*
+import electionguard.model.*
 import electionguard.core.Base16.fromHex
 import electionguard.core.Base16.toHex
 import electionguard.core.hashFunction
 import electionguard.core.productionGroup
-import electionguard.json2.*
+import electionguard.json.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString

@@ -1,9 +1,9 @@
 package electionguard.publish
 
 import com.github.michaelbull.result.Result
-import electionguard.ballot.*
 import electionguard.core.GroupContext
 import electionguard.decrypt.DecryptingTrusteeIF
+import electionguard.model.*
 import electionguard.util.ErrorMessages
 
 expect class ConsumerJson (topDir: String, group: GroupContext) : Consumer {

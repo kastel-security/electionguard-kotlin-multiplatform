@@ -1,7 +1,7 @@
 package electionguard.input
 
-import electionguard.ballot.Manifest
 import electionguard.cli.ManifestBuilder
+import electionguard.model.Manifest
 import electionguard.util.ErrorMessages
 import kotlin.test.Test
 import kotlin.test.assertContains

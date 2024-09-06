@@ -63,7 +63,8 @@ kotlin {
         val commonMain by
             getting {
                 dependencies {
-                    api(libs.bull.result)
+                    implementation(project(":egklib-core"))
+                    implementation(project(":egklib-trustee"))
                     implementation(libs.bundles.eglib)
                 }
             }

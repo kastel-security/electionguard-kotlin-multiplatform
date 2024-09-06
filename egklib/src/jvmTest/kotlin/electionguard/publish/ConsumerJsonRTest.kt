@@ -2,7 +2,7 @@ package electionguard.publish
 
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.*
+import electionguard.model.*
 import electionguard.core.productionGroup
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

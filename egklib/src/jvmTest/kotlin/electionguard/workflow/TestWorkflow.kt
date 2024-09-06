@@ -1,9 +1,9 @@
 package electionguard.workflow
 
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.ElectionInitialized
-import electionguard.ballot.EncryptedBallot
-import electionguard.ballot.PlaintextBallot
+import electionguard.model.ElectionInitialized
+import electionguard.model.EncryptedBallot
+import electionguard.model.PlaintextBallot
 import electionguard.cli.RunAccumulateTally.Companion.runAccumulateBallots
 import electionguard.cli.RunBatchEncryption.Companion.batchEncryption
 import electionguard.cli.RunTrustedBallotDecryption.Companion.runDecryptBallots

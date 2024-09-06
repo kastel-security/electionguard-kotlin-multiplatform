@@ -1,6 +1,6 @@
 package electionguard.input
 
-import electionguard.ballot.Manifest
+import electionguard.model.Manifest
 
 class ManifestInputBuilder(val manifestName: String) {
     val districtDefault = "district"

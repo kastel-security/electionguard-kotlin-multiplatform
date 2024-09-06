@@ -3,12 +3,11 @@ package electionguard.publish
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.unwrapError
-import electionguard.ballot.*
-import electionguard.core.Base16.toHex
 import electionguard.core.ElementModP
 import electionguard.core.GroupContext
 import electionguard.core.UInt256
 import electionguard.input.ManifestInputValidation
+import electionguard.model.*
 import electionguard.util.ErrorMessages
 import io.github.oshai.kotlinlogging.KotlinLogging
 

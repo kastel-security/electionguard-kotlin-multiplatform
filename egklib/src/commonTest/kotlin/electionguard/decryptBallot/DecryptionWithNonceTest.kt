@@ -2,8 +2,8 @@ package electionguard.decryptBallot
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.EncryptedBallot
-import electionguard.ballot.makeContestData
+import electionguard.model.EncryptedBallot
+import electionguard.model.makeContestData
 import electionguard.core.ElGamalPublicKey
 import electionguard.core.UInt256
 import electionguard.core.productionGroup

@@ -1,6 +1,6 @@
 package electionguard.publish
 
-import electionguard.ballot.protocolVersion
+import electionguard.model.protocolVersion
 import electionguard.core.productionGroup
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

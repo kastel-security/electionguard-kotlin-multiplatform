@@ -1,7 +1,7 @@
 package electionguard.cli
 
-import electionguard.ballot.Manifest
-import electionguard.ballot.protocolVersion
+import electionguard.model.Manifest
+import electionguard.model.protocolVersion
 
 /** Build test Manifests */
 class ManifestBuilder(val manifestName: String = electionScopeId, styleDef : String = styleDefault) {

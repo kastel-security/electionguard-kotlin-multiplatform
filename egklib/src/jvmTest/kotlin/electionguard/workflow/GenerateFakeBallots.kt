@@ -1,8 +1,8 @@
 package electionguard.workflow
 
-import electionguard.ballot.PlaintextBallot
 import electionguard.core.productionGroup
 import electionguard.input.RandomBallotProvider
+import electionguard.model.PlaintextBallot
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
 import kotlin.test.Test

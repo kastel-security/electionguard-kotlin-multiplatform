@@ -1,7 +1,10 @@
 package electionguard.preencrypt
 
-import electionguard.ballot.ManifestIF
 import electionguard.core.*
+import electionguard.model.ManifestIF
+import electionguard.model.PreEncryptedBallot
+import electionguard.model.PreEncryptedContest
+import electionguard.model.PreEncryptedSelection
 
 /**
  * The crypto part of the "The Ballot Encrypting Tool"

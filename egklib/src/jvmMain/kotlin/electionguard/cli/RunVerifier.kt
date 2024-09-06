@@ -2,7 +2,7 @@ package electionguard.cli
 
 import electionguard.core.GroupContext
 import electionguard.util.Stats
-import electionguard.core.getSystemTimeInMillis
+import electionguard.util.getSystemTimeInMillis
 import electionguard.core.productionGroup
 import electionguard.publish.Consumer
 import electionguard.util.sigfig

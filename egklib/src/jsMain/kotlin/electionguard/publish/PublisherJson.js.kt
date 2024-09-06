@@ -1,13 +1,7 @@
 package electionguard.publish
 
-import electionguard.ballot.DecryptionResult
-import electionguard.ballot.ElectionConfig
-import electionguard.ballot.ElectionInitialized
-import electionguard.ballot.EncryptedBallotChain
-import electionguard.ballot.Manifest
-import electionguard.ballot.PlaintextBallot
-import electionguard.ballot.TallyResult
 import electionguard.keyceremony.KeyCeremonyTrustee
+import electionguard.model.*
 
 /** Read/write the Election Record as JSON files. */
 actual class PublisherJson actual constructor(topDir: String, createNew: Boolean) : Publisher {

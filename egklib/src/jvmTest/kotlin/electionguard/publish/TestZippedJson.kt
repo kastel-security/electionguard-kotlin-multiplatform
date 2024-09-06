@@ -2,8 +2,8 @@ package electionguard.publish
 
 import electionguard.cli.RunVerifier
 import electionguard.core.productionGroup
-import electionguard.json2.ElectionConstantsJson
-import electionguard.json2.import
+import electionguard.json.ElectionConstantsJson
+import electionguard.json.import
 import electionguard.util.ErrorMessages
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json

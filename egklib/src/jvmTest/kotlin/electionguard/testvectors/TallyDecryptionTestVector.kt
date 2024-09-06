@@ -2,7 +2,7 @@
 
 package electionguard.testvectors
 
-import electionguard.ballot.*
+import electionguard.model.*
 import electionguard.core.*
 import electionguard.decrypt.DecryptingTrusteeDoerre
 import electionguard.decrypt.DecryptorDoerre
@@ -11,7 +11,7 @@ import electionguard.encrypt.Encryptor
 import electionguard.encrypt.cast
 import electionguard.cli.ManifestBuilder
 import electionguard.input.RandomBallotProvider
-import electionguard.json2.*
+import electionguard.json.*
 import electionguard.keyceremony.KeyCeremonyTrustee
 import electionguard.keyceremony.keyCeremonyExchange
 import electionguard.tally.AccumulateTally

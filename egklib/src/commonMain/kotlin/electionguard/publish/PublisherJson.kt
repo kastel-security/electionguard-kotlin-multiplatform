@@ -1,8 +1,7 @@
 package electionguard.publish
 
-import electionguard.ballot.*
-import electionguard.core.UInt256
 import electionguard.keyceremony.KeyCeremonyTrustee
+import electionguard.model.*
 
 /** Read/write the Election Record as JSON files. */
 expect class PublisherJson(topDir: String, createNew: Boolean = false) : Publisher {

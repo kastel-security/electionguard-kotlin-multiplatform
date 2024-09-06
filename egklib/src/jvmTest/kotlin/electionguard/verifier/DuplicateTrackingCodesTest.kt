@@ -1,6 +1,6 @@
 package electionguard.verifier
 
-import electionguard.ballot.EncryptedBallot
+import electionguard.model.EncryptedBallot
 import electionguard.util.Stats
 import electionguard.core.productionGroup
 import electionguard.publish.readElectionRecord
