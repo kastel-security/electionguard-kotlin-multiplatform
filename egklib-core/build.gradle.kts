@@ -8,13 +8,17 @@ repositories {
 }
 
 kotlin {
+    metadata {
+        compilations.all {
+            kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes"
+        }
+    }
+
     jvmToolchain(17)
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "17"
-            kotlinOptions.freeCompilerArgs = listOf(
-                "-Xexpect-actual-classes",
-            )
+            kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes"
         }
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
@@ -29,11 +33,13 @@ kotlin {
         }
     }
     js(IR) {
-        compilations.all { kotlinOptions.freeCompilerArgs = listOf("-Xexpect-actual-classes") }
+        compilations.all { kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes" }
         binaries.library()
         nodejs()
         browser()
+        binaries.library()
     }
+
     sourceSets {
         val commonMain by getting {
             dependencies {

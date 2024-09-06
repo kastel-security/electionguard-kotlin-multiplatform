@@ -29,7 +29,7 @@ external class BigInt {
 }
 
 actual class BigInteger: Comparable<BigInteger> {
-    private lateinit var value: BigInt
+    private var value: BigInt
     actual companion object {
         actual fun valueOf(value: Long): BigInteger {
             return BigInteger(value.toString(10))
@@ -114,6 +114,10 @@ actual class BigInteger: Comparable<BigInteger> {
          }
     }
 
+    override fun hashCode(): Int {
+        return value.hashCode()
+    }
+
     private constructor(value: BigInt) {
         this.value = value
     }
@@ -123,12 +127,10 @@ actual class BigInteger: Comparable<BigInteger> {
     }
 
     actual constructor(signum: Int, magnitude: ByteArray) {
-        if (signum == 1) {
-            this.value = BigInt(magnitude.toHex(), 16)
-        } else if (signum == -1) {
-            this.value = BigInt(magnitude.toHex(), 16).multiply(BigInt(-1))
-        } else {
-            throw IllegalArgumentException("Illegal signum")
+        when (signum) {
+            1 -> this.value = BigInt(magnitude.toHex(), 16)
+            -1 -> this.value = BigInt(magnitude.toHex(), 16).multiply(BigInt(-1))
+            else -> throw IllegalArgumentException("Illegal signum")
         }
     }
 
