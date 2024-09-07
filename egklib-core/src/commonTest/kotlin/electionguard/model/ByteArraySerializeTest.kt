@@ -1,7 +1,7 @@
 package electionguard.model
 
 import com.github.michaelbull.result.unwrap
-import electionguard.core.runTest
+import electionguard.runTest
 import io.kotest.common.ExperimentalKotest
 import io.kotest.property.Arb
 import io.kotest.property.PropTestConfig

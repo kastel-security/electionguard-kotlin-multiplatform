@@ -2,6 +2,7 @@ package electionguard.core
 
 import electionguard.model.parameterBaseHash
 import electionguard.model.protocolVersion
+import electionguard.runTest
 import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test
 import kotlin.test.assertEquals

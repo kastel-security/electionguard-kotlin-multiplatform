@@ -3,14 +3,15 @@ package electionguard.core
 import electionguard.model.ContestData
 import electionguard.model.decryptContestData
 import electionguard.model.encryptContestData
+import electionguard.runTest
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
 import kotlinx.coroutines.test.TestResult
 import kotlin.math.roundToInt
 import kotlin.test.Test
-import kotlin.test.assertTrue
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 import kotlin.time.DurationUnit
 import kotlin.time.measureTime
 

@@ -58,7 +58,7 @@ fun HmacSha256.addToHash(element : Any, show : Boolean = false) {
     } else {
         val ba : ByteArray = when (element) {
             //TODO how is a byte different from an integer? byte also does not appear in spec.
-            //is Byte -> ByteArray(1) { element }
+            is Byte -> ByteArray(1) { element }
             is ByteArray -> element
             is UInt256 -> element.bytes
             is Element -> element.byteArray()

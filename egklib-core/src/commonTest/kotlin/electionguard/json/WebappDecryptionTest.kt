@@ -8,7 +8,7 @@ import electionguard.core.elementsModP
 import electionguard.core.elementsModQ
 import electionguard.core.productionGroup
 import electionguard.core.propTestFastConfig
-import electionguard.core.runTest
+import electionguard.runTest
 import electionguard.model.ChallengeRequest
 import electionguard.model.ChallengeResponse
 import electionguard.model.PartialDecryption

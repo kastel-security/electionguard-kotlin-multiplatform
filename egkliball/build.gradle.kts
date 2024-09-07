@@ -11,7 +11,6 @@ repositories {
 dependencies {
     implementation(files("../egklib/build/libs/egklib-jvm-2.0.4-SNAPSHOT.jar")) // add the library to the fatJar
     implementation(libs.bundles.eglib)
-    implementation(libs.logback.classic)
 }
 
 tasks.register("fatJar", Jar::class.java) {

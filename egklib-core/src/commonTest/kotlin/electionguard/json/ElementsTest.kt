@@ -2,6 +2,7 @@ package electionguard.json
 
 import electionguard.core.*
 import electionguard.core.Base16.fromHex
+import electionguard.runTest
 import io.kotest.property.checkAll
 import kotlinx.coroutines.test.TestResult
 import kotlinx.serialization.ExperimentalSerializationApi

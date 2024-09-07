@@ -3,8 +3,8 @@ package electionguard.json
 import electionguard.core.ChaumPedersenProof
 import electionguard.core.elementsModQ
 import electionguard.core.productionGroup
-import electionguard.core.runTest
 import electionguard.jsonRoundTrip
+import electionguard.runTest
 import io.kotest.property.checkAll
 import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test

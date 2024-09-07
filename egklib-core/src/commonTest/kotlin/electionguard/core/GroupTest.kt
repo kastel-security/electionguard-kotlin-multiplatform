@@ -2,6 +2,7 @@ package electionguard.core
 
 import electionguard.core.Base64.fromBase64
 import electionguard.core.Base64.toBase64
+import electionguard.runTest
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll

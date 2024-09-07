@@ -2,6 +2,7 @@ package electionguard.core
 
 import electionguard.core.Base16.fromHexSafe
 import electionguard.core.Base16.toHex
+import electionguard.runTest
 import io.kotest.property.checkAll
 import io.kotest.property.forAll
 import kotlinx.coroutines.test.TestResult

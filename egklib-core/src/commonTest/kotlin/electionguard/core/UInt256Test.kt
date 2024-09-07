@@ -1,6 +1,7 @@
 package electionguard.core
 
 import electionguard.core.Base16.fromHexSafe
+import electionguard.runTest
 import io.kotest.property.arbitrary.filterNot
 import io.kotest.property.checkAll
 import kotlinx.coroutines.test.TestResult

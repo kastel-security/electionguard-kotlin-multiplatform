@@ -2,6 +2,7 @@ package electionguard.core
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import electionguard.runTest
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll

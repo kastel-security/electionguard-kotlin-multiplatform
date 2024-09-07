@@ -1,5 +1,7 @@
 package electionguard.core
 
+import electionguard.assertContentNotEquals
+import electionguard.runTest
 import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test
 import kotlin.test.assertEquals

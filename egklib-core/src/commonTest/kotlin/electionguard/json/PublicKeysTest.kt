@@ -3,6 +3,7 @@ package electionguard.json
 import electionguard.core.*
 import electionguard.jsonRoundTrip
 import electionguard.model.PublicKeys
+import electionguard.runTest
 import electionguard.util.ErrorMessages
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int

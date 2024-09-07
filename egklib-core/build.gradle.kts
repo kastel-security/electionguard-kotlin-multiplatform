@@ -19,6 +19,7 @@ kotlin {
         compilations.all {
             kotlinOptions.jvmTarget = "17"
             kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes"
+            kotlinOptions.freeCompilerArgs += "-opt-in=kotlinx.serialization.ExperimentalSerializationApi"
         }
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
@@ -55,6 +56,11 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(kotlin("test"))
                 implementation(libs.kotest.property)
+            }
+        }
+        val jvmMain by getting {
+            dependencies {
+                implementation(libs.sl4j.simple)
             }
         }
         val jvmTest by getting {

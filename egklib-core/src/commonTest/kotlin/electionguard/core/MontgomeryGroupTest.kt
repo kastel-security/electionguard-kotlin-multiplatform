@@ -1,5 +1,6 @@
 package electionguard.core
 
+import electionguard.runTest
 import io.kotest.property.checkAll
 import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test

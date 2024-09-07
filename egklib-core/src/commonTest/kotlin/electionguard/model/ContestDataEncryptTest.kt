@@ -5,6 +5,7 @@ import com.github.michaelbull.result.unwrap
 import electionguard.core.*
 import electionguard.json.import
 import electionguard.json.publishJson
+import electionguard.runTest
 import electionguard.util.getSystemTimeInMillis
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int

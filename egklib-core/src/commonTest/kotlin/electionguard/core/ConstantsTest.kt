@@ -3,6 +3,7 @@ package electionguard.core
 import electionguard.core.Base16.fromHexSafe
 import electionguard.core.Base16.toHex
 import electionguard.core.Base64.fromBase64Safe
+import electionguard.runTest
 import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test
 import kotlin.test.assertEquals

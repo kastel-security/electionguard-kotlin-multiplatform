@@ -3,30 +3,29 @@ package electionguard.json
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import electionguard.core.productionGroup
-import kotlinx.serialization.ExperimentalSerializationApi
+import electionguard.testResourcesDir
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import org.junit.jupiter.api.Test
+import java.nio.file.FileSystem
 import java.nio.file.FileSystems
 import java.nio.file.Path
+import java.nio.file.spi.FileSystemProvider
+import kotlin.test.assertTrue
 
 class ElectionParametersTest {
-    val topdir = "src/commonTest/data/testElectionRecord/egrust"
 
-    var fileSystem = FileSystems.getDefault()
-    var fileSystemProvider = fileSystem.provider()
-    val group = productionGroup()
-    @OptIn(ExperimentalSerializationApi::class)
+    var fileSystem: FileSystem = FileSystems.getDefault()
+    var fileSystemProvider: FileSystemProvider = fileSystem.provider()
     val jsonReader = Json { explicitNulls = false; ignoreUnknownKeys = true }
 
     @Test
     fun test() {
-        val params = readElectionParameters("$topdir/public/election_parameters.json")
+        val params = readElectionParameters("$testResourcesDir/json/election_parameters.json")
         println("ElectionParameters = $params")
+        assertTrue { params is Ok }
     }
 
-    @OptIn(ExperimentalSerializationApi::class)
     private fun readElectionParameters(filename: String): Result<ElectionParameters, String> =
         try {
             var electionParams: ElectionParameters
