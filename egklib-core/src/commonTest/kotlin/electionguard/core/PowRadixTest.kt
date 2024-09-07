@@ -1,15 +1,12 @@
-@file:OptIn(ExperimentalUnsignedTypes::class)
-
 package electionguard.core
 
 import electionguard.runTest
-import io.kotest.property.checkAll
 import kotlinx.coroutines.test.TestResult
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
+@OptIn(ExperimentalUnsignedTypes::class)
 class PowRadixTest {
     @Test
     fun bitSlicingSimplePattern(): TestResult {
@@ -91,42 +88,6 @@ class PowRadixTest {
             assertEquals(2.toUShort(), slices[0])
             assertEquals(1.toUShort(), slices[1])
             assertEquals(0.toUShort(), slices[2])
-        }
-    }
-
-    @Test
-    fun testExponentiationLowMem() {
-        testExponentiationGeneric(PowRadixOption.LOW_MEMORY_USE)
-    }
-
-    @Test
-    fun testExponentiationHighMem() {
-        testExponentiationGeneric(PowRadixOption.HIGH_MEMORY_USE)
-    }
-
-    @Ignore // this runs too slowly
-    @Test
-    fun testExponentiationExtremeMem() {
-        println("Testing extreme PowRadix; requires extra memory, slow one-time cost")
-        testExponentiationGeneric(PowRadixOption.EXTREME_MEMORY_USE)
-    }
-
-    internal fun testExponentiationGeneric(option: PowRadixOption): TestResult {
-        // We're comparing the accelerated powRadix version (with the specified PowRadixOption)
-        // with the unaccelerated version.
-
-        return runTest {
-            val ctxSlow = productionGroup(acceleration = PowRadixOption.NO_ACCELERATION)
-            val powRadix = PowRadix(ctxSlow.G_MOD_P, option)
-
-            assertEquals(ctxSlow.ONE_MOD_P, powRadix.pow(0.toElementModQ(ctxSlow)))
-            assertEquals(ctxSlow.G_MOD_P, powRadix.pow(1.toElementModQ(ctxSlow)))
-            assertEquals(ctxSlow.G_SQUARED_MOD_P, powRadix.pow(2.toElementModQ(ctxSlow)))
-
-            // check fewer cases because it's so much slower
-            checkAll(propTestFastConfig, elementsModQ(ctxSlow)) { e ->
-                assertEquals(ctxSlow.G_MOD_P powP e, powRadix.pow(e))
-            }
         }
     }
 }

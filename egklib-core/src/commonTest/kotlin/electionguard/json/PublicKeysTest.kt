@@ -24,7 +24,7 @@ class PublicKeysTest {
                 Arb.string(minSize = 3),
                 Arb.int(min = 1, max = 10),
                 Arb.int(min = 1, max = 10),
-                ) { id, xcoord, quota,  ->
+            ) { id, xcoord, quota ->
 
                 val proofs = mutableListOf<SchnorrProof>()
                 repeat(quota) {

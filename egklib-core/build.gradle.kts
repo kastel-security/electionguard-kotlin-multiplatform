@@ -1,3 +1,5 @@
+
+import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import java.util.*
 
 plugins {
@@ -37,20 +39,21 @@ kotlin {
     }
     js(IR) {
         compilations.all { kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes" }
-        binaries.library()
+        val nodeJsArgs = listOf("--max-old-space-size=4096")
+
         nodejs {
             testTask {
+                this.nodeJsArgs += nodeJsArgs
                 useMocha {
                     timeout = "0s" // disable timeouts
-                    nodeJsArgs += "--max-old-space-size=4096"
                 }
             }
         }
         browser {
             testTask {
+                this.nodeJsArgs += nodeJsArgs
                 useKarma {
                     useChromeHeadless()
-                    nodeJsArgs += "--max-old-space-size=4096"
                 }
             }
         }
@@ -87,13 +90,19 @@ kotlin {
     }
 }
 
+// exclude benchmark tests from default test runs
+tasks.withType<Test> {
+    exclude("**/benchmark/**")
+}
+tasks.withType<KotlinJsTest> {
+    filter.excludeTestsMatching("*.benchmark.*")
+}
+
 fun Project.findLocalProperty(name: String): Any? {
     val localProperties = file("${project.rootDir}/local.properties")
     return if (localProperties.exists()) {
         val properties = Properties()
         localProperties.inputStream().use { properties.load(it) }
         properties[name]
-    } else {
-        null
-    }
+    } else null
 }

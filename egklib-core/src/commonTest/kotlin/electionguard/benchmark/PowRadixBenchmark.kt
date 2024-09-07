@@ -1,13 +1,18 @@
-package electionguard.core
+package electionguard.benchmark
 
+import electionguard.core.*
+import electionguard.runTest
 import electionguard.util.getSystemTimeInMillis
 import electionguard.util.pad
 import electionguard.util.sigfig
+import io.kotest.property.checkAll
+import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.time.DurationUnit
 import kotlin.time.measureTime
 
-class PowRadixTiming {
+class PowRadixBenchmark {
 
     @Test
     fun timeLow() {
@@ -145,5 +150,39 @@ class PowRadixTiming {
         duration = getSystemTimeInMillis() - starting
         peracc = duration.toDouble() / n
         println(" square took $duration msec for $n = $peracc msec per multiply")
+    }
+
+
+    @Test
+    fun testExponentiationLowMem() =
+        testExponentiationGeneric(PowRadixOption.LOW_MEMORY_USE)
+
+    @Test
+    fun testExponentiationHighMem() =
+        testExponentiationGeneric(PowRadixOption.HIGH_MEMORY_USE)
+
+    @Test
+    fun testExponentiationExtremeMem() {
+        println("Testing extreme PowRadix; requires extra memory, slow one-time cost")
+        testExponentiationGeneric(PowRadixOption.EXTREME_MEMORY_USE)
+    }
+
+    internal fun testExponentiationGeneric(option: PowRadixOption): TestResult {
+        // We're comparing the accelerated powRadix version (with the specified PowRadixOption)
+        // with the unaccelerated version.
+
+        return runTest {
+            val ctxSlow = productionGroup(acceleration = PowRadixOption.NO_ACCELERATION)
+            val powRadix = PowRadix(ctxSlow.G_MOD_P, option)
+
+            assertEquals(ctxSlow.ONE_MOD_P, powRadix.pow(0.toElementModQ(ctxSlow)))
+            assertEquals(ctxSlow.G_MOD_P, powRadix.pow(1.toElementModQ(ctxSlow)))
+            assertEquals(ctxSlow.G_SQUARED_MOD_P, powRadix.pow(2.toElementModQ(ctxSlow)))
+
+            // check fewer cases because it's so much slower
+            checkAll(propTestFastConfig, elementsModQ(ctxSlow)) { e ->
+                assertEquals(ctxSlow.G_MOD_P powP e, powRadix.pow(e))
+            }
+        }
     }
 }

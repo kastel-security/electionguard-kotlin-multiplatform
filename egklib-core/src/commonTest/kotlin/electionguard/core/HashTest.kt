@@ -6,7 +6,6 @@ import electionguard.runTest
 import io.kotest.property.checkAll
 import io.kotest.property.forAll
 import kotlinx.coroutines.test.TestResult
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals

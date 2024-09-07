@@ -1,13 +1,14 @@
-package electionguard.core
+package electionguard.benchmark
 
+import electionguard.core.*
 import kotlinx.coroutines.runBlocking
+import me.tongfei.progressbar.ProgressBar
+import me.tongfei.progressbar.ProgressBarBuilder
+import me.tongfei.progressbar.ProgressBarStyle
 import java.time.temporal.ChronoUnit
 import kotlin.random.Random
 import kotlin.system.exitProcess
 import kotlin.system.measureTimeMillis
-import me.tongfei.progressbar.ProgressBar
-import me.tongfei.progressbar.ProgressBarBuilder
-import me.tongfei.progressbar.ProgressBarStyle
 
 // This is a simple benchmark that just measures how fast ElGamal encryption runs.
 // Make sure you're running the JVM with enough memory to handle the "extreme" case
@@ -19,9 +20,9 @@ fun main() {
     println("ElGamal encryption/decryption benchmark, JDK: ${System.getProperty("java.version")}")
 
     runBlocking {
-        ProductionMode.values()
+        ProductionMode.entries
             .forEach { mode ->
-                PowRadixOption.values()
+                PowRadixOption.entries
                     .forEach { powRadixOption ->
                         println("=======================================================")
                         println("Initializing benchmark for $powRadixOption, $mode")
@@ -42,7 +43,7 @@ fun main() {
                         val encryptionTimeMs = measureTimeMillis {
                             ciphertexts = ProgressBar
                                 .wrap(
-                                    (0..N - 1).asIterable().toList(),
+                                    (0..<N).asIterable().toList(),
                                     ProgressBarBuilder()
                                         .setStyle(ProgressBarStyle.COLORFUL_UNICODE_BLOCK)
                                         .setInitialMax(N.toLong())
@@ -62,7 +63,7 @@ fun main() {
                         val decryptionTimeMs = measureTimeMillis {
                             decryptions = ProgressBar
                                 .wrap(
-                                    (0..N - 1).asIterable().toList(),
+                                    (0..<N).asIterable().toList(),
                                     ProgressBarBuilder()
                                         .setStyle(ProgressBarStyle.COLORFUL_UNICODE_BLOCK)
                                         .setInitialMax(N.toLong())

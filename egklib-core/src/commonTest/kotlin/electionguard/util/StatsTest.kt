@@ -1,7 +1,5 @@
-package electionguard.core
+package electionguard.util
 
-import electionguard.util.*
-import electionguard.util.Stat
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals

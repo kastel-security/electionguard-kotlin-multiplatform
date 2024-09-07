@@ -1,5 +1,6 @@
-package electionguard.core
+package electionguard.benchmark
 
+import electionguard.core.*
 import kotlinx.coroutines.runBlocking
 import me.tongfei.progressbar.ProgressBar
 import me.tongfei.progressbar.ProgressBarBuilder

@@ -60,6 +60,7 @@ val propTestFastConfig = PropTestConfig(maxFailure = 1, shrinkingMode = Shrinkin
  * forAll(propTestSlowConfig, Arb.x(), Arb.y()) { x, y -> ... }
  * ```
  */
+@OptIn(ExperimentalKotest::class)
 val propTestSlowConfig = PropTestConfig(iterations = 1000)
 
 fun smallInts() = Arb.int(min = 0, max = 1000)

@@ -98,3 +98,9 @@ fun generateElementModP(context: GroupContext) = context.randomElementModP()
 
 fun generatePublicKey(group: GroupContext): ElementModP =
     group.gPowP(group.randomElementModQ())
+
+expect fun getTestPlatform(): TestPlatform
+
+enum class TestPlatform {
+    Jvm, Browser, NodeJs
+}

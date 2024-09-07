@@ -3,7 +3,9 @@ package electionguard.json
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import electionguard.core.*
+import electionguard.core.ElementModP
+import electionguard.core.ElementModQ
+import electionguard.core.GroupContext
 import electionguard.model.ChallengeRequest
 import electionguard.model.ChallengeResponse
 import electionguard.model.PartialDecryption

@@ -1,6 +1,6 @@
-package electionguard.core
+package electionguard.util
 
-import electionguard.util.isBigEndian
+import electionguard.core.intToByteArray
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

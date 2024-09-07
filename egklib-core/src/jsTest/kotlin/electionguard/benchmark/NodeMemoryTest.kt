@@ -1,5 +1,8 @@
-package electionguard.core
+package electionguard.benchmark
 
+import electionguard.TestPlatform
+import electionguard.core.requireNode
+import electionguard.getTestPlatform
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
@@ -8,8 +11,8 @@ class NodeMemoryTest {
     @Test
     // check if the node options are configured correctly
     fun checkNodeMemory() {
-        if (getPlatform() == Platform.NODE) {
-            val heapStats = require("v8").getHeapStatistics().unsafeCast<HeapStatistics>()
+        if (getTestPlatform() == TestPlatform.NodeJs) {
+            val heapStats = requireNode("v8").getHeapStatistics().unsafeCast<HeapStatistics>()
 
             println("Heap Size Limit: ${heapStats.heap_size_limit / 1024 / 1024} MB")
             println("Total Heap Size: ${heapStats.total_heap_size / 1024 / 1024} MB")

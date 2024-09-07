@@ -1,5 +1,7 @@
-package electionguard.core
+package electionguard.benchmark
 
+import electionguard.core.*
+import electionguard.getTestPlatform
 import electionguard.runTest
 import io.kotest.property.checkAll
 import kotlin.test.Ignore
@@ -20,7 +22,7 @@ class EncryptDecryptBenchmarkTest {
             PowRadixOption.HIGH_MEMORY_USE
         ).forEach { powRadixOption ->
             val group = productionGroup(powRadixOption)
-            println("Benchmarking EncryptDecrypt with $group for JavaScript Target: ${getPlatform()}")
+            println("Benchmarking EncryptDecrypt with $group for Target: ${getTestPlatform()}")
             var count = 0
             var totalTimeEncrypt: Duration = Duration.ZERO
             var totalTimeDecrypt: Duration = Duration.ZERO
