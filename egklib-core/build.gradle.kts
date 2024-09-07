@@ -77,6 +77,12 @@ kotlin {
                 implementation(libs.kotest.property)
             }
         }
+        val jsMain by getting {
+            dependencies {
+                implementation(npm("big-integer", "1.6.52"))
+                implementation(npm("@noble/hashes", "1.5.0"))
+            }
+        }
         val jvmMain by getting {
             dependencies {
                 implementation(libs.sl4j.simple)

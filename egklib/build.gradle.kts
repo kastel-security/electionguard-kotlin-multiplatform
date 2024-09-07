@@ -90,8 +90,6 @@ kotlin {
         val jsMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-node-js:18.16.12-pre.686")
-                implementation(npm("big-integer", "1.6.52"))
-                implementation(npm("@noble/hashes", "1.0.0"))
             }
         }
         val jsTest by getting {
