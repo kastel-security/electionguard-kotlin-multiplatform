@@ -20,6 +20,5 @@ plugins {
 rootProject.name = "electionguard-kotlin-multiplatform"
 
 include ("egklib")
-include ("egkliball")
 include("egklib-core")
 include("egklib-trustee")
