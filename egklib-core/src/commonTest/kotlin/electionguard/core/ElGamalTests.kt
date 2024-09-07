@@ -3,16 +3,11 @@ package electionguard.core
 import electionguard.runTest
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.property.Arb
-import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
 import io.kotest.property.forAll
 import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.time.measureTime
-
-private fun smallInts() = Arb.int(min = 0, max = 1000)
 
 class ElGamalTests {
 
@@ -39,23 +34,13 @@ class ElGamalTests {
     fun encryptionBasics(contextF: () -> GroupContext): TestResult {
         return runTest {
             val context = contextF()
-            println("Starting encryption basic test with context $context")
             forAll(
-                iterations = 5,
+                propTestFastConfig,
                 elGamalKeypairs(context),
                 elementsModQNoZero(context),
                 smallInts()
             ) { keypair, nonce, message ->
-                var encryptedMessage: ElGamalCiphertext
-                val time = measureTime {
-                    encryptedMessage = message.encrypt(keypair, nonce)
-                }
-                println("Encrypted message: $encryptedMessage, took: ${time.inWholeSeconds} seconds")
-                var decryptedMessage: Int?
-                val time2 = measureTime {
-                    decryptedMessage = encryptedMessage.decrypt(keypair)
-                }
-                println("Decrypted message: $decryptedMessage, took: ${time2.inWholeSeconds} seconds")
+                val decryptedMessage = message.encrypt(keypair, nonce).decrypt(keypair)
                 message == decryptedMessage
             }
         }

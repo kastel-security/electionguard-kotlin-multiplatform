@@ -6,10 +6,7 @@ import io.kotest.common.ExperimentalKotest
 import io.kotest.property.Arb
 import io.kotest.property.PropTestConfig
 import io.kotest.property.ShrinkingMode
-import io.kotest.property.arbitrary.byte
-import io.kotest.property.arbitrary.byteArray
-import io.kotest.property.arbitrary.constant
-import io.kotest.property.arbitrary.map
+import io.kotest.property.arbitrary.*
 
 /** Generate an arbitrary ElementModP in [minimum, P) for the given group context. */
 fun elementsModP(ctx: GroupContext, minimum: Int = 0): Arb<ElementModP> =
@@ -54,8 +51,7 @@ fun byteArrays(len: Int): Arb<ByteArray> = Arb.byteArray(Arb.constant(len), Arb.
  * forAll(propTestFastConfig, Arb.x(), Arb.y()) { x, y -> ... }
  * ```
  */
-val propTestFastConfig =
-    PropTestConfig(maxFailure = 1, shrinkingMode = ShrinkingMode.Off, iterations = 10)
+val propTestFastConfig = PropTestConfig(maxFailure = 1, shrinkingMode = ShrinkingMode.Off, iterations = 10)
 
 /**
  * If we know we can afford more effort to run a property test, this will spend extra time
@@ -64,5 +60,6 @@ val propTestFastConfig =
  * forAll(propTestSlowConfig, Arb.x(), Arb.y()) { x, y -> ... }
  * ```
  */
-val propTestSlowConfig =
-    PropTestConfig(iterations = 1000)
+val propTestSlowConfig = PropTestConfig(iterations = 1000)
+
+fun smallInts() = Arb.int(min = 0, max = 1000)
