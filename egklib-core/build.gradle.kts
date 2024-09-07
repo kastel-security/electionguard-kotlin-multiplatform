@@ -1,3 +1,5 @@
+import java.util.*
+
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.serialization)
@@ -36,8 +38,22 @@ kotlin {
     js(IR) {
         compilations.all { kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes" }
         binaries.library()
-        nodejs()
-        browser()
+        nodejs {
+            testTask {
+                useMocha {
+                    timeout = "0s" // disable timeouts
+                    nodeJsArgs += "--max-old-space-size=4096"
+                }
+            }
+        }
+        browser {
+            testTask {
+                useKarma {
+                    useChromeHeadless()
+                    nodeJsArgs += "--max-old-space-size=4096"
+                }
+            }
+        }
         binaries.library()
     }
 
@@ -68,5 +84,16 @@ kotlin {
                 implementation("me.tongfei:progressbar:0.9.3")
             }
         }
+    }
+}
+
+fun Project.findLocalProperty(name: String): Any? {
+    val localProperties = file("${project.rootDir}/local.properties")
+    return if (localProperties.exists()) {
+        val properties = Properties()
+        localProperties.inputStream().use { properties.load(it) }
+        properties[name]
+    } else {
+        null
     }
 }

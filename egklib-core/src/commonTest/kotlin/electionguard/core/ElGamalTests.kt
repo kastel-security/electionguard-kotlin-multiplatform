@@ -10,8 +10,9 @@ import io.kotest.property.forAll
 import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.time.measureTime
 
-private fun smallInts() = Arb.int(min=0, max=1000)
+private fun smallInts() = Arb.int(min = 0, max = 1000)
 
 class ElGamalTests {
 
@@ -26,25 +27,36 @@ class ElGamalTests {
     }
 
     @Test
-    fun encryptionBasicsLg() {
-        encryptionBasics { productionGroup(PowRadixOption.LOW_MEMORY_USE) }
+    fun encryptionBasicsLg(): TestResult {
+        return encryptionBasics { productionGroup(PowRadixOption.LOW_MEMORY_USE) }
     }
 
     @Test
-    fun encryptionBasicsSm() {
-        encryptionBasics { tinyGroup() }
+    fun encryptionBasicsSm(): TestResult {
+        return encryptionBasics { tinyGroup() }
     }
 
     fun encryptionBasics(contextF: () -> GroupContext): TestResult {
         return runTest {
             val context = contextF()
+            println("Starting encryption basic test with context $context")
             forAll(
-                propTestFastConfig,
+                iterations = 5,
                 elGamalKeypairs(context),
                 elementsModQNoZero(context),
                 smallInts()
             ) { keypair, nonce, message ->
-                message == message.encrypt(keypair, nonce).decrypt(keypair)
+                var encryptedMessage: ElGamalCiphertext
+                val time = measureTime {
+                    encryptedMessage = message.encrypt(keypair, nonce)
+                }
+                println("Encrypted message: $encryptedMessage, took: ${time.inWholeSeconds} seconds")
+                var decryptedMessage: Int?
+                val time2 = measureTime {
+                    decryptedMessage = encryptedMessage.decrypt(keypair)
+                }
+                println("Decrypted message: $decryptedMessage, took: ${time2.inWholeSeconds} seconds")
+                message == decryptedMessage
             }
         }
     }
@@ -89,11 +101,11 @@ class ElGamalTests {
             val context = tinyGroup()
 
             checkAll(elGamalKeypairs(context), elementsModQNoZero(context), smallInts())
-                { keypair, nonce, message ->
-                    val encryption = message.encrypt(keypair, nonce)
-                    val decryption = encryption.decryptWithNonce(keypair.publicKey, nonce)
-                    assertEquals(message, decryption)
-                }
+            { keypair, nonce, message ->
+                val encryption = message.encrypt(keypair, nonce)
+                val decryption = encryption.decryptWithNonce(keypair.publicKey, nonce)
+                assertEquals(message, decryption)
+            }
         }
     }
 

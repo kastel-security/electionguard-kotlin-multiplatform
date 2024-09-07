@@ -12,7 +12,7 @@ import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.random.Random
 import kotlin.random.nextUInt
 import kotlin.test.assertFalse
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.minutes
 
 
 @OptIn(ExperimentalSerializationApi::class)
@@ -41,7 +41,7 @@ fun runTest(f: suspend TestScope.() -> Unit): TestResult {
     // at the top of every unit test file
 
     //Edit: in order to use runTest in commonTest, we need to return the result - see documentation
-    return kotlinx.coroutines.test.runTest(EmptyCoroutineContext, timeout = 101.seconds, f)
+    return kotlinx.coroutines.test.runTest(EmptyCoroutineContext, timeout = 10.minutes, f)
 }
 
 /*

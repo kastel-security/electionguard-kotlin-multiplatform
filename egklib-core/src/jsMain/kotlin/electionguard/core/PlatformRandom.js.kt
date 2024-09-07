@@ -18,13 +18,13 @@ internal external fun require(module: String): dynamic
 /** Get "secure" random bytes from the native platform */
 // this uses the Web Crypto API both in the browser and in Node.js
 actual fun randomBytes(length: Int) =
-    when (getPlatFormRandom()) {
+    when (getPlatform()) {
         Platform.BROWSER -> window.crypto.getRandomValues(ByteArray(length))
         Platform.NODE -> require("crypto")
             .getRandomValues(ByteArray(length)).unsafeCast<ByteArray>()
     }
 
-fun getPlatFormRandom(): Platform =
+fun getPlatform(): Platform =
     if (js("typeof window") != "undefined" && js("typeof document") != undefined)
         Platform.BROWSER
     else if (js("typeof process") != "undefined")
