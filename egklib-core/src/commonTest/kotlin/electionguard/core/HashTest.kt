@@ -6,6 +6,7 @@ import electionguard.runTest
 import io.kotest.property.checkAll
 import io.kotest.property.forAll
 import kotlinx.coroutines.test.TestResult
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -16,8 +17,8 @@ class HashTest {
         return runTest {
             val context = productionGroup(PowRadixOption.LOW_MEMORY_USE)
             forAll(propTestFastConfig, elementsModP(context), elementsModQ(context)) { p, q ->
-                val h1 = hashFunction(p.byteArray(), q)
-                val h2 = hashFunction(p.byteArray(), q)
+                val h1 = hashFunction(p.byteArray(), null, q)
+                val h2 = hashFunction(p.byteArray(), null, q)
                 h1 == h2
             }
         }
@@ -28,14 +29,15 @@ class HashTest {
         return runTest {
             val context = productionGroup(PowRadixOption.LOW_MEMORY_USE)
             checkAll(propTestFastConfig, elementsModQ(context), elementsModQ(context)) { q1, q2 ->
-                val h1 = hashFunction(q1.byteArray(), q1)
-                val h2 = hashFunction(q2.byteArray(), q2)
+                val h1 = hashFunction(q1.byteArray(), null, q1)
+                val h2 = hashFunction(q2.byteArray(), null, q2)
                 if (q1 == q2) assertEquals(h1, h2) else assertNotEquals(h1, h2)
             }
         }
     }
 
     @Test
+    //TODO debug this for js
     fun testNonce(): TestResult {
         return runTest {
             val group = productionGroup()
@@ -86,7 +88,8 @@ class HashTest {
                 .toUInt256safe().toElementModQ(group).toHex()
             assertEquals(s1q, s2q)
             assertEquals(s1q.encodeToByteArray().size, s2q.encodeToByteArray().size)
-            assertEquals(hashFunction(s1q.encodeToByteArray(), s1q), hashFunction(s2q.encodeToByteArray(), s2q))
+            assertEquals(hashFunction(s1q.encodeToByteArray(), null, s1q),
+                hashFunction(s2q.encodeToByteArray(), null, s2q))
             println("  len = ${s1q.length} hex = ${s1q}")
             assertEquals(64, s1q.length)
         }
@@ -105,8 +108,8 @@ class HashTest {
     @Test
     fun testIterable(): TestResult {
         return runTest {
-            val h1 = hashFunction("hay1".encodeToByteArray(), listOf("hey2", "hey3"))
-            val h2 = hashFunction("hay1".encodeToByteArray(), "hey2", "hey3")
+            val h1 = hashFunction("hay1".encodeToByteArray(), null, listOf("hey2", "hey3"))
+            val h2 = hashFunction("hay1".encodeToByteArray(), null, "hey2", "hey3")
             println(" h1 = ${h1}")
             println(" h2 = ${h2}")
             assertEquals(h1, h2)
@@ -119,8 +122,8 @@ class HashTest {
             val group = productionGroup()
             val keypair = elGamalKeyPairFromRandom(group)
             val ciphertext = 42.encrypt(keypair)
-            val h1 = hashFunction("hay1".encodeToByteArray(), 0x42, ciphertext)
-            val h2 = hashFunction("hay1".encodeToByteArray(), 0x42, ciphertext.pad, ciphertext.data)
+            val h1 = hashFunction("hay1".encodeToByteArray(), null, 0x42, ciphertext)
+            val h2 = hashFunction("hay1".encodeToByteArray(), null, 0x42, ciphertext.pad, ciphertext.data)
             assertEquals(h1, h2)
         }
     }
@@ -130,8 +133,8 @@ class HashTest {
         return runTest {
             val group = productionGroup()
             val keypair = elGamalKeyPairFromRandom(group)
-            val h1 = hashFunction("hay2".encodeToByteArray(), 0x422, keypair.publicKey)
-            val h2 = hashFunction("hay2".encodeToByteArray(), 0x422, keypair.publicKey.key)
+            val h1 = hashFunction("hay2".encodeToByteArray(), null, 0x422, keypair.publicKey)
+            val h2 = hashFunction("hay2".encodeToByteArray(), null, 0x422, keypair.publicKey.key)
             assertEquals(h1, h2)
         }
     }

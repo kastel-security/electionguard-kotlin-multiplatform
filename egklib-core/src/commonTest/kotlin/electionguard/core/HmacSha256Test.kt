@@ -14,6 +14,7 @@ class HmacSha256Test {
     fun testUpdate() {
         val callUpdate = hashFunction(
             byteArrayOf(1, 2),
+            null,
             Primes4096.largePrimeBytes,
             Primes4096.smallPrimeBytes,
         )

@@ -12,6 +12,11 @@ import electionguard.util.isBigEndian
  * HMAC-SHA-256 hashes it first with SHA-256 and then pads it to 64 bytes. In ElectionGuard, all inputs that are
  * used as the HMAC key, i.e. all inputs to the first argument of H have a fixed length of exactly 32 bytes.
  *
+ * ElectionGuard uses one byte as domain separator as the first input to bind the hash value to the usage of the
+ * hash function. Since this is the only usage of a Byte type input and a byte can be hard to distinguish from a small
+ * integer when targeting multiple platforms, the domain separator is modeled as a separate input to the hash function.
+ * If hashFunction is used without a domain separator, the argument can be set to null.
+ *
  * The second input can have arbitrary length and is only restricted by the maximal input length
  * for SHA-256 and HMAC. Hence we view the function H formally as follows (understanding that
  * HMAC implementations pad the 32-byte keys to exactly 64 bytes by appending 32 00 bytes):
@@ -24,16 +29,20 @@ import electionguard.util.isBigEndian
  * domain separation tags for different use cases and the actual data that is being hashed.
  *
  * @param key HMAC key.
+ * @param separator One byte as domain separator. Can be null if no domain separator is used
  * @param elements Zero or more elements of any of the accepted types.
  * @return A cryptographic hash of these elements.
  */
-fun hashFunction(key: ByteArray, vararg elements: Any): UInt256 {
+fun hashFunction(key: ByteArray, separator: Byte?, vararg elements: Any): UInt256 {
     val hmac = HmacSha256(key)
     var count = 0
 //    val showHash = false // ((elements[0] as Byte) == 0x01.toByte())
 //    if (showHash) {
 //        println("hashFunction")
 //    }
+    if (separator != null) {
+        hmac.addToHash(separator)
+    }
     elements.forEach {
 // this is using javaClass and should not be in the commonMain source set
 //        if (showHash) println(" $count $it ${it.javaClass.name}")
@@ -45,9 +54,12 @@ fun hashFunction(key: ByteArray, vararg elements: Any): UInt256 {
 
 // identical to hashFunction, made separate to follow the spec.
 // only called from KeyCeremonyTrustee. doesnt use strings
-fun hmacFunction(key: ByteArray, vararg elements: Any): UInt256 {
+fun hmacFunction(key: ByteArray, separator: Byte?, vararg elements: Any): UInt256 {
     require(elements.isNotEmpty())
     val hmac = HmacSha256(key)
+    if (separator != null) {
+        hmac.addToHash(separator)
+    }
     elements.forEach { hmac.addToHash(it) }
     return hmac.finish()
 }
