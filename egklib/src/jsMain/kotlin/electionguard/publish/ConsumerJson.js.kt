@@ -12,6 +12,7 @@ import electionguard.util.ErrorMessages
 import electionguard.util.fileReadBytes
 import electionguard.util.fileReadText
 import electionguard.util.isDirectory
+import electionguard.util.listDir
 import electionguard.util.pathExists
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.json.Json
@@ -412,9 +413,5 @@ actual class ConsumerJson actual constructor(
 
     fun getFilesNoDir(path: String): List<String> {
         return listDir(path).filter { !isDirectory(it) }
-    }
-
-    fun listDir(path: String): List<String> {
-        return readdirSync(path, options = null as BufferEncoding?).toList().map { "$path/$it" }
     }
 }

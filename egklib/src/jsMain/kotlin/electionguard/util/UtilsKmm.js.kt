@@ -1,9 +1,12 @@
 package electionguard.util
 
 import node.buffer.BufferEncoding
+import node.fs.closeSync
 import node.fs.existsSync
 import node.fs.mkdirSync
 import node.fs.readFileSync
+import node.fs.readdirSync
+import node.fs.writeSync
 
 //All file system operations are only available when targeting NodeJs
 /** Does this path exist? */
@@ -34,4 +37,19 @@ actual fun fileReadBytes(filename: String): ByteArray {
 /** Read all int text in a file. */
 actual fun fileReadText(filename: String): String {
     return readFileSync(filename, BufferEncoding.utf8)
+}
+
+fun isWritable(path: String): Boolean {
+    //TODO fix
+    return true
+}
+
+fun writeFile(path: String, content: String) {
+    val file = require("fs").openSync(path, "w+")
+    writeSync(file, content)
+    closeSync(file)
+}
+
+fun listDir(path: String): List<String> {
+    return readdirSync(path, options = null as BufferEncoding?).toList().map { "$path/$it" }
 }
