@@ -35,20 +35,8 @@ import electionguard.util.isBigEndian
  */
 fun hashFunction(key: ByteArray, separator: Byte?, vararg elements: Any): UInt256 {
     val hmac = HmacSha256(key)
-    var count = 0
-//    val showHash = false // ((elements[0] as Byte) == 0x01.toByte())
-//    if (showHash) {
-//        println("hashFunction")
-//    }
-    if (separator != null) {
-        hmac.addToHash(separator)
-    }
-    elements.forEach {
-// this is using javaClass and should not be in the commonMain source set
-//        if (showHash) println(" $count $it ${it.javaClass.name}")
-        hmac.addToHash(it, /*showHash*/)
-        count++
-    }
+    separator?.let { hmac.addToHash(byteArrayOf(it)) }
+    elements.forEach { hmac.addToHash(it) }
     return hmac.finish()
 }
 
@@ -57,9 +45,7 @@ fun hashFunction(key: ByteArray, separator: Byte?, vararg elements: Any): UInt25
 fun hmacFunction(key: ByteArray, separator: Byte?, vararg elements: Any): UInt256 {
     require(elements.isNotEmpty())
     val hmac = HmacSha256(key)
-    if (separator != null) {
-        hmac.addToHash(separator)
-    }
+    separator?.let { hmac.addToHash(byteArrayOf(it)) } // in order to not have Byte as recognized type in addToHash
     elements.forEach { hmac.addToHash(it) }
     return hmac.finish()
 }
@@ -69,8 +55,6 @@ fun HmacSha256.addToHash(element : Any, show : Boolean = false) {
         element.forEach { this.addToHash(it!!) }
     } else {
         val ba : ByteArray = when (element) {
-            //TODO how is a byte different from an integer? byte also does not appear in spec.
-            is Byte -> ByteArray(1) { element }
             is ByteArray -> element
             is UInt256 -> element.bytes
             is Element -> element.byteArray()
@@ -106,11 +90,11 @@ fun intToByteArray (data: Int) : ByteArray {
  * [See the spec](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-108.pdf),
  * section 5.1.
  *
- *  - The [key] must be 32 bytes long, suitable for use in HMAC-SHA256.
- *  - The [label] is a string that identifies the purpose for the derived keying material.
- *  - The [context] is a string containing the information related to the derived keying material.
+ * @param key must be 32 bytes long, suitable for use in HMAC-SHA256.
+ * @param label is a string that identifies the purpose for the derived keying material.
+ * @param context is a string containing the information related to the derived keying material.
  *    It may include identities of parties who are deriving and/or using the derived keying material.
- *  - The [lengthInBits] specifies the length of the encrypted message in *bits*, not bytes.
+ * @param lengthInBits specifies the length of the encrypted message in *bits*, not bytes.
  */
 class KDF(val key: UInt256, label: String, context: String, lengthInBits: Int) {
     // we're going to convert the strings as UTF-8

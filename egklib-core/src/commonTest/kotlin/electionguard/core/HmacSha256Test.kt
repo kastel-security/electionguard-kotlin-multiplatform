@@ -47,7 +47,6 @@ class HmacSha256Test {
             )
             assertEquals(
                 1057, hashFunctionConcatSize(
-                    HV,
                     0.toByte(),
                     primes.largePrime,
                     primes.smallPrime,
@@ -85,7 +84,6 @@ class HmacSha256Test {
             )
             assertEquals(
                 1057, hashFunctionConcatSize(
-                    HV,
                     0.toByte(),
                     listOf(primes.largePrime, primes.smallPrime, primes.generator),
                 )
@@ -129,7 +127,7 @@ fun hashFunctionConcat(key: ByteArray, vararg elements: Any): UInt256 {
     return hmac.finish()
 }
 
-fun hashFunctionConcatSize(key: ByteArray, vararg elements: Any): Int {
+fun hashFunctionConcatSize(vararg elements: Any): Int {
     var result = ByteArray(0)
     elements.forEach {
         val eh = hashElementsToByteArray(it)

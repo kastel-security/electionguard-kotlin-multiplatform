@@ -36,7 +36,6 @@ class HashTest {
     }
 
     @Test
-    //TODO debug this for js
     fun testNonce(): TestResult {
         return runTest {
             val group = productionGroup()

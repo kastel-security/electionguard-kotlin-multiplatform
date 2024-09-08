@@ -1,10 +1,8 @@
 package electionguard.util
 
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@Ignore
 class StatsTest {
 
     @Test
