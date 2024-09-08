@@ -1,7 +1,7 @@
 package electionguard.input
 
 import electionguard.core.productionGroup
-import electionguard.core.testResourcesDir
+import electionguard.testResourcesDir
 import electionguard.publish.readElectionRecord
 import kotlin.test.Test
 import kotlin.test.assertEquals

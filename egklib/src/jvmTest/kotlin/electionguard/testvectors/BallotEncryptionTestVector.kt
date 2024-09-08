@@ -1,6 +1,5 @@
 package electionguard.testvectors
 
-import electionguard.cli.ManifestBuilder
 import electionguard.core.*
 import electionguard.encrypt.CiphertextBallot
 import electionguard.encrypt.Encryptor

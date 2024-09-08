@@ -2,7 +2,6 @@
 
 package electionguard.testvectors
 
-import electionguard.cli.ManifestBuilder
 import electionguard.core.*
 import electionguard.decrypt.DecryptingTrusteeDoerre
 import electionguard.decrypt.DecryptorDoerre

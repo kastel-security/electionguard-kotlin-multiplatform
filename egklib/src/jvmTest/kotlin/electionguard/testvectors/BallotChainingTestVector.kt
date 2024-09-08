@@ -1,6 +1,5 @@
 package electionguard.testvectors
 
-import electionguard.cli.ManifestBuilder
 import electionguard.core.*
 import electionguard.core.Base16.fromHexSafe
 import electionguard.core.Base16.toHex

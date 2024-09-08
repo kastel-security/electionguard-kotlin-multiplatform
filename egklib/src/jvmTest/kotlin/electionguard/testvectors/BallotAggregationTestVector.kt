@@ -6,7 +6,6 @@ import electionguard.model.*
 import electionguard.core.*
 import electionguard.encrypt.Encryptor
 import electionguard.encrypt.cast
-import electionguard.cli.ManifestBuilder
 import electionguard.input.RandomBallotProvider
 import electionguard.json.*
 import electionguard.tally.AccumulateTally

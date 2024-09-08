@@ -3,7 +3,6 @@ package electionguard.preencrypt
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.unwrap
-import electionguard.cli.ManifestBuilder
 import electionguard.core.*
 import electionguard.decryptBallot.DecryptPreencryptWithNonce
 import electionguard.encrypt.cast
@@ -12,6 +11,7 @@ import electionguard.json.publishJson
 import electionguard.model.*
 import electionguard.publish.readElectionRecord
 import electionguard.runTest
+import electionguard.testvectors.ManifestBuilder
 import electionguard.util.ErrorMessages
 import electionguard.util.Stats
 import electionguard.verifier.VerifyEncryptedBallots

@@ -1,7 +1,6 @@
 package electionguard.testvectors
 
 import com.github.michaelbull.result.Err
-import electionguard.cli.ManifestBuilder
 import electionguard.core.ElGamalPublicKey
 import electionguard.core.UInt256
 import electionguard.core.productionGroup

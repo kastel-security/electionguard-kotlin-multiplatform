@@ -8,7 +8,7 @@ import electionguard.core.UInt256
 import electionguard.util.getSystemTimeInMillis
 import electionguard.core.hashFunction
 import electionguard.core.productionGroup
-import electionguard.core.testResourcesDir
+import electionguard.testResourcesDir
 import electionguard.core.toElementModQ
 import electionguard.input.RandomBallotProvider
 import electionguard.publish.readElectionRecord

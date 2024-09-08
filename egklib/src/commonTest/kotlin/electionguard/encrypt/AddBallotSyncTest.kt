@@ -1,7 +1,7 @@
 package electionguard.encrypt
 
 import electionguard.core.productionGroup
-import electionguard.core.testResourcesDir
+import electionguard.testResourcesDir
 import electionguard.input.RandomBallotProvider
 import electionguard.model.EncryptedBallot
 import electionguard.publish.makePublisher

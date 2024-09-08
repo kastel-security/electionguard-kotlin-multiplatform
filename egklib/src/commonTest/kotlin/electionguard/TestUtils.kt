@@ -33,3 +33,5 @@ fun runTest(f: suspend TestScope.() -> Unit): TestResult {
     //Edit: in order to use runTest in commonTest, we need to return the result - see documentation
     return kotlinx.coroutines.test.runTest(EmptyCoroutineContext, timeout = 101.seconds, f)
 }
+
+expect val testResourcesDir: String

@@ -1,7 +1,6 @@
 package electionguard.testvectors
 
 import electionguard.byteArrays
-import electionguard.cli.ManifestBuilder
 import electionguard.core.Base16.fromHex
 import electionguard.core.Base16.toHex
 import electionguard.core.ElGamalPublicKey

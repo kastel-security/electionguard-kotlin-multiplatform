@@ -3,6 +3,7 @@ package electionguard.encrypt
 import electionguard.core.*
 import electionguard.publish.readElectionRecord
 import electionguard.runTest
+import electionguard.testResourcesDir
 import electionguard.util.ErrorMessages
 import kotlinx.coroutines.test.TestResult
 import kotlin.test.Test

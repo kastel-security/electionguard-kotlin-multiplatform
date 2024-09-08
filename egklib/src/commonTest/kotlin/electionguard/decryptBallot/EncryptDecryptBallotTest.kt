@@ -14,6 +14,7 @@ import electionguard.keyceremony.KeyCeremonyTrustee
 import electionguard.model.*
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
+import electionguard.testResourcesDir
 import electionguard.util.ErrorMessages
 import electionguard.util.Stats
 import electionguard.util.getSystemTimeInMillis
@@ -25,7 +26,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 
 /** Test KeyCeremony Trustee generation and recovered decryption. */
-
 class EncryptDecryptBallotTest {
     val group = productionGroup()
     val configDir = "$testResourcesDir/startConfigJson"

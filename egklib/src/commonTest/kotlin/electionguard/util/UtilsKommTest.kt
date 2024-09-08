@@ -1,6 +1,6 @@
 package electionguard.util
 
-import electionguard.core.testResourcesDir
+import electionguard.testResourcesDir
 import kotlin.test.Test
 import kotlin.test.assertTrue
 

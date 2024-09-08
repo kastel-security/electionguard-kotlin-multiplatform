@@ -86,6 +86,22 @@ fun ByteArray.toUInt(): UInt {
             (this[3].toInt() and 0xFF).toUInt()
 }
 
+/** Convert a big-endian array of eight bytes to an unsigned long integer. */
+fun ByteArray.toULong(): ULong {
+    require(this.size == 8) { "Byte array must be of length 8" }
+    return (this[0].toULong() shl 56) or
+            ((this[1].toInt() and 0xFF).toULong() shl 48) or
+            ((this[2].toInt() and 0xFF).toULong() shl 40) or
+            ((this[3].toInt() and 0xFF).toULong() shl 32) or
+            ((this[4].toInt() and 0xFF).toULong() shl 24) or
+            ((this[5].toInt() and 0xFF).toULong() shl 16) or
+            ((this[6].toInt() and 0xFF).toULong() shl 8) or
+            (this[7].toInt() and 0xFF).toULong()
+}
+
+/** Convert a big-endian array of eight bytes to a long integer. */
+fun ByteArray.toLong(): Long = this.toULong().toLong()
+
 /** Convert a big-endian array of four bytes to an integer. */
 fun ByteArray.toInt(): Int = this.toUInt().toInt()
 

@@ -72,7 +72,6 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 implementation(libs.mockk)
-//                implementation(libs.kotlin.test.junit5)
                 implementation(libs.junit.jupiter.params)
             }
         }
@@ -87,4 +86,3 @@ fun Project.findLocalProperty(name: String): Any? {
         properties[name]
     } else null
 }
-

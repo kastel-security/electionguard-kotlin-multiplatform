@@ -7,7 +7,7 @@ import electionguard.model.makeContestData
 import electionguard.core.ElGamalPublicKey
 import electionguard.core.UInt256
 import electionguard.core.productionGroup
-import electionguard.core.testResourcesDir
+import electionguard.testResourcesDir
 import electionguard.encrypt.Encryptor
 import electionguard.encrypt.submit
 import electionguard.input.RandomBallotProvider

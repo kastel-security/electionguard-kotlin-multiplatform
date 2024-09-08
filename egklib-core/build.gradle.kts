@@ -1,4 +1,3 @@
-
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import java.util.*
 
@@ -57,16 +56,16 @@ kotlin {
             testTask {
                 this.nodeJsArgs += nodeJsArgs
                 useKarma {
-//                    findLocalProperty("karma.browsers")
-//                        ?.let { it as String }?.split(",")
-//                        ?.forEach { browser ->
-//                            when (browser) {
-//                                "ChromeHeadless" -> useChromeHeadless()
-//                                "Chrome" -> useChrome()
-//                                "Firefox" -> useFirefox()
-//                                "FirefoxHeadless" -> useFirefoxHeadless()
-//                            }
-//                        } ?: useChromeHeadless()
+                    findLocalProperty("karma.browsers")
+                        ?.let { it as String }?.split(",")
+                        ?.forEach { browser ->
+                            when (browser) {
+                                "ChromeHeadless" -> useChromeHeadless()
+                                "Chrome" -> useChrome()
+                                "Firefox" -> useFirefox()
+                                "FirefoxHeadless" -> useFirefoxHeadless()
+                            }
+                        } ?: useChromeHeadless()
                 }
             }
         }

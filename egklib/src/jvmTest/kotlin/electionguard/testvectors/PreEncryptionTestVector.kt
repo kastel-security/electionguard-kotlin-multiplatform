@@ -1,6 +1,5 @@
 package electionguard.testvectors
 
-import electionguard.cli.ManifestBuilder
 import electionguard.core.UInt256
 import electionguard.core.productionGroup
 import electionguard.json.*

@@ -1,6 +1,5 @@
 package electionguard.preencrypt
 
-import electionguard.cli.ManifestBuilder
 import electionguard.core.GroupContext
 import electionguard.core.UInt256
 import electionguard.core.productionGroup
@@ -12,6 +11,7 @@ import electionguard.model.Manifest
 import electionguard.model.PreEncryptedBallot
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
+import electionguard.testvectors.ManifestBuilder
 import electionguard.util.ErrorMessages
 import kotlin.random.Random
 import kotlin.test.Test

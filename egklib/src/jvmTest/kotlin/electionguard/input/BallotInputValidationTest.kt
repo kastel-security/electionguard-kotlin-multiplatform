@@ -2,12 +2,8 @@ package electionguard.input
 
 import electionguard.model.Manifest
 import electionguard.model.PlaintextBallot
-import electionguard.cli.ManifestBuilder
-import kotlin.test.Test
-import kotlin.test.assertContains
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
+import electionguard.testvectors.ManifestBuilder
+import kotlin.test.*
 
 class TestBallotInputValidation {
     class ElectionAndBallot(election: Manifest, ballot: PlaintextBallot) {

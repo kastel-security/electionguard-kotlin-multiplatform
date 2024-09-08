@@ -5,7 +5,7 @@ pluginManagement {
     }
 
     plugins {
-        val kotlinVersion = "1.9.20"
+        val kotlinVersion = "1.9.23"
 
         kotlin("jvm").version(kotlinVersion)
         kotlin("multiplatform").version(kotlinVersion)
@@ -22,3 +22,4 @@ rootProject.name = "electionguard-kotlin-multiplatform"
 include ("egklib")
 include("egklib-core")
 include("egklib-trustee")
+include("egk-cli")
