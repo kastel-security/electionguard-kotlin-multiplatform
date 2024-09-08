@@ -130,7 +130,7 @@ open class KeyCeremonyTrustee(
         // Having decrypted each Pi (ℓ), guardian Gℓ can now verify its validity against
         // the commitments Ki,0 , Ki,1 , . . . , Ki,k−1 made by Gi to its coefficients by confirming that
         // g^Pi(ℓ) = Prod{ (Kij)^ℓ^j }, for j=0..k-1 ; spec 2.0.0 eq 21
-        if (group.gPowP(expectedPil) != calculateGexpPiAtL(publicKeys.guardianId, this.xCoordinate(), publicKeys.coefficientCommitments())) {
+        if (group.gPowP(expectedPil) != calculateGexpPiAtL(this.xCoordinate(), publicKeys.coefficientCommitments())) {
             return Err("Trustee '${id()}' error validating EncryptedKeyShare for missingGuardianId '${share.polynomialOwner}'")
         }
 
@@ -167,7 +167,6 @@ open class KeyCeremonyTrustee(
             // check if the Pi(ℓ) that was sent satisfies eq 21.
             // g^Pi(ℓ) = Prod{ (Kij)^ℓ^j }, for j=0..k-1
             if (group.gPowP(keyShare.yCoordinate) != calculateGexpPiAtL(
-                    otherKeys.guardianId,
                     this.xCoordinate(),
                     otherKeys.coefficientCommitments()
                 )
@@ -229,9 +228,9 @@ open class KeyCeremonyTrustee(
         // Label = b(“share enc keys”, 14)
         // Context = b(“share_encrypt”, 13) ∥ b(i, 4) ∥ b(ℓ, 4)
         // k0 = HMAC(ki,ℓ , 0x01 ∥ Label ∥ 0x00 ∥ Context ∥ 0x0200) ; spec 2.0.0,  eq 16
-        val k0 = hmacFunction(kil, 0x01.toByte(), label, 0x00.toByte(), context, i, l, 512).bytes
+        val k0 = hmacFunction(kil, 0x01.toByte(), label, 0x00.toByte(), context, listOf(i, l, 512)).bytes
         // k1 = HMAC(ki,ℓ , 0x02 ∥ Label ∥ 0x00 ∥ Context ∥ 0x0200) ; eq 17
-        val k1 = hmacFunction(kil, 0x02.toByte(), label, 0x00.toByte(), context, i, l, 512).bytes
+        val k1 = hmacFunction(kil, 0x02.toByte(), label, 0x00.toByte(), context, listOf(i, l, 512)).bytes
 
         // spec 2.0.0, eq 19
         // Ci,ℓ,0 = g^ξi,ℓ mod p = C0 = g^nonce == alpha
@@ -241,7 +240,7 @@ open class KeyCeremonyTrustee(
         val c1 = ByteArray(32) { pilBytes[it] xor k1[it] }
         // Ci,ℓ,2 = HMAC(k0 , b(Ci,ℓ,0 , 512) ∥ Ci,ℓ,1 )
         // C2 = HMAC(k0, b(C0,512) ∥ C1 )
-        val c2 = hmacFunction(k0, c0, c1)
+        val c2 = hmacFunction(k0, elements = listOf(c0, c1))
 
         return HashedElGamalCiphertext(c0, c1, c2, pilBytes.size)
     }
@@ -268,12 +267,12 @@ open class KeyCeremonyTrustee(
 
         // Now the MAC key k0 and the encryption key k1 can be computed as above in Equations (16) and (17)
         val k0 =
-            hmacFunction(kil, 0x01.toByte(), label, 0x00.toByte(), context, share.ownerXcoord, xCoordinate(), 512).bytes
+            hmacFunction(kil, 0x01.toByte(), label, 0x00.toByte(), context, listOf(share.ownerXcoord, xCoordinate(), 512)).bytes
         val k1 =
-            hmacFunction(kil, 0x02.toByte(), label, 0x00.toByte(), context, share.ownerXcoord, xCoordinate(), 512).bytes
+            hmacFunction(kil, 0x02.toByte(), label, 0x00.toByte(), context, listOf(share.ownerXcoord, xCoordinate(), 512)).bytes
 
         // Gℓ can verify the validity of the MAC, namely that Ci,ℓ,2 = HMAC(k0 , b(Ci,ℓ,0 , 512) ∥ Ci,ℓ,1 ).
-        val expectedC2 = hmacFunction(k0, c0, c1)
+        val expectedC2 = hmacFunction(k0, elements = listOf(c0, c1))
         if (expectedC2 != share.encryptedCoordinate.c2) {
             return null
         }

@@ -38,9 +38,13 @@ kotlin {
         }
     }
     js(IR) {
-        compilations.all { kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes" }
-        val nodeJsArgs = listOf("--max-old-space-size=4096")
+        compilations.all {
+            kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes"
+        }
+        useEsModules()
+        binaries.library()
 
+        val nodeJsArgs = listOf("--max-old-space-size=4096")
         nodejs {
             testTask {
                 this.nodeJsArgs += nodeJsArgs
@@ -53,11 +57,19 @@ kotlin {
             testTask {
                 this.nodeJsArgs += nodeJsArgs
                 useKarma {
-                    useChromeHeadless()
+//                    findLocalProperty("karma.browsers")
+//                        ?.let { it as String }?.split(",")
+//                        ?.forEach { browser ->
+//                            when (browser) {
+//                                "ChromeHeadless" -> useChromeHeadless()
+//                                "Chrome" -> useChrome()
+//                                "Firefox" -> useFirefox()
+//                                "FirefoxHeadless" -> useFirefoxHeadless()
+//                            }
+//                        } ?: useChromeHeadless()
                 }
             }
         }
-        binaries.library()
     }
 
     sourceSets {
@@ -75,6 +87,10 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(kotlin("test"))
                 implementation(libs.kotest.property)
+
+                // since we are configuring test browsers dynamically,
+                // we need to add the dependencies here to prevent changes in yarn.lock
+                runtimeOnly(npm("karma-firefox-launcher", "2.1.2"))
             }
         }
         val jsMain by getting {

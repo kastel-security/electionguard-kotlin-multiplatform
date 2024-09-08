@@ -30,7 +30,7 @@ data class Guardians(val group : GroupContext, val guardians: List<Guardian>) {
                 ?: throw IllegalStateException("Guardians.getGexpP doesnt have guardian id = '$guardianId'")
 
             with(group) {
-                guardians.map { calculateGexpPiAtL(it.guardianId, guardian.xCoordinate, it.coefficientCommitments()) }.multP()
+                guardians.map { calculateGexpPiAtL(guardian.xCoordinate, it.coefficientCommitments()) }.multP()
             }
         }
     }

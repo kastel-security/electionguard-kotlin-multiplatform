@@ -51,7 +51,6 @@ data class ElectionPolynomial(
  *    Prod_j ((K_i,j)^(x^j)),   j=0..k-1 ) mod p
  */
 fun calculateGexpPiAtL(
-    guardianId: String, // debug
     xcoord: Int,  // evaluated at xcoord ℓ
     coefficientCommitments: List<ElementModP>  // Kij for guardian i
 ): ElementModP {
