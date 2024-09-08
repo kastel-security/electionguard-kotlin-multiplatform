@@ -1,6 +1,7 @@
 package electionguard.core
 
 import electionguard.core.Base16.toHex
+import kotlin.experimental.inv
 
 @JsModule(import = "big-integer")
 @JsNonModule
@@ -99,7 +100,34 @@ actual class BigInteger: Comparable<BigInteger> {
     }
 
     actual fun toByteArray(): ByteArray {
-        return this.value.toArray(256).value.map { it.toByte() }.toByteArray()
+        val array = this.value.toArray(256)
+        val isNegative = array.isNegative
+        val bytes = array.value.map { it.toByte() }.toMutableList()
+
+        if (isNegative) {
+            // Two's complement for negative numbers
+            var carry = true
+            for (i in bytes.indices.reversed()) {
+                bytes[i] = bytes[i].inv()
+                if (carry) {
+                    if (bytes[i] == 0xFF.toByte()) {
+                        bytes[i] = 0
+                    } else {
+                        bytes[i] = (bytes[i] + 1).toByte()
+                        carry = false
+                    }
+                }
+            }
+            // Ensure sign extension for negative numbers
+            if (bytes[0] >= 0) {
+                bytes.add(0, 0xFF.toByte()) // Add an extra byte if MSB doesn't correctly represent the sign
+            }
+        }
+
+        if (bytes[0] < 0 && !isNegative) {
+            bytes.add(0, 0) // positive sign extension
+        }
+        return bytes.toByteArray()
     }
 
     actual override fun toString(): String {
