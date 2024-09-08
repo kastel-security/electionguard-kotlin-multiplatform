@@ -40,16 +40,6 @@ fun hashFunction(key: ByteArray, separator: Byte?, vararg elements: Any): UInt25
     return hmac.finish()
 }
 
-// identical to hashFunction, made separate to follow the spec.
-// only called from KeyCeremonyTrustee. doesnt use strings
-fun hmacFunction(key: ByteArray, separator: Byte?, vararg elements: Any): UInt256 {
-    require(elements.isNotEmpty())
-    val hmac = HmacSha256(key)
-    separator?.let { hmac.addToHash(byteArrayOf(it)) } // in order to not have Byte as recognized type in addToHash
-    elements.forEach { hmac.addToHash(it) }
-    return hmac.finish()
-}
-
 fun HmacSha256.addToHash(element : Any, show : Boolean = false) {
     if (element is Iterable<*>) {
         element.forEach { this.addToHash(it!!) }
