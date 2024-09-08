@@ -13,96 +13,24 @@ expect class Stats() {
 }
 
 expect class Stat(thing: String, what: String) {
-    fun thing(): String
-    fun what(): String
+    val thing: String
+    val what: String
     fun accum(amount: Long, nthings: Int)
     fun accum(): Long
     fun nthings(): Int
     fun count(): Int
-    fun copy(accum: Long): Stat
+    fun copy(accum: Long, nthings: Int = nthings(), count: Int = count()): Stat
 }
 
 fun Stat.show(len: Int = 3): String {
     val perThing = if (nthings() == 0) 0.0 else accum().toDouble() / nthings()
     val perWhat = if (count() == 0) 0.0 else accum().toDouble() / count()
-    return "took ${accum().pad(len)} msecs = ${perThing.sigfig(4)} msecs/${thing()} (${nthings()} ${thing()}s)" +
-            " = ${perWhat.sigfig()} msecs/${what()} for ${count()} ${what()}s"
+    return "took ${accum().pad(len)} msecs = ${perThing.sigfig(4)} msecs/${thing} (${nthings()} ${thing}s)" +
+            " = ${perWhat.sigfig()} msecs/${what} for ${count()} ${what}s"
 }
 
 fun Int.pad(len: Int): String = "$this".padStart(len, ' ')
 fun Long.pad(len: Int): String = "$this".padStart(len, ' ')
-
-
-// LOOK can use println("SimpleBallot %.2f encryptions / sec".format(numBallots / encryptionTime)) instead of dfrac
-
-/**
- * Format a double value to have a fixed number of decimal places.
- *
- * @param fixedDecimals number of fixed decimals
- * @return double formatted as a string
- */
-fun Double.dfrac(fixedDecimals: Int = 2): String {
-    val s: String = this.toString()
-
-    // extract the sign
-    val sign: String
-    val unsigned: String
-    if (s.startsWith("-") || s.startsWith("+")) {
-        sign = s.substring(0, 1)
-        unsigned = s.substring(1)
-    } else {
-        sign = ""
-        unsigned = s
-    }
-
-    // deal with exponential notation
-    val mantissa: String
-    val exponent: String
-    var eInd = unsigned.indexOf('E')
-    if (eInd == -1) {
-        eInd = unsigned.indexOf('e')
-    }
-    if (eInd == -1) {
-        mantissa = unsigned
-        exponent = ""
-    } else {
-        mantissa = unsigned.substring(0, eInd)
-        exponent = unsigned.substring(eInd)
-    }
-
-    // deal with decimal point
-    val number: StringBuilder
-    val fraction: StringBuilder
-    val dotInd = mantissa.indexOf('.')
-    if (dotInd == -1) {
-        number = StringBuilder(mantissa)
-        fraction = StringBuilder()
-    } else {
-        number = StringBuilder(mantissa.substring(0, dotInd))
-        fraction = StringBuilder(mantissa.substring(dotInd + 1))
-    }
-
-    // number of significant figures
-    val fracFigs = fraction.length
-
-    if (fixedDecimals == 0) {
-        fraction.setLength(0)
-    } else if (fixedDecimals > fracFigs) {
-        val want = fixedDecimals - fracFigs
-        for (i in 0 until want) {
-            fraction.append("0")
-        }
-    } else if (fixedDecimals < fracFigs) {
-        val chop = fracFigs - fixedDecimals // TODO should round !!
-        fraction.setLength(fraction.length - chop)
-    }
-
-    return if (fraction.isEmpty()) {
-        "$sign$number$exponent"
-    } else {
-        "$sign$number.$fraction$exponent"
-    }
-}
 
 /**
  * Format a double value to have a minimum significant figures.
@@ -111,8 +39,8 @@ fun Double.dfrac(fixedDecimals: Int = 2): String {
  * @return double formatted as a string
  */
 fun Double.sigfig(minSigfigs: Int = 5): String {
-    val s: String = this.toString()
-
+    // fix toString in-equivalence between JS and JVM for X.0 - JVM: X.0, JS: X
+    val s: String = if ("$this".matches(Regex("\\d+"))) "${this}.0" else "$this"
     // extract the sign
     val sign: String
     val unsigned: String

@@ -3,12 +3,13 @@ package electionguard.util
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 
 actual class Stats {
     private val mutex = Mutex()
-    private val stats = mutableMapOf<String, Stat>() // TODO need thread safe collection
+    private val stats = ConcurrentHashMap<String, Stat>()
 
     actual fun of(who: String, thing: String, what: String): Stat {
         return runBlocking {
@@ -19,17 +20,17 @@ actual class Stats {
     }
 
     actual fun show(who: String) {
-        val stat = stats.get(who)
+        val stat = stats[who]
         if (stat != null) println(stat.show()) else println("no stat named $who")
     }
 
-    actual fun get(who: String) : Stat? = stats.get(who)
+    actual fun get(who: String): Stat? = stats[who]
 
     actual fun show(len: Int) {
         showLines(len).forEach { println(it) }
     }
 
-    actual fun count() : Int {
+    actual fun count(): Int {
         return if (stats.isNotEmpty()) stats.values.first().count() else 0
     }
 
@@ -39,12 +40,16 @@ actual class Stats {
             result.add("stats is empty")
             return result
         }
-        var sum = 0L
+        var accum = 0L
+        var nThings = 0
+        var count = 0
         stats.forEach {
             result.add("${it.key.padStart(20, ' ')}: ${it.value.show(len)}")
-            sum += it.value.accum()
+            accum += it.value.accum()
+            nThings += it.value.nthings()
+            count += it.value.count()
         }
-        val total = stats.values.first().copy(sum)
+        val total = stats.values.first().copy(accum, nThings, count)
         val totalName = "total".padStart(20, ' ')
         result.add("$totalName: ${total.show(len)}")
         return result
@@ -53,34 +58,30 @@ actual class Stats {
 
 /** So we can use AtomicXXX */
 actual class Stat actual constructor(
-    val thing : String,
-    val what: String
+    actual val thing: String,
+    actual val what: String
 ) {
-    var accum : AtomicLong = AtomicLong(0)
-    var count : AtomicInteger = AtomicInteger(0)
-    var nthings : AtomicInteger = AtomicInteger(0)
+    private var atomicAccum: AtomicLong = AtomicLong(0)
+    private var atomicCount: AtomicInteger = AtomicInteger(0)
+    private var atomicNThings: AtomicInteger = AtomicInteger(0)
 
-    actual fun accum(amount : Long, nthings : Int) {
-        accum.addAndGet(amount)
-        this.nthings.addAndGet(nthings)
-        count.incrementAndGet()
+    actual fun accum(amount: Long, nthings: Int) {
+        atomicAccum.addAndGet(amount)
+        atomicNThings.addAndGet(nthings)
+        atomicCount.incrementAndGet()
     }
 
-    actual fun copy(accum: Long): Stat {
+    actual fun copy(accum: Long, nthings: Int, count: Int): Stat {
         val copy = Stat(this.thing, this.what)
-        copy.accum = AtomicLong(accum)
-        copy.count = this.count
-        copy.nthings = this.nthings
+        copy.atomicAccum = AtomicLong(accum)
+        copy.atomicCount = AtomicInteger(count)
+        copy.atomicNThings = AtomicInteger(nthings)
         return copy
     }
 
-    actual fun thing() = this.thing
+    actual fun accum() = this.atomicAccum.get()
 
-    actual fun what() = this.what
+    actual fun nthings() = this.atomicNThings.get()
 
-    actual fun accum() = this.accum.get()
-
-    actual fun nthings() = this.nthings.get()
-
-    actual fun count() = this.count.get()
+    actual fun count() = this.atomicCount.get()
 }

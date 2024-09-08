@@ -1,5 +1,7 @@
 package electionguard.util
 
+import electionguard.runTest
+import kotlinx.coroutines.launch
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -50,7 +52,7 @@ class StatsTest {
             listOf(
                 "             widgets: took  22 msecs = 1.222 msecs/decryption (18 decryptions) = 11.0 msecs/ballot for 2 ballots",
                 "             blivits: took  11 msecs = .7333 msecs/decryption (15 decryptions) = 11.0 msecs/ballot for 1 ballots",
-                "               total: took  33 msecs = 1.833 msecs/decryption (18 decryptions) = 16.5 msecs/ballot for 2 ballots",
+                "               total: took  33 msecs = 1.0 msecs/decryption (33 decryptions) = 11.0 msecs/ballot for 3 ballots",
             ), stats.showLines()
         )
 
@@ -58,17 +60,28 @@ class StatsTest {
             listOf(
                 "             widgets: took    22 msecs = 1.222 msecs/decryption (18 decryptions) = 11.0 msecs/ballot for 2 ballots",
                 "             blivits: took    11 msecs = .7333 msecs/decryption (15 decryptions) = 11.0 msecs/ballot for 1 ballots",
-                "               total: took    33 msecs = 1.833 msecs/decryption (18 decryptions) = 16.5 msecs/ballot for 2 ballots",
+                "               total: took    33 msecs = 1.0 msecs/decryption (33 decryptions) = 11.0 msecs/ballot for 3 ballots",
             ), stats.showLines(5)
         )
     }
 
     @Test
-    fun testDfrac() {
-        assertEquals("0.0909", (1.0 / 11).dfrac(4))
-        assertEquals("0.090", (1.0 / 11).dfrac(3)) // should be 0.091 ?
-        assertEquals("0.09", (1.0 / 11).dfrac(2))
-        assertEquals("0.0", (1.0 / 11).dfrac(1)) // should be 0.1 ?
+    fun testStatsAsync() = runTest {
+        val stats = Stats()
+        repeat(100) {
+            launch {
+                stats.of("widgets").accum(15, 11)
+                stats.of("blivits").accum(11, 15)
+                stats.of("widgets").accum(7, 7)
+            }.join()
+        }
+        assertEquals(
+            listOf(
+                "             widgets: took 2200 msecs = 1.222 msecs/decryption (1800 decryptions) = 11.0 msecs/ballot for 200 ballots",
+                "             blivits: took 1100 msecs = .7333 msecs/decryption (1500 decryptions) = 11.0 msecs/ballot for 100 ballots",
+                "               total: took 3300 msecs = 1.0 msecs/decryption (3300 decryptions) = 11.0 msecs/ballot for 300 ballots",
+            ), stats.showLines()
+        )
     }
 
     @Test
@@ -80,6 +93,7 @@ class StatsTest {
         assertEquals(".090", (1.0 / 11).sigfig(2))
         assertEquals(".09", (1.0 / 11).sigfig(1))
         assertEquals(".0", (1.0 / 11).sigfig(0))
+        assertEquals(".0", (0.0).sigfig(0))
     }
 
     @Test
