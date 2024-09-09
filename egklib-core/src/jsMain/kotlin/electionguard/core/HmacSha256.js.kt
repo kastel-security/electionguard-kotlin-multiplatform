@@ -8,25 +8,17 @@ import org.khronos.webgl.get
  */
 @JsModule("@noble/hashes/hmac")
 @JsNonModule
-external class NobleCryptoHmac {
-    companion object {
-        val hmac: HmacCreator
-    }
+external object NobleCryptoHmac {
+    val hmac: HmacCreator
+}
 
-    /**
-     * This class maps to the HMAC class in hmac.d.ts in the @noble/hashes library
-     */
-    class HMAC {
-        fun update(value: Uint8Array): HMAC
-        fun digest(): Uint8Array
-    }
+external class HMAC {
+    fun update(value: Uint8Array): HMAC
+    fun digest(): Uint8Array
+}
 
-    /**
-     * This class maps to the hmac constant in hmac.d.ts in the @noble/hashes library
-     */
-    class HmacCreator {
-        fun create(hash: Any, key: Uint8Array): HMAC
-    }
+external class HmacCreator {
+    fun create(hash: Any, key: Uint8Array): HMAC
 }
 
 /**
@@ -34,10 +26,8 @@ external class NobleCryptoHmac {
  */
 @JsModule("@noble/hashes/sha256")
 @JsNonModule
-external class NobleCryptoSha {
-    companion object {
-        val sha256: Any
-    }
+external object NobleCryptoSha {
+    val sha256: Any
 }
 
 /**
@@ -54,10 +44,8 @@ external class NobleCryptoSha {
  * spec 2.0.0, p.9.
  */
 actual class HmacSha256 actual constructor(key: ByteArray) {
-    private val hmac: NobleCryptoHmac.HMAC
-    init {
-        this.hmac = NobleCryptoHmac.hmac.create(NobleCryptoSha.sha256, Uint8Array(key.toTypedArray()))
-    }
+    private val hmac: HMAC = NobleCryptoHmac.hmac.create(NobleCryptoSha.sha256, Uint8Array(key.toTypedArray()))
+
     actual fun update(ba: ByteArray) {
         hmac.update(Uint8Array(ba.toTypedArray()))
     }
