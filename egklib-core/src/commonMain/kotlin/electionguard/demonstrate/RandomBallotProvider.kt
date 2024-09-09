@@ -1,4 +1,4 @@
-package electionguard.input
+package electionguard.demonstrate
 
 import electionguard.model.Manifest
 import electionguard.model.PlaintextBallot

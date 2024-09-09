@@ -1,5 +1,6 @@
 package electionguard.cli
 
+import electionguard.demonstrate.buildTestManifest
 import electionguard.publish.makePublisher
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType

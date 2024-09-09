@@ -10,7 +10,7 @@ import electionguard.core.productionGroup
 import electionguard.testResourcesDir
 import electionguard.encrypt.Encryptor
 import electionguard.encrypt.submit
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
 import kotlin.test.Test

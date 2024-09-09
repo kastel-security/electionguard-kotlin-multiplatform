@@ -11,7 +11,7 @@ import electionguard.model.Manifest
 import electionguard.model.PreEncryptedBallot
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
-import electionguard.testvectors.ManifestBuilder
+import electionguard.demonstrate.ManifestBuilder
 import electionguard.util.ErrorMessages
 import kotlin.random.Random
 import kotlin.test.Test

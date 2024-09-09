@@ -4,8 +4,8 @@ import electionguard.jsonRoundTrip
 import electionguard.model.Manifest
 import electionguard.publish.makePublisher
 import electionguard.runTest
-import electionguard.testvectors.ManifestBuilder
-import electionguard.testvectors.buildTestManifest
+import electionguard.demonstrate.ManifestBuilder
+import electionguard.demonstrate.buildTestManifest
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.string

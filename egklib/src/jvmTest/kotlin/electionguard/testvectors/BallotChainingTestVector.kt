@@ -3,10 +3,11 @@ package electionguard.testvectors
 import electionguard.core.*
 import electionguard.core.Base16.fromHexSafe
 import electionguard.core.Base16.toHex
+import electionguard.demonstrate.ManifestBuilder
 import electionguard.encrypt.AddEncryptedBallot
 import electionguard.encrypt.CiphertextBallot
 import electionguard.encrypt.Encryptor
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
 import electionguard.json.UInt256Json
 import electionguard.json.import
 import electionguard.json.publishJson

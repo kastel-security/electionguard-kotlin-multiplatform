@@ -9,7 +9,7 @@ import electionguard.core.GroupContext
 import electionguard.core.productionGroup
 import electionguard.encrypt.AddEncryptedBallot
 import electionguard.input.ManifestInputValidation
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
 import electionguard.publish.makeConsumer
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord

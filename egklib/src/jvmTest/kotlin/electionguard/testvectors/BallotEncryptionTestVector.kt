@@ -1,10 +1,11 @@
 package electionguard.testvectors
 
 import electionguard.core.*
+import electionguard.demonstrate.ManifestBuilder
 import electionguard.encrypt.CiphertextBallot
 import electionguard.encrypt.Encryptor
 import electionguard.input.BallotInputValidation
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
 import electionguard.json.*
 import electionguard.model.Manifest
 import electionguard.model.PlaintextBallot

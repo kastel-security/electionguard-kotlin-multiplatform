@@ -7,10 +7,11 @@ import electionguard.core.ElGamalPublicKey
 import electionguard.core.UInt256
 import electionguard.core.base16ToElementModP
 import electionguard.core.productionGroup
+import electionguard.demonstrate.ManifestBuilder
 import electionguard.encrypt.CiphertextBallot
 import electionguard.encrypt.Encryptor
 import electionguard.input.BallotInputValidation
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
 import electionguard.json.*
 import electionguard.model.Manifest
 import electionguard.model.PlaintextBallot

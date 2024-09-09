@@ -2,6 +2,7 @@ package electionguard.testvectors
 
 import electionguard.core.UInt256
 import electionguard.core.productionGroup
+import electionguard.demonstrate.ManifestBuilder
 import electionguard.json.*
 import electionguard.model.Manifest
 import electionguard.model.PreEncryptedBallot

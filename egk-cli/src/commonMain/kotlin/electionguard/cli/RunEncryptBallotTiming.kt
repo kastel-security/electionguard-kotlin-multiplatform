@@ -2,7 +2,7 @@ package electionguard.cli
 
 import electionguard.core.*
 import electionguard.encrypt.Encryptor
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
 import electionguard.util.ErrorMessages
 import electionguard.util.Stopwatch
 import electionguard.util.sigfig

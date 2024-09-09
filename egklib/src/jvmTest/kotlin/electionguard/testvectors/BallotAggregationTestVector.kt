@@ -4,9 +4,10 @@ package electionguard.testvectors
 
 import electionguard.model.*
 import electionguard.core.*
+import electionguard.demonstrate.ManifestBuilder
 import electionguard.encrypt.Encryptor
 import electionguard.encrypt.cast
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
 import electionguard.json.*
 import electionguard.tally.AccumulateTally
 import electionguard.util.ErrorMessages

@@ -5,9 +5,10 @@ import electionguard.core.ElGamalPublicKey
 import electionguard.core.UInt256
 import electionguard.core.productionGroup
 import electionguard.decryptBallot.DecryptWithNonce
+import electionguard.demonstrate.ManifestBuilder
 import electionguard.encrypt.Encryptor
 import electionguard.encrypt.submit
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
 import electionguard.json.*
 import electionguard.model.EncryptedBallot
 import electionguard.model.Manifest

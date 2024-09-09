@@ -1,3 +1,5 @@
+import kotlinx.coroutines.test.withTestContext
+
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.serialization)

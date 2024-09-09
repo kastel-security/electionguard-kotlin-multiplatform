@@ -1,4 +1,4 @@
-package electionguard.testvectors
+package electionguard.demonstrate
 
 import electionguard.model.Manifest
 import electionguard.model.protocolVersion

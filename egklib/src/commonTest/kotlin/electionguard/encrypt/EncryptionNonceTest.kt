@@ -10,7 +10,7 @@ import electionguard.core.hashFunction
 import electionguard.core.productionGroup
 import electionguard.testResourcesDir
 import electionguard.core.toElementModQ
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
 import kotlin.math.roundToInt

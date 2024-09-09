@@ -13,7 +13,7 @@ import electionguard.util.Stats
 import electionguard.core.productionGroup
 import electionguard.decrypt.DecryptingTrusteeIF
 import electionguard.encrypt.AddEncryptedBallot
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
 import electionguard.publish.makeTrusteeSource

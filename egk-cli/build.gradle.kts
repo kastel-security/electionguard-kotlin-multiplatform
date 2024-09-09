@@ -36,6 +36,7 @@ kotlin {
                 implementation(project(":egklib"))
                 implementation(project(":egklib-core"))
                 implementation(project(":egklib-trustee"))
+                implementation(project(":egklib-encrypt"))
 
                 implementation(libs.oshai.logging)
                 implementation(libs.kotlinx.coroutines.core)

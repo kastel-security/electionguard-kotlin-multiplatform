@@ -1,7 +1,7 @@
 package electionguard.cli
 
 import electionguard.core.productionGroup
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
 import electionguard.model.PlaintextBallot
 import electionguard.publish.makePublisher
 import electionguard.publish.readAndCheckManifest

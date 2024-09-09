@@ -6,7 +6,7 @@ import electionguard.core.ElGamalPublicKey
 import electionguard.core.GroupContext
 import electionguard.core.UInt256
 import electionguard.core.productionGroup
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
 import electionguard.model.EncryptedBallot
 import electionguard.publish.makeConsumer
 import electionguard.publish.makePublisher

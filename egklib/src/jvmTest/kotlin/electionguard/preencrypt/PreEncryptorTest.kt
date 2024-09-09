@@ -11,7 +11,7 @@ import electionguard.json.publishJson
 import electionguard.model.*
 import electionguard.publish.readElectionRecord
 import electionguard.runTest
-import electionguard.testvectors.ManifestBuilder
+import electionguard.demonstrate.ManifestBuilder
 import electionguard.util.ErrorMessages
 import electionguard.util.Stats
 import electionguard.verifier.VerifyEncryptedBallots
