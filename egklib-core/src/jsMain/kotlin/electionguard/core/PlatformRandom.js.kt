@@ -21,8 +21,9 @@ private external val window: Window
 actual fun randomBytes(length: Int) =
     when (getPlatform()) {
         Platform.BROWSER -> window.crypto.getRandomValues(ByteArray(length))
-        Platform.NODE -> crypto.randomBytes(length)
+        Platform.NODE -> crypto.webcrypto.getRandomValues(ByteArray(length)).unsafeCast<ByteArray>()
     }
+
 
 fun getPlatform(): Platform =
     if (js("typeof window") != "undefined" && js("typeof document") != undefined)
