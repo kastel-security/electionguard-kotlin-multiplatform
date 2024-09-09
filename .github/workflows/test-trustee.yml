@@ -3,17 +3,17 @@ name: Test egklib-trustee
 on: [push]
 
 jobs:
-  jvm:
+  trustee-jvm-test:
     uses: ./.github/workflows/run-gradle-task.yml
     with:
       gradle-task: egklib-trustee:jvmTest
 
-  node:
+  trustee-node-test:
     uses: ./.github/workflows/run-gradle-task.yml
     with:
       gradle-task: egklib-trustee:jsNodeTest
 
-  browser:
+  trustee-browser-test:
     uses: ./.github/workflows/run-gradle-task.yml
     with:
       gradle-task: egklib-trustee:jsBrowserTest

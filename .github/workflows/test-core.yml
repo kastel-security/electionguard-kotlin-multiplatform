@@ -3,17 +3,17 @@ name: Test egklib-core
 on: [push]
 
 jobs:
-  jvm:
+  core-jvm-test:
     uses: ./.github/workflows/run-gradle-task.yml
     with:
-      gradle-task: egklib-encrypt:jvmTest
+      gradle-task: egklib-core:jvmTest
 
-  node:
+  core-node-test:
     uses: ./.github/workflows/run-gradle-task.yml
     with:
-      gradle-task: egklib-encrypt:jsNodeTest
+      gradle-task: egklib-core:jsNodeTest
 
-  browser:
+  core-browser-test:
     uses: ./.github/workflows/run-gradle-task.yml
     with:
-      gradle-task: egklib-encrypt:jsBrowserTest
+      gradle-task: egklib-core:jsBrowserTest
