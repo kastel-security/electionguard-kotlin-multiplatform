@@ -43,7 +43,7 @@ class Encryptor(
 
         val encryptedContests = mutableListOf<CiphertextBallot.Contest>()
         val manifestContests = manifest.contestsForBallotStyle(this.ballotStyle)
-        if (manifestContests == null || manifestContests.isEmpty()) {
+        if (manifestContests.isNullOrEmpty()) {
             errs.add("Manifest does not have ballotStyle ${this.ballotStyle} or it has no contests for that ballotStyle")
             return null
         }

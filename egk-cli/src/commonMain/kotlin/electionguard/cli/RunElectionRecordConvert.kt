@@ -1,7 +1,10 @@
-package electionguard.publish
+package electionguard.cli
 
 import electionguard.core.GroupContext
 import electionguard.core.productionGroup
+import electionguard.publish.makeConsumer
+import electionguard.publish.makePublisher
+import electionguard.publish.readElectionRecord
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.required

@@ -29,7 +29,7 @@ class PreEncryptor(
         • for each contest, votesAllowed additional null selections vectors, and a contest hash
         • a confirmation code for the ballot
      */
-    internal fun preencrypt(
+    fun preencrypt(
         ballotId: String,
         ballotStyleId: String,
         primaryNonce: UInt256,

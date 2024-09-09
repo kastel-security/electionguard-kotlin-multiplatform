@@ -1,7 +1,7 @@
 package electionguard.encrypt
 
-import electionguard.model.EncryptedBallot
 import electionguard.core.*
+import electionguard.model.EncryptedBallot
 
 /** Intermediate stage while encrypting. Does not have the extra Pre-encryption info, nor the state.
  * Contains nonces which are discarded when converted to EncryptedBallot. */

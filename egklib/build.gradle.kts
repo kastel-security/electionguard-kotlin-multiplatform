@@ -12,6 +12,12 @@ version = "2.1.1-PREVIEW"
 
 
 kotlin {
+    metadata {
+        compilations.all {
+            kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes"
+        }
+    }
+
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "17"
@@ -58,13 +64,12 @@ kotlin {
     }
 
     sourceSets {
-        all { languageSettings.optIn("kotlin.RequiresOptIn") }
-
         val commonMain by
             getting {
                 dependencies {
                     implementation(project(":egklib-core"))
                     implementation(project(":egklib-trustee"))
+                    implementation(project(":egklib-encrypt"))
                     implementation(libs.bundles.eglib)
                 }
             }
