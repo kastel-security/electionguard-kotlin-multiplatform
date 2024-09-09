@@ -1,0 +1,19 @@
+name: Test egklib-encrypt
+
+on: [push]
+
+jobs:
+  jvm:
+    uses: ./.github/workflows/run-gradle-task.yml
+    with:
+      gradle-task: egklib-core:jvmTest
+
+  node:
+    uses: ./.github/workflows/run-gradle-task.yml
+    with:
+      gradle-task: egklib-core:jsNodeTest
+
+  browser:
+    uses: ./.github/workflows/run-gradle-task.yml
+    with:
+      gradle-task: egklib-core:jsBrowserTest
