@@ -169,7 +169,10 @@ actual class ConsumerJson actual constructor(
         //This is required to resolve overload ambiguity
         val deviceDirs = listDir(topBallotPath)
         //TODO figure out better way to parse paths
-        return deviceDirs.map { it.split("/", "\\")[-1] }
+        return deviceDirs.map {
+            val components = it.split("/", "\\")
+            components[components.size - 1]
+        }
     }
 
     actual override fun readEncryptedBallotChain(device: String): Result<EncryptedBallotChain, ErrorMessages> {

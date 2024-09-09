@@ -2,6 +2,10 @@ package electionguard.core
 
 import electionguard.core.Base16.fromHexSafe
 import electionguard.core.Base16.toHex
+import electionguard.model.electionBaseHash
+import electionguard.model.electionExtendedHash
+import electionguard.model.manifestHash
+import electionguard.model.parameterBaseHash
 import electionguard.runTest
 import io.kotest.property.checkAll
 import io.kotest.property.forAll
@@ -134,6 +138,25 @@ class HashTest {
             val h1 = hashFunction("hay2".encodeToByteArray(), null, 0x422, keypair.publicKey)
             val h2 = hashFunction("hay2".encodeToByteArray(), null, 0x422, keypair.publicKey.key)
             assertEquals(h1, h2)
+        }
+    }
+
+    @Test
+    fun testElectionHashes(): TestResult {
+        return runTest {
+            val group = productionGroup()
+            val parameterBaseHash = parameterBaseHash(group.constants)
+            assertEquals("2B3B025E50E09C119CBA7E9448ACD1CABC9447EF39BF06327D81C665CDD86296",
+                parameterBaseHash.toHex())
+            val manifestHash = manifestHash(parameterBaseHash, "Original manifest file".encodeToByteArray())
+            assertEquals("201F94C4BEB7CE7B59E19646C9011B7582D54EAD0989095668615599AF4F57C8",
+                manifestHash.toHex())
+            val electionBaseHash = electionBaseHash(parameterBaseHash, manifestHash, 5, 3)
+            assertEquals("FA52B2D3C31E93D0E4D58FFED59BCEAAD627C2524943D0ECB4F0FB50EEFA2248",
+                electionBaseHash.toHex())
+            val extendedBaseHash = electionExtendedHash(electionBaseHash, group.ONE_MOD_P)
+            assertEquals("C78037774651DF20CA03218C07F6EDA3569A15D7890D8FF600B2CE2DCAE8C339",
+                extendedBaseHash.toHex())
         }
     }
 
