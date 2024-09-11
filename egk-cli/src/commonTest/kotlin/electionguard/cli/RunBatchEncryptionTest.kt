@@ -2,6 +2,11 @@ package electionguard.cli
 
 import electionguard.cli.RunBatchEncryption.Companion.batchEncryption
 import electionguard.core.productionGroup
+import electionguard.demonstrate.RandomBallotProvider
+import electionguard.publish.makeConsumer
+import electionguard.publish.readElectionRecord
+import kotlinx.coroutines.test.TestResult
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertContains
 
@@ -106,35 +111,35 @@ RunBatchEncryptionTest {
     }
 
     @Test
-    fun testInvalidBallot() {
+    fun testInvalidBallot(): TestResult {
         val inputDir = "src/commonTest/data/workflow/allAvailableJson"
         val outputDir = "testOut/testInvalidBallot"
         val invalidDir = "testOut/testInvalidBallot/invalidDir"
+        return runTest {
+            val group = productionGroup()
+            val electionRecord = readElectionRecord(group, inputDir)
 
-        val group = productionGroup()
-        val electionRecord = readElectionRecord(group, inputDir)
+            val ballot = RandomBallotProvider(electionRecord.manifest(), 1).makeBallot()
+            val ballots = listOf(ballot.copy(ballotStyle = "badStyleId"))
 
-        val ballot = RandomBallotProvider(electionRecord.manifest(), 1).makeBallot()
-        val ballots = listOf( ballot.copy(ballotStyle = "badStyleId"))
+            batchEncryption(
+                group,
+                inputDir,
+                ballots,
+                device = "testDevice",
+                outputDir = outputDir,
+                encryptDir = null,
+                invalidDir = invalidDir,
+                1,
+                "testInvalidBallot",
+            )
 
-        batchEncryption(
-            group,
-            inputDir,
-            ballots,
-            device = "testDevice",
-            outputDir = outputDir,
-            encryptDir = null,
-            invalidDir = invalidDir,
-            1,
-            "testInvalidBallot",
-        )
-
-        val consumerOut = makeConsumer(group, invalidDir)
-        consumerOut.iteratePlaintextBallots(invalidDir, null).forEach {
-            println("${it.errors}")
-            assertContains(it.errors.toString(), "Ballot.A.1 Ballot Style 'badStyleId' does not exist in election")
+            val consumerOut = makeConsumer(group, invalidDir)
+            consumerOut.iteratePlaintextBallots(invalidDir, null).forEach {
+                println("${it.errors}")
+                assertContains(it.errors.toString(), "Ballot.A.1 Ballot Style 'badStyleId' does not exist in election")
+            }
         }
-
     }
 
 }

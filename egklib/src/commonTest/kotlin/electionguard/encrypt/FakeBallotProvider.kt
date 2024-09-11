@@ -1,4 +1,4 @@
-package electionguard.encrypt
+package electionguard.encryption
 
 import electionguard.model.Manifest
 import electionguard.model.PlaintextBallot

@@ -1,4 +1,4 @@
-package electionguard.encrypt
+package electionguard.encryption
 
 import electionguard.core.*
 import electionguard.model.EncryptedBallot

@@ -18,7 +18,7 @@ class VerifierTest {
                 11
             )
         } catch (t :Throwable) {
-            t.printStackTrace(System.out)
+            t.printStackTrace()
         }
         // RunVerifier.runVerifier(productionGroup(), "/home/stormy/dev/github/egk-webapps/testOut/remoteWorkflow/keyceremony/", 11)
         // RunVerifier.runVerifier(productionGroup(), "/home/stormy/dev/github/egk-webapps/testOut/remoteWorkflow/electionRecord/", 11)

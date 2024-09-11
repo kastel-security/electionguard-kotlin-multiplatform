@@ -1,5 +1,6 @@
 package electionguard.cli
 
+import electionguard.cli.RunVerifier
 import electionguard.core.productionGroup
 import electionguard.json.ElectionConstantsJson
 import electionguard.json.import
@@ -7,7 +8,6 @@ import electionguard.util.ErrorMessages
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
-import org.junit.jupiter.api.Assertions.assertNotNull
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -19,6 +19,8 @@ import java.nio.file.spi.FileSystemProvider
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 import kotlin.test.Test
+import kotlin.test.assertNotNull
+
 
 // run verifier on zipped JSON record, only supported on JVM
 @OptIn(ExperimentalSerializationApi::class)

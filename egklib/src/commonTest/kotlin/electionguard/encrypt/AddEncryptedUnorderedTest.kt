@@ -1,4 +1,4 @@
-package electionguard.encrypt
+package electionguard.encryption
 
 import electionguard.model.EncryptedBallot
 import electionguard.core.productionGroup
