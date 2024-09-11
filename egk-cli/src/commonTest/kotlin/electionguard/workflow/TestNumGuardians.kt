@@ -9,6 +9,7 @@ import electionguard.cli.RunTrustedTallyDecryption.Companion.runDecryptTally
 import electionguard.core.*
 import electionguard.decrypt.DecryptingTrusteeIF
 import electionguard.publish.*
+import electionguard.testResourcesDir
 import electionguard.util.Stats
 import electionguard.verifier.Verifier
 import kotlinx.coroutines.test.TestResult
@@ -24,8 +25,8 @@ import kotlin.test.assertEquals
 class TestNumGuardians {
     val group = productionGroup()
 
-    private val manifestJson = "src/commonTest/data/startManifestJson/manifest.json"
-    private val inputBallotDir = "src/commonTest/data/fakeBallots/json"
+    private val manifestJson = "$testResourcesDir/startManifestJson/manifest.json"
+    private val inputBallotDir = "$testResourcesDir/fakeBallots/json"
     val name1 = "runWorkflowOneGuardian"
     val name2 = "runWorkflowThreeGuardian"
     val name3 = "runWorkflow5of6Guardian"

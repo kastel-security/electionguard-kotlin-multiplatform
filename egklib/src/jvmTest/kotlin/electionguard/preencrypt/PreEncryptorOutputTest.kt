@@ -12,6 +12,7 @@ import electionguard.model.PreEncryptedBallot
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
 import electionguard.demonstrate.ManifestBuilder
+import electionguard.testResourcesDir
 import electionguard.util.ErrorMessages
 import kotlin.random.Random
 import kotlin.test.Test
@@ -35,7 +36,7 @@ class PreEncryptorOutputTest {
             .build()
 
         runCompleteOutput(group,
-            "src/commonTest/data/workflow/allAvailableJson",
+            "$testResourcesDir/workflow/allAvailableJson",
             "testOut/preencrypt/PreEncryptorOutputJson",
             "testPreencrypt",
             manifest,

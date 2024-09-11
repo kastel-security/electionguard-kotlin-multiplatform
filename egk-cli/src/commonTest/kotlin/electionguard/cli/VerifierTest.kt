@@ -1,6 +1,7 @@
 package electionguard.cli
 
 import electionguard.core.productionGroup
+import electionguard.testResourcesDir
 import kotlin.test.Test
 
 class VerifierTest {
@@ -9,12 +10,12 @@ class VerifierTest {
         try {
             RunVerifier.runVerifier(
                 productionGroup(),
-                "src/commonTest/data/testElectionRecord/remoteWorkflow/keyceremony",
+                "$testResourcesDir/testElectionRecord/remoteWorkflow/keyceremony",
                 11
             )
             RunVerifier.runVerifier(
                 productionGroup(),
-                "src/commonTest/data/testElectionRecord/remoteWorkflow/electionRecord",
+                "$testResourcesDir/testElectionRecord/remoteWorkflow/electionRecord",
                 11
             )
         } catch (t :Throwable) {
@@ -26,12 +27,12 @@ class VerifierTest {
 
     @Test
     fun verificationAllJson() {
-        RunVerifier.runVerifier(productionGroup(), "src/commonTest/data/workflow/allAvailableJson", 11, true)
+        RunVerifier.runVerifier(productionGroup(), "$testResourcesDir/workflow/allAvailableJson", 11, true)
     }
 
     @Test
     fun verificationSomeJson() {
-        RunVerifier.runVerifier(productionGroup(), "src/commonTest/data/workflow/someAvailableJson", 11, true)
+        RunVerifier.runVerifier(productionGroup(), "$testResourcesDir/workflow/someAvailableJson", 11, true)
     }
 
     // @Test
@@ -44,7 +45,7 @@ class VerifierTest {
         RunVerifier.main(
             arrayOf(
                 "-in",
-                "src/commonTest/data/workflow/someAvailableJson",
+                "$testResourcesDir/workflow/someAvailableJson",
                 "-nthreads",
                 "11",
                 "--showTime",
@@ -54,23 +55,23 @@ class VerifierTest {
 
     @Test
     fun testVerifyEncryptedBallots() {
-        RunVerifier.verifyEncryptedBallots(productionGroup(), "src/commonTest/data/workflow/someAvailableJson", 11)
+        RunVerifier.verifyEncryptedBallots(productionGroup(), "$testResourcesDir/workflow/someAvailableJson", 11)
     }
 
     @Test
     fun verifyDecryptedTallyWithRecoveredShares() {
-        RunVerifier.verifyDecryptedTally(productionGroup(), "src/commonTest/data/workflow/someAvailableJson")
+        RunVerifier.verifyDecryptedTally(productionGroup(), "$testResourcesDir/workflow/someAvailableJson")
     }
 
     @Test
     fun verifySpoiledBallotTallies() {
-        RunVerifier.verifyChallengedBallots(productionGroup(), "src/commonTest/data/workflow/chainedJson")
+        RunVerifier.verifyChallengedBallots(productionGroup(), "$testResourcesDir/workflow/chainedJson")
     }
 
     // Ordered lists of the ballots encrypted by each device. spec 2.0, section 3.7, p.46
     @Test
     fun testVerifyTallyBallotIds() {
-        RunVerifier.verifyTallyBallotIds(productionGroup(), "src/commonTest/data/workflow/allAvailableJson")
-        RunVerifier.verifyTallyBallotIds(productionGroup(), "src/commonTest/data/workflow/someAvailableJson")
+        RunVerifier.verifyTallyBallotIds(productionGroup(), "$testResourcesDir/workflow/allAvailableJson")
+        RunVerifier.verifyTallyBallotIds(productionGroup(), "$testResourcesDir/workflow/someAvailableJson")
     }
 }

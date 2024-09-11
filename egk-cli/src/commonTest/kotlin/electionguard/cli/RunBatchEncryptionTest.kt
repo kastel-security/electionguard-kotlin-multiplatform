@@ -5,6 +5,7 @@ import electionguard.core.productionGroup
 import electionguard.demonstrate.RandomBallotProvider
 import electionguard.publish.makeConsumer
 import electionguard.publish.readElectionRecord
+import electionguard.testResourcesDir
 import kotlinx.coroutines.test.TestResult
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -18,8 +19,8 @@ RunBatchEncryptionTest {
     fun testRunBatchEncryptionWithJsonBallots() {
         RunBatchEncryption.main(
             arrayOf(
-                "-in", "src/commonTest/data/workflow/allAvailableJson",
-                "-ballots", "src/commonTest/data/fakeBallots/json",
+                "-in", "$testResourcesDir/workflow/allAvailableJson",
+                "-ballots", "$testResourcesDir/fakeBallots/json",
                 "-out", "testOut/encrypt/testRunBatchEncryptionWithJsonBallots",
                 "-invalid", "testOut/encrypt/testRunBatchEncryptionWithJsonBallots/invalid_ballots",
                 "-nthreads", "$nthreads",
@@ -34,8 +35,8 @@ RunBatchEncryptionTest {
     fun testRunBatchEncryptionJson() {
         RunBatchEncryption.main(
             arrayOf(
-                "-in", "src/commonTest/data/workflow/allAvailableJson",
-                "-ballots", "src/commonTest/data/fakeBallots/json",
+                "-in", "$testResourcesDir/workflow/allAvailableJson",
+                "-ballots", "$testResourcesDir/fakeBallots/json",
                 "-out", "testOut/encrypt/testRunBatchEncryptionJson",
                 "-invalid", "testOut/encrypt/testRunBatchEncryptionJson/invalid_ballots",
                 "-nthreads", "$nthreads",
@@ -50,8 +51,8 @@ RunBatchEncryptionTest {
     fun testRunBatchEncryptionJsonWithProtoBallots() {
         RunBatchEncryption.main(
             arrayOf(
-                "-in", "src/commonTest/data/workflow/allAvailableJson",
-                "-ballots", "src/commonTest/data/fakeBallots/json",
+                "-in", "$testResourcesDir/workflow/allAvailableJson",
+                "-ballots", "$testResourcesDir/fakeBallots/json",
                 "-out", "testOut/encrypt/testRunBatchEncryptionJsonWithProtoBallots",
                 "-invalid", "testOut/encrypt/testRunBatchEncryptionJsonWithProtoBallots/invalid_ballots",
                 "-nthreads", "$nthreads",
@@ -66,8 +67,8 @@ RunBatchEncryptionTest {
     fun testRunBatchEncryptionEncryptTwice() {
         RunBatchEncryption.main(
             arrayOf(
-                "-in", "src/commonTest/data/workflow/allAvailableJson",
-                "-ballots", "src/commonTest/data/fakeBallots/json",
+                "-in", "$testResourcesDir/workflow/allAvailableJson",
+                "-ballots", "$testResourcesDir/fakeBallots/json",
                 "-out", "testOut/encrypt/testRunBatchEncryptionEncryptTwice",
                 "-invalid", "testOut/encrypt/testRunBatchEncryptionEncryptTwice/invalid_ballots",
                 "-nthreads", "$nthreads",
@@ -82,8 +83,8 @@ RunBatchEncryptionTest {
     fun testRunBatchEncryptionVerify() {
         RunBatchEncryption.main(
             arrayOf(
-                "-in", "src/commonTest/data/workflow/allAvailableJson",
-                "-ballots", "src/commonTest/data/fakeBallots/json",
+                "-in", "$testResourcesDir/workflow/allAvailableJson",
+                "-ballots", "$testResourcesDir/fakeBallots/json",
                 "-out", "testOut/encrypt/testRunBatchEncryptionVerify",
                 "-invalid", "testOut/encrypt/testRunBatchEncryptionVerify/invalid_ballots",
                 "-nthreads", "$nthreads",
@@ -98,8 +99,8 @@ RunBatchEncryptionTest {
     fun testRunBatchEncryptionVerifyDecrypt() {
         RunBatchEncryption.main(
             arrayOf(
-                "-in", "src/commonTest/data/workflow/allAvailableJson",
-                "-ballots", "src/commonTest/data/fakeBallots/json",
+                "-in", "$testResourcesDir/workflow/allAvailableJson",
+                "-ballots", "$testResourcesDir/fakeBallots/json",
                 "-out", "testOut/encrypt/testRunBatchEncryptionVerifyDecrypt",
                 "-invalid", "testOut/encrypt/testRunBatchEncryptionVerifyDecrypt/invalid_ballots",
                 "-nthreads", "$nthreads",
@@ -112,7 +113,7 @@ RunBatchEncryptionTest {
 
     @Test
     fun testInvalidBallot(): TestResult {
-        val inputDir = "src/commonTest/data/workflow/allAvailableJson"
+        val inputDir = "$testResourcesDir/workflow/allAvailableJson"
         val outputDir = "testOut/testInvalidBallot"
         val invalidDir = "testOut/testInvalidBallot/invalidDir"
         return runTest {

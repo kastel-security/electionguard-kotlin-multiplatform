@@ -4,6 +4,7 @@ import electionguard.cli.RunTrustedBallotDecryption.Companion.runDecryptBallots
 import electionguard.cli.RunTrustedTallyDecryption.Companion.readDecryptingTrustees
 import electionguard.core.productionGroup
 import electionguard.publish.makeConsumer
+import electionguard.testResourcesDir
 import kotlinx.coroutines.test.TestResult
 import kotlinx.coroutines.test.runTest
 
@@ -24,7 +25,7 @@ class RunDecryptBallotsJsonTest {
     fun testDecryptBallotsAll(): TestResult {
         return runTest {
             val group = productionGroup()
-            val inputDir = "src/commonTest/data/workflow/allAvailableJson"
+            val inputDir = "$testResourcesDir/workflow/allAvailableJson"
             val trusteeDir = "$inputDir/private_data/trustees"
             val outputDir = "testOut/decrypt/testDecryptBallotsAllJson"
             println("\ntestDecryptBallotsAll")
@@ -44,7 +45,7 @@ class RunDecryptBallotsJsonTest {
     fun testDecryptBallotsSome(): TestResult {
         return runTest {
             val group = productionGroup()
-            val inputDir = "src/commonTest/data/workflow/someAvailableJson"
+            val inputDir = "$testResourcesDir/workflow/someAvailableJson"
             val trusteeDir = "$inputDir/private_data/trustees"
             val outputDir = "testOut/decrypt/testDecryptBallotsSomeJson"
             println("\ntestDecryptBallotsAll")
@@ -64,7 +65,7 @@ class RunDecryptBallotsJsonTest {
     fun testDecryptBallotsSomeFromList(): TestResult {
         return runTest {
             val group = productionGroup()
-            val inputDir = "src/commonTest/data/workflow/someAvailableJson"
+            val inputDir = "$testResourcesDir/workflow/someAvailableJson"
             val trusteeDir = "$inputDir/private_data/trustees"
             val outputDir = "testOut/decrypt/testDecryptBallotsSomeFromListJson"
             println("\ntestDecryptBallotsSomeFromList")
@@ -83,7 +84,7 @@ class RunDecryptBallotsJsonTest {
     @Test
     fun showBallotIds() {
         val group = productionGroup()
-        val inputDir = "src/commonTest/data/workflow/someAvailableJson"
+        val inputDir = "$testResourcesDir/workflow/someAvailableJson"
         val ballotDir = "$inputDir/private_data/input/"
         val consumerIn = makeConsumer(group, inputDir)
 

@@ -1,6 +1,7 @@
 package electionguard.cli
 
 import electionguard.core.productionGroup
+import electionguard.testResourcesDir
 import kotlin.test.Test
 
 class RunKeyCeremonyTest {
@@ -9,7 +10,7 @@ class RunKeyCeremonyTest {
     fun testKeyCeremonyJson() {
         RunTrustedKeyCeremony.main(
             arrayOf(
-                "-in", "src/commonTest/data/startConfigJson",
+                "-in", "$testResourcesDir/startConfigJson",
                 "-trustees", "testOut/keyceremony/testKeyCeremonyJson/private_data/trustees",
                 "-out", "testOut/keyceremony/testKeyCeremonyJson",
             )

@@ -12,6 +12,7 @@ import electionguard.model.*
 import electionguard.publish.readElectionRecord
 import electionguard.runTest
 import electionguard.demonstrate.ManifestBuilder
+import electionguard.testResourcesDir
 import electionguard.util.ErrorMessages
 import electionguard.util.Stats
 import electionguard.verifier.VerifyEncryptedBallots
@@ -25,7 +26,7 @@ import kotlin.test.*
 private val random = Random
 
 class PreEncryptorTest {
-    val input = "src/commonTest/data/workflow/allAvailableJson"
+    val input = "$testResourcesDir/workflow/allAvailableJson"
     val group = productionGroup()
 
     // sanity check that PreEncryptor.preencrypt doesnt barf

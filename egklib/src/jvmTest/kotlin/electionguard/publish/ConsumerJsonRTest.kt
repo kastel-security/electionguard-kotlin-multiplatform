@@ -4,13 +4,14 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.unwrap
 import electionguard.model.*
 import electionguard.core.productionGroup
+import electionguard.testResourcesDir
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 import kotlin.test.Test
 
 class ConsumerJsonRTest {
-    val topdir = "src/commonTest/data/testElectionRecord/egrust"
+    val topdir = "$testResourcesDir/testElectionRecord/egrust"
     val topdirw = "/home/stormy/dev/github/electionguard-rust/src/working3/"
 
     @Test

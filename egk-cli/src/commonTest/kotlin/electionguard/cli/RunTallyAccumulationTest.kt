@@ -5,6 +5,7 @@ import electionguard.model.EncryptedTally
 import electionguard.core.productionGroup
 import electionguard.publish.makeConsumer
 import electionguard.tally.AccumulateTally
+import electionguard.testResourcesDir
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertNotNull
@@ -16,7 +17,7 @@ class RunTallyAccumulationTest {
         RunAccumulateTally.main(
             arrayOf(
                 "-in",
-                "src/commonTest/data/workflow/someAvailableJson",
+                "$testResourcesDir/workflow/someAvailableJson",
                 "-out",
                 "testOut/tally/testRunBatchEncryptionJson",
             )
@@ -29,7 +30,7 @@ class RunTallyAccumulationTest {
         RunAccumulateTally.main(
             arrayOf(
                 "-in",
-                "src/commonTest/data/workflow/someAvailableProto",
+                "$testResourcesDir/workflow/someAvailableProto",
                 "-out",
                 "testOut/tally/runTallyAccumulationTestProto",
                 "-name",
@@ -43,7 +44,7 @@ class RunTallyAccumulationTest {
     @Test
     fun runTallyAccumulationTestJsonNoBallots() {
         val group = productionGroup()
-        val consumerIn = makeConsumer(group, "src/commonTest/data/workflow/someAvailableJson")
+        val consumerIn = makeConsumer(group, "$testResourcesDir/workflow/someAvailableJson")
         val initResult = consumerIn.readElectionInitialized()
         val electionInit = initResult.unwrap()
         val manifest = consumerIn.makeManifest(electionInit.config.manifestBytes)

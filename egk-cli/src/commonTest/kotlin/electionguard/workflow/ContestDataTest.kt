@@ -8,6 +8,7 @@ import electionguard.encrypt.Encryptor
 import electionguard.encrypt.cast
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
+import electionguard.testResourcesDir
 import electionguard.util.ErrorMessages
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,7 +16,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class ContestDataTest {
-    val input = "src/commonTest/data/workflow/allAvailableJson"
+    val input = "$testResourcesDir/workflow/allAvailableJson"
     val output = "testOut/contestData/testEncryptionWithWriteIn"
     val context = productionGroup()
     val keypair = elGamalKeyPairFromRandom(context)

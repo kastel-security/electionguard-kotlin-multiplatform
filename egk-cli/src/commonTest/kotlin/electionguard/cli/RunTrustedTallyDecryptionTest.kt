@@ -1,5 +1,6 @@
 package electionguard.cli
 
+import electionguard.testResourcesDir
 import kotlin.test.Test
 
 /** Test Decryption with in-process DecryptingTrustee's. */
@@ -10,9 +11,9 @@ class RunTrustedTallyDecryptionTest {
         RunTrustedTallyDecryption.main(
             arrayOf(
                 "-in",
-                "src/commonTest/data/workflow/allAvailableJson",
+                "$testResourcesDir/workflow/allAvailableJson",
                 "-trustees",
-                "src/commonTest/data/workflow/allAvailableJson/private_data/trustees",
+                "$testResourcesDir/workflow/allAvailableJson/private_data/trustees",
                 "-out",
                 "testOut/decrypt/testDecryptionJson",
                 "-createdBy",
@@ -26,9 +27,9 @@ class RunTrustedTallyDecryptionTest {
         RunTrustedTallyDecryption.main(
             arrayOf(
                 "-in",
-                "src/commonTest/data/workflow/someAvailableJson",
+                "$testResourcesDir/workflow/someAvailableJson",
                 "-trustees",
-                "src/commonTest/data/workflow/someAvailableJson/private_data/trustees",
+                "$testResourcesDir/workflow/someAvailableJson/private_data/trustees",
                 "-out",
                 "testOut/decrypt/testDecryptionSome",
                 "-createdBy",

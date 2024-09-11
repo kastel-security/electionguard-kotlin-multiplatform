@@ -5,11 +5,12 @@ import electionguard.demonstrate.RandomBallotProvider
 import electionguard.model.PlaintextBallot
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
+import electionguard.testResourcesDir
 import kotlin.test.Test
 
 /** Generate fake ballots for testing. No actual testing here. */
 class GenerateFakeBallots {
-    val inputDir = "src/commonTest/data/startConfigJson"
+    val inputDir = "$testResourcesDir/startConfigJson"
     val outputDirJson =  "testOut/fakeBallots/json"
 
     @Test

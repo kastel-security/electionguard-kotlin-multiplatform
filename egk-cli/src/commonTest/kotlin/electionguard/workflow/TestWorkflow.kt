@@ -17,6 +17,7 @@ import electionguard.demonstrate.RandomBallotProvider
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
 import electionguard.publish.makeTrusteeSource
+import electionguard.testResourcesDir
 import electionguard.util.ErrorMessages
 import electionguard.verifier.Verifier
 import kotlinx.coroutines.test.TestResult
@@ -35,7 +36,7 @@ import kotlin.test.assertTrue
  *  2. Now that we have fixed ballot ids, dont need to RunDecryptBallotsTest for more damn things to do.
  */
 class TestWorkflow {
-    private val configDirJson = "src/commonTest/data/startConfigJson"
+    private val configDirJson = "$testResourcesDir/startConfigJson"
     private val nballots = 11
     private val nthreads = 11
 

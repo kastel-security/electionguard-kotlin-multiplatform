@@ -4,11 +4,12 @@ import electionguard.model.EncryptedBallot
 import electionguard.util.Stats
 import electionguard.core.productionGroup
 import electionguard.publish.readElectionRecord
+import electionguard.testResourcesDir
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
 class DuplicateTrackingCodesTest {
-    private val inputDir = "src/commonTest/data/workflow/allAvailableJson"
+    private val inputDir = "$testResourcesDir/workflow/allAvailableJson"
 
     @Test
     fun duplicateTrackingCodes() {

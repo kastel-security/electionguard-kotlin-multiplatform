@@ -1,5 +1,6 @@
 package electionguard.cli
 
+import electionguard.testResourcesDir
 import kotlin.test.Test
 
 class RunCreateConfigTest {
@@ -9,7 +10,7 @@ class RunCreateConfigTest {
         RunCreateElectionConfig.main(
             arrayOf(
                 "-manifest",
-                "src/commonTest/data/startManifestJson/manifest.json",
+                "$testResourcesDir/startManifestJson/manifest.json",
                 "-nguardians", "3",
                 "-quorum", "3",
                 "-out",
@@ -25,7 +26,7 @@ class RunCreateConfigTest {
         RunCreateElectionConfig.main(
             arrayOf(
                 "-manifest",
-                "src/commonTest/data/startManifestJson",
+                "$testResourcesDir/startManifestJson",
                 "-nguardians", "3",
                 "-quorum", "3",
                 "-createdBy", "testCreateConfigDirectoryJson",
