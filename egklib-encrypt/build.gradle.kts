@@ -3,7 +3,6 @@ import java.util.*
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.serialization)
-    application
 }
 
 repositories {
@@ -137,6 +136,3 @@ configurations.forEach {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>()
     .configureEach { kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn" }
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-}

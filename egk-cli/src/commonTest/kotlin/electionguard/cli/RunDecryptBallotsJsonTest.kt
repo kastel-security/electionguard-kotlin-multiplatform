@@ -4,6 +4,8 @@ import electionguard.cli.RunTrustedBallotDecryption.Companion.runDecryptBallots
 import electionguard.cli.RunTrustedTallyDecryption.Companion.readDecryptingTrustees
 import electionguard.core.productionGroup
 import electionguard.publish.makeConsumer
+import kotlinx.coroutines.test.TestResult
+import kotlinx.coroutines.test.runTest
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -19,57 +21,63 @@ class RunDecryptBallotsJsonTest {
     val nthreads = 25
 
     @Test
-    fun testDecryptBallotsAll() {
-        val group = productionGroup()
-        val inputDir = "src/commonTest/data/workflow/allAvailableJson"
-        val trusteeDir = "$inputDir/private_data/trustees"
-        val outputDir = "testOut/decrypt/testDecryptBallotsAllJson"
-        println("\ntestDecryptBallotsAll")
-        val n = runDecryptBallots(
-            group,
-            inputDir,
-            outputDir,
-            readDecryptingTrustees(group, inputDir, trusteeDir),
-            "ALL",
-            nthreads,
-        )
-        assertEquals(11, n)
+    fun testDecryptBallotsAll(): TestResult {
+        return runTest {
+            val group = productionGroup()
+            val inputDir = "src/commonTest/data/workflow/allAvailableJson"
+            val trusteeDir = "$inputDir/private_data/trustees"
+            val outputDir = "testOut/decrypt/testDecryptBallotsAllJson"
+            println("\ntestDecryptBallotsAll")
+            val n = runDecryptBallots(
+                group,
+                inputDir,
+                outputDir,
+                readDecryptingTrustees(group, inputDir, trusteeDir),
+                "ALL",
+                nthreads,
+            )
+            assertEquals(11, n)
+        }
     }
 
     @Test
-    fun testDecryptBallotsSome() {
-        val group = productionGroup()
-        val inputDir = "src/commonTest/data/workflow/someAvailableJson"
-        val trusteeDir = "$inputDir/private_data/trustees"
-        val outputDir = "testOut/decrypt/testDecryptBallotsSomeJson"
-        println("\ntestDecryptBallotsAll")
-        val n = runDecryptBallots(
-            group,
-            inputDir,
-            outputDir,
-            readDecryptingTrustees(group, inputDir, trusteeDir),
-            "ALL",
-            nthreads,
-        )
-        assertEquals(11, n)
+    fun testDecryptBallotsSome(): TestResult {
+        return runTest {
+            val group = productionGroup()
+            val inputDir = "src/commonTest/data/workflow/someAvailableJson"
+            val trusteeDir = "$inputDir/private_data/trustees"
+            val outputDir = "testOut/decrypt/testDecryptBallotsSomeJson"
+            println("\ntestDecryptBallotsAll")
+            val n = runDecryptBallots(
+                group,
+                inputDir,
+                outputDir,
+                readDecryptingTrustees(group, inputDir, trusteeDir),
+                "ALL",
+                nthreads,
+            )
+            assertEquals(11, n)
+        }
     }
 
     @Test
-    fun testDecryptBallotsSomeFromList() {
-        val group = productionGroup()
-        val inputDir = "src/commonTest/data/workflow/someAvailableJson"
-        val trusteeDir = "$inputDir/private_data/trustees"
-        val outputDir = "testOut/decrypt/testDecryptBallotsSomeFromListJson"
-        println("\ntestDecryptBallotsSomeFromList")
-        val n = runDecryptBallots(
-            group, inputDir, outputDir, readDecryptingTrustees(group, inputDir, trusteeDir, "5"),
-            "id-6," +
-                    "id-7," +
-                    "id-10," +
-                    "id-1,",
-            3,
-        )
-        assertEquals(4, n)
+    fun testDecryptBallotsSomeFromList(): TestResult {
+        return runTest {
+            val group = productionGroup()
+            val inputDir = "src/commonTest/data/workflow/someAvailableJson"
+            val trusteeDir = "$inputDir/private_data/trustees"
+            val outputDir = "testOut/decrypt/testDecryptBallotsSomeFromListJson"
+            println("\ntestDecryptBallotsSomeFromList")
+            val n = runDecryptBallots(
+                group, inputDir, outputDir, readDecryptingTrustees(group, inputDir, trusteeDir, "5"),
+                "id-6," +
+                        "id-7," +
+                        "id-10," +
+                        "id-1,",
+                3,
+            )
+            assertEquals(4, n)
+        }
     }
 
     @Test

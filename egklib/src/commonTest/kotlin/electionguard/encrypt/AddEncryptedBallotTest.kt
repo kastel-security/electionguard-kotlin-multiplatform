@@ -1,4 +1,4 @@
-package electionguard.encryption
+package electionguard.encrypt
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.unwrap

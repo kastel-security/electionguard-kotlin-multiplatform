@@ -1,7 +1,6 @@
 package electionguard.workflow
 
 import com.github.michaelbull.result.Err
-import electionguard.ballot.makeGuardian
 import electionguard.core.*
 import electionguard.decrypt.DecryptingTrusteeDoerre
 import electionguard.decrypt.computeLagrangeCoefficient

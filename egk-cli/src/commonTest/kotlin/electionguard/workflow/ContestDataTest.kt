@@ -6,7 +6,6 @@ import electionguard.model.*
 import electionguard.core.*
 import electionguard.encrypt.Encryptor
 import electionguard.encrypt.cast
-import electionguard.input.BallotInputBuilder
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages

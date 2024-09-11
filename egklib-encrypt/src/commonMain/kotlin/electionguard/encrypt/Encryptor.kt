@@ -1,4 +1,4 @@
-package electionguard.encryption
+package electionguard.encrypt
 
 import electionguard.core.*
 import electionguard.model.ContestData

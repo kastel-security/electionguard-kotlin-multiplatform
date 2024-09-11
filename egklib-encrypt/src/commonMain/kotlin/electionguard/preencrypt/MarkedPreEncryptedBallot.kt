@@ -1,7 +1,7 @@
 package electionguard.preencrypt
 
 /** An internal record representing a cast PreEncryptedBallot, containing the voter choices. */
-internal data class MarkedPreEncryptedBallot(
+data class MarkedPreEncryptedBallot(
     val ballotId: String,
     val ballotStyleId: String,
     val contests: List<MarkedPreEncryptedContest>,
@@ -18,7 +18,7 @@ internal data class MarkedPreEncryptedBallot(
     }
 }
 
-internal data class MarkedPreEncryptedContest(
+data class MarkedPreEncryptedContest(
     val contestId: String,
     val selectedCodes: List<String>, // voter selected "short codes". may be empty.
     val selectedIds: List<String> = emptyList(), // debugging

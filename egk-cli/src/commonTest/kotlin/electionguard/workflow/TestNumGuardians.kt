@@ -11,6 +11,8 @@ import electionguard.decrypt.DecryptingTrusteeIF
 import electionguard.publish.*
 import electionguard.util.Stats
 import electionguard.verifier.Verifier
+import kotlinx.coroutines.test.TestResult
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
 import kotlin.test.assertEquals
@@ -31,7 +33,7 @@ class TestNumGuardians {
 
     @Test
     fun runWorkflows() {
-        println("productionGroup (Default) = $group class = ${group.javaClass.name}")
+        println("productionGroup (Default) = $group class = ${group::class.toString()}")
         //runWorkflow(name1, 1, 1, listOf(1), 1)
         runWorkflow(name1, 1, 1, listOf(1), 25)
 
@@ -48,61 +50,65 @@ class TestNumGuardians {
         checkBallotsAreEqual()
     }
 
-    fun runWorkflow(name : String, nguardians: Int, quorum: Int, present: List<Int>, nthreads: Int) {
-        println("===========================================================")
-        val workingDir =  "testOut/workflow/$name"
-        val privateDir =  "$workingDir/private_data"
-        val trusteeDir =  "${privateDir}/trustees"
-        val invalidDir =  "${privateDir}/invalid"
+    fun runWorkflow(name : String, nguardians: Int, quorum: Int, present: List<Int>, nthreads: Int): TestResult {
+        return runTest {
+            println("===========================================================")
+            val workingDir = "testOut/workflow/$name"
+            val privateDir = "$workingDir/private_data"
+            val trusteeDir = "${privateDir}/trustees"
+            val invalidDir = "${privateDir}/invalid"
 
-        // delete current workingDir
-        makePublisher(workingDir, true)
+            // delete current workingDir
+            makePublisher(workingDir, true)
 
-        RunCreateElectionConfig.main(
-            arrayOf(
-                "-manifest", manifestJson,
-                "-nguardians", nguardians.toString(),
-                "-quorum", quorum.toString(),
-                "-out", workingDir,
-                "-device", "device11",
-                "-createdBy", name1,
+            RunCreateElectionConfig.main(
+                arrayOf(
+                    "-manifest", manifestJson,
+                    "-nguardians", nguardians.toString(),
+                    "-quorum", quorum.toString(),
+                    "-out", workingDir,
+                    "-device", "device11",
+                    "-createdBy", name1,
+                )
             )
-        )
 
-        // key ceremony
-        val (_, init) = runFakeKeyCeremony(group, workingDir, workingDir, trusteeDir, nguardians, quorum, false)
-        println("FakeKeyCeremony created ElectionInitialized, guardians = $present")
+            // key ceremony
+            val (_, init) = runFakeKeyCeremony(group, workingDir, workingDir, trusteeDir, nguardians, quorum, false)
+            println("FakeKeyCeremony created ElectionInitialized, guardians = $present")
 
-        // encrypt
-        batchEncryption(group, inputDir = workingDir, ballotDir = inputBallotDir, device = "device11",
-            outputDir = workingDir, null, invalidDir = invalidDir, nthreads, name1)
-
-        // tally
-        runAccumulateBallots(group, workingDir, workingDir, null, "RunWorkflow", name1)
-
-        val dtrustees : List<DecryptingTrusteeIF> = readDecryptingTrustees(group, trusteeDir, init, present, true)
-        runDecryptTally(group, workingDir, workingDir, dtrustees, name1)
-
-        // decrypt ballots
-        RunTrustedBallotDecryption.main(
-            arrayOf(
-                "-in", workingDir,
-                "-trustees", trusteeDir,
-                "-out", workingDir,
-                "-challenged", "all",
-                "-nthreads", nthreads.toString()
+            // encrypt
+            batchEncryption(
+                group, inputDir = workingDir, ballotDir = inputBallotDir, device = "device11",
+                outputDir = workingDir, null, invalidDir = invalidDir, nthreads, name1
             )
-        )
 
-        // verify
-        println("\nRun Verifier")
-        val record = readElectionRecord(group, workingDir)
-        val verifier = Verifier(record, nthreads)
-        val stats = Stats()
-        val ok = verifier.verify(stats)
-        stats.show()
-        println("Verify is $ok")
-        assertTrue(ok)
+            // tally
+            runAccumulateBallots(group, workingDir, workingDir, null, "RunWorkflow", name1)
+
+            val dtrustees: List<DecryptingTrusteeIF> = readDecryptingTrustees(group, trusteeDir, init, present, true)
+            runDecryptTally(group, workingDir, workingDir, dtrustees, name1)
+
+            // decrypt ballots
+            RunTrustedBallotDecryption.main(
+                arrayOf(
+                    "-in", workingDir,
+                    "-trustees", trusteeDir,
+                    "-out", workingDir,
+                    "-challenged", "all",
+                    "-nthreads", nthreads.toString()
+                )
+            )
+
+            // verify
+            println("\nRun Verifier")
+            val record = readElectionRecord(group, workingDir)
+            val verifier = Verifier(record, nthreads)
+            val stats = Stats()
+            val ok = verifier.verify(stats)
+            stats.show()
+            println("Verify is $ok")
+            assertTrue(ok)
+        }
     }
 
     fun checkTalliesAreEqual() {

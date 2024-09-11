@@ -1,4 +1,4 @@
-package electionguard.input
+package electionguard.workflow
 
 import electionguard.demonstrate.ManifestBuilder
 import electionguard.model.Manifest

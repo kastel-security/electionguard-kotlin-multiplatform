@@ -2,6 +2,7 @@ package electionguard.publish
 
 import electionguard.model.protocolVersion
 import electionguard.core.productionGroup
+import electionguard.testResourcesDir
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -11,7 +12,7 @@ class ConsumerJsonTest {
 
     companion object {
         const val electionScopeId = "TestManifest"
-        const val topdir = "../../../../egklib/src/commonTest/data/testElectionRecord/json1.52"
+        val topdir = "$testResourcesDir/testElectionRecord/json1.52"
     }
 
     //@ParameterizedTest

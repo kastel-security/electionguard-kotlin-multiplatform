@@ -120,36 +120,5 @@ class PreEncryptorOutputTest {
     }
 
     // pick all selections 0..limit-1
-    internal fun markBallotToLimit(pballot: PreEncryptedBallot): MarkedPreEncryptedBallot {
-        val pcontests = mutableListOf<MarkedPreEncryptedContest>()
-        for (pcontest in pballot.contests) {
-            val shortCodes = mutableListOf<String>()
-            val selections = mutableListOf<String>()
-            val nselections = pcontest.selections.size
-            val doneIdx = mutableSetOf<Int>()
 
-            while (doneIdx.size < pcontest.votesAllowed) {
-                val idx = random.nextInt(nselections)
-                if (!doneIdx.contains(idx)) {
-                    shortCodes.add(sigma(pcontest.selections[idx].selectionHash.toUInt256safe()))
-                    selections.add(pcontest.selections[idx].selectionId)
-                    doneIdx.add(idx)
-                }
-            }
-
-            pcontests.add(
-                MarkedPreEncryptedContest(
-                    pcontest.contestId,
-                    shortCodes,
-                    selections,
-                )
-            )
-        }
-
-        return MarkedPreEncryptedBallot(
-            pballot.ballotId,
-            pballot.ballotStyleId,
-            pcontests,
-        )
-    }
 }

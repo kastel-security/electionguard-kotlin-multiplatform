@@ -41,7 +41,7 @@ class Recorder(
     For each uncast (implicitly or explicitly challenged) ballot, the recording tool returns the primary
     nonce that enables the encryptions to be opened and checked.
      */
-    internal fun MarkedPreEncryptedBallot.record(
+    fun MarkedPreEncryptedBallot.record(
         ballotNonce: UInt256,
         errs: ErrorMessages,
         codeBaux: ByteArray = ByteArray(0),
