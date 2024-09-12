@@ -9,6 +9,7 @@ import electionguard.keyceremony.keyCeremonyExchange
 import electionguard.model.*
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
+import electionguard.testResourcesDir
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -19,7 +20,7 @@ class RunFakeKeyCeremonyTest {
     @Test
     fun runFakeKeyCeremonyAll() {
         val group = productionGroup()
-        val configDir = "src/commonTest/data/startConfigJson"
+        val configDir = "$testResourcesDir/startConfigJson"
         val outputDir = "testOut/keyceremony/runFakeKeyCeremonyAll"
         val trusteeDir = "$outputDir/private_data/trustees"
 
@@ -29,7 +30,7 @@ class RunFakeKeyCeremonyTest {
     @Test
     fun runFakeKeyCeremonySome() {
         val group = productionGroup()
-        val configDir = "src/commonTest/data/startConfigJson"
+        val configDir = "$testResourcesDir/startConfigJson"
         val outputDir = "testOut/keyceremony/runFakeKeyCeremonySome"
         val trusteeDir = "$outputDir/private_data/trustees"
 

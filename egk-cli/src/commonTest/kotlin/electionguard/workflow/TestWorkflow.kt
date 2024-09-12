@@ -25,6 +25,7 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.minutes
 
 /**
  * Run complete workflow starting from ElectionConfig in the start directory, all the way through verify.
@@ -42,7 +43,7 @@ class TestWorkflow {
 
     @Test
     fun runWorkflowChained(): TestResult {
-        return runTest {
+        return runTest(timeout = 5.minutes) {
             val workingDir = "testOut/workflow/chainedProto"
             val privateDir = "$workingDir/private_data"
             val trusteeDir = "${privateDir}/trustees"
@@ -132,7 +133,7 @@ class TestWorkflow {
         val ballotsDir =  "${privateDir}/input"
         val invalidDir =  "${privateDir}/invalid"
 
-        return runTest {
+        return runTest(timeout = 5.minutes) {
             val group = productionGroup()
             val present = listOf(1, 2, 3) // all guardians present
             val nguardians = present.maxOf { it }.toInt()
@@ -198,7 +199,7 @@ class TestWorkflow {
         val ballotsDir =  "${privateDir}/input"
         val invalidDir =  "${privateDir}/invalid"
 
-        return runTest {
+        return runTest(timeout = 5.minutes) {
             val group = productionGroup()
             val present = listOf(1, 2, 3) // all guardians present
             val nguardians = present.maxOf { it }.toInt()
@@ -292,7 +293,7 @@ class TestWorkflow {
         // delete current workingDir
         makePublisher(workingDir, true)
 
-        return runTest {
+        return runTest(timeout = 5.minutes) {
             val group = productionGroup()
             val present = listOf(1, 2, 5) // 3 of 5 guardians present
             val nguardians = present.maxOf { it }.toInt()

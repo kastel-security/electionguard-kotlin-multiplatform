@@ -1,5 +1,6 @@
 package electionguard.workflow
 
+import electionguard.awaitCli
 import electionguard.model.DecryptedTallyOrBallot
 import electionguard.cli.RunAccumulateTally.Companion.runAccumulateBallots
 import electionguard.cli.RunBatchEncryption.Companion.batchEncryption
@@ -17,6 +18,7 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
 import kotlin.test.assertEquals
+import kotlin.time.Duration.Companion.minutes
 
 /**
  * Run workflow with varying number of guardians, on the same ballots, and compare the results.
@@ -52,7 +54,7 @@ class TestNumGuardians {
     }
 
     fun runWorkflow(name : String, nguardians: Int, quorum: Int, present: List<Int>, nthreads: Int): TestResult {
-        return runTest {
+        return runTest(timeout = 5.minutes) {
             println("===========================================================")
             val workingDir = "testOut/workflow/$name"
             val privateDir = "$workingDir/private_data"
@@ -90,15 +92,17 @@ class TestNumGuardians {
             runDecryptTally(group, workingDir, workingDir, dtrustees, name1)
 
             // decrypt ballots
-            RunTrustedBallotDecryption.main(
-                arrayOf(
-                    "-in", workingDir,
-                    "-trustees", trusteeDir,
-                    "-out", workingDir,
-                    "-challenged", "all",
-                    "-nthreads", nthreads.toString()
+            awaitCli {
+                RunTrustedBallotDecryption.main(
+                    arrayOf(
+                        "-in", workingDir,
+                        "-trustees", trusteeDir,
+                        "-out", workingDir,
+                        "-challenged", "all",
+                        "-nthreads", nthreads.toString()
+                    )
                 )
-            )
+            }
 
             // verify
             println("\nRun Verifier")

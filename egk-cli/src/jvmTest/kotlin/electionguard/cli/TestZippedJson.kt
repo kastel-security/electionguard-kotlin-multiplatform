@@ -4,6 +4,7 @@ import electionguard.cli.RunVerifier
 import electionguard.core.productionGroup
 import electionguard.json.ElectionConstantsJson
 import electionguard.json.import
+import electionguard.testResourcesDir
 import electionguard.util.ErrorMessages
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -18,6 +19,7 @@ import java.nio.file.Path
 import java.nio.file.spi.FileSystemProvider
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
@@ -27,7 +29,7 @@ import kotlin.test.assertNotNull
 class TestZippedJson {
     val jsonReader = Json { explicitNulls = false; ignoreUnknownKeys = true; prettyPrint = true }
 
-    val inputDir = "src/commonTest/data/workflow/allAvailableJson"
+    val inputDir = "$testResourcesDir/workflow/allAvailableJson"
     val zippedJson = "testOut/allAvailableJson.zip"
     val fs: FileSystem
     val fsp: FileSystemProvider

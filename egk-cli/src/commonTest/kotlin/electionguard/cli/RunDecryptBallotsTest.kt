@@ -80,40 +80,44 @@ class RunDecryptBallotsTest {
 
     // decrypt all the ballots
     @Test
-    fun testDecryptBallotsMainMultiThreaded() {
+    fun testDecryptBallotsMainMultiThreaded(): TestResult {
         println("\ntestDecryptBallotsMainMultiThreaded")
-        RunTrustedBallotDecryption.main(
-            arrayOf(
-                "-in",
-                "$testResourcesDir/workflow/someAvailableJson",
-                "-trustees",
-                "$testResourcesDir/workflow/someAvailableJson/private_data/trustees",
-                "-out",
-                "testOut/decrypt/testDecryptBallotsMainMultiThreaded",
-                "-challenged",
-                "all",
-                "-nthreads",
-                "$nthreads"
+        return runTest {
+            RunTrustedBallotDecryption.main(
+                arrayOf(
+                    "-in",
+                    "$testResourcesDir/workflow/someAvailableJson",
+                    "-trustees",
+                    "$testResourcesDir/workflow/someAvailableJson/private_data/trustees",
+                    "-out",
+                    "testOut/decrypt/testDecryptBallotsMainMultiThreaded",
+                    "-challenged",
+                    "all",
+                    "-nthreads",
+                    "$nthreads"
+                )
             )
-        )
+        }
     }
 
     // decrypt the ballots marked spoiled
     @Test
-    fun testDecryptBallotsMarkedSpoiled() {
+    fun testDecryptBallotsMarkedSpoiled(): TestResult {
         println("\ntestDecryptBallotsMainDefault")
-        RunTrustedBallotDecryption.main(
-            arrayOf(
-                "-in",
-                "$testResourcesDir/workflow/someAvailableJson",
-                "-trustees",
-                "$testResourcesDir/workflow/someAvailableJson/private_data/trustees",
-                "-out",
-                "testOut/decrypt/testDecryptBallotsMarkedSpoiled",
-                "-nthreads",
-                "1"
+        return runTest {
+            RunTrustedBallotDecryption.main(
+                arrayOf(
+                    "-in",
+                    "$testResourcesDir/workflow/someAvailableJson",
+                    "-trustees",
+                    "$testResourcesDir/workflow/someAvailableJson/private_data/trustees",
+                    "-out",
+                    "testOut/decrypt/testDecryptBallotsMarkedSpoiled",
+                    "-nthreads",
+                    "1"
+                )
             )
-        )
+        }
     }
 
     @Test

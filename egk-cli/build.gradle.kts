@@ -37,6 +37,7 @@ kotlin {
             systemProperties["junit.jupiter.execution.parallel.enabled"] = "true"
             systemProperties["junit.jupiter.execution.parallel.mode.default"] = "concurrent"
             systemProperties["junit.jupiter.execution.parallel.mode.classes.default"] = "concurrent"
+            dependsOn("copy")
         }
     }
     js(IR) {
@@ -46,9 +47,12 @@ kotlin {
         }
         nodejs {
             testTask {
+                environment["NODE_OPTIONS"] = "--max-old-space-size=4096"
                 useMocha {
                     timeout = "0s"
+                    environment["MOCHA_OPTIONS"] = "--parallel"
                 }
+                dependsOn("copy")
             }
         }
     }
@@ -72,6 +76,7 @@ kotlin {
         jvmMain {
             dependencies {
                 implementation(libs.sl4j.simple)
+                runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
             }
         }
         jvmTest {
@@ -79,5 +84,21 @@ kotlin {
                 implementation(libs.bundles.jvmtest)
             }
         }
+        val jsMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-node-js:18.16.12-pre.686")
+            }
+        }
+        val jsTest by getting {
+            dependencies {
+                implementation(kotlin("test-js"))
+            }
+        }
     }
+}
+
+// Part of a multi-module project, hence the rootProject everywhere
+tasks.create("copy", Copy::class.java) {
+    from("$projectDir/../egklib/src/commonTest/resources")
+    into("${rootProject.projectDir}/src/commonTest/resources")
 }

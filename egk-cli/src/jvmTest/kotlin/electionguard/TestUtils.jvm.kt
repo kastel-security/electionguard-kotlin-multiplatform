@@ -1,4 +1,7 @@
 package electionguard
 
-//TODO figure out how to share test data
-actual val testResourcesDir = "../egklib/src/commonTest/resources"
+actual val testResourcesDir = "src/commonTest/resources"
+
+actual suspend fun awaitCli(cliBlock: () -> Unit) {
+    cliBlock()
+}
