@@ -18,7 +18,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 
-
 class DecryptionWithNonceTest {
     val input = "$testResourcesDir/workflow/allAvailableJson"
     private val nballots = 20

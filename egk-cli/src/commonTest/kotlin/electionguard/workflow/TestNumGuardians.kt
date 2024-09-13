@@ -1,6 +1,5 @@
 package electionguard.workflow
 
-import electionguard.awaitCli
 import electionguard.model.DecryptedTallyOrBallot
 import electionguard.cli.RunAccumulateTally.Companion.runAccumulateBallots
 import electionguard.cli.RunBatchEncryption.Companion.batchEncryption
@@ -92,17 +91,15 @@ class TestNumGuardians {
             runDecryptTally(group, workingDir, workingDir, dtrustees, name1)
 
             // decrypt ballots
-            awaitCli {
-                RunTrustedBallotDecryption.main(
-                    arrayOf(
-                        "-in", workingDir,
-                        "-trustees", trusteeDir,
-                        "-out", workingDir,
-                        "-challenged", "all",
-                        "-nthreads", nthreads.toString()
-                    )
+            RunTrustedBallotDecryption.trustedBallotDecryptionCli(
+                arrayOf(
+                    "-in", workingDir,
+                    "-trustees", trusteeDir,
+                    "-out", workingDir,
+                    "-challenged", "all",
+                    "-nthreads", nthreads.toString()
                 )
-            }
+            )
 
             // verify
             println("\nRun Verifier")

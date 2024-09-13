@@ -1,6 +1,5 @@
 package electionguard.cli
 
-import electionguard.awaitCli
 import electionguard.cli.RunBatchEncryption.Companion.batchEncryption
 import electionguard.core.productionGroup
 import electionguard.demonstrate.RandomBallotProvider
@@ -19,19 +18,17 @@ RunBatchEncryptionTest {
     @Test
     fun testRunBatchEncryptionWithJsonBallots(): TestResult {
         return runTest {
-            awaitCli {
-                RunBatchEncryption.main(
-                    arrayOf(
-                        "-in", "$testResourcesDir/workflow/allAvailableJson",
-                        "-ballots", "$testResourcesDir/fakeBallots/json",
-                        "-out", "testOut/encrypt/testRunBatchEncryptionWithJsonBallots",
-                        "-invalid", "testOut/encrypt/testRunBatchEncryptionWithJsonBallots/invalid_ballots",
-                        "-nthreads", "$nthreads",
-                        "-device", "device2",
-                        "--cleanOutput",
-                    )
+            RunBatchEncryption.batchEncryptionCli(
+                arrayOf(
+                    "-in", "$testResourcesDir/workflow/allAvailableJson",
+                    "-ballots", "$testResourcesDir/fakeBallots/json",
+                    "-out", "testOut/encrypt/testRunBatchEncryptionWithJsonBallots",
+                    "-invalid", "testOut/encrypt/testRunBatchEncryptionWithJsonBallots/invalid_ballots",
+                    "-nthreads", "$nthreads",
+                    "-device", "device2",
+                    "--cleanOutput",
                 )
-            }
+            )
             RunVerifier.runVerifier(productionGroup(), "testOut/encrypt/testRunBatchEncryptionWithJsonBallots", 11)
         }
     }
@@ -39,19 +36,17 @@ RunBatchEncryptionTest {
     @Test
     fun testRunBatchEncryptionJson(): TestResult {
         return runTest {
-            awaitCli {
-                RunBatchEncryption.main(
-                    arrayOf(
-                        "-in", "$testResourcesDir/workflow/allAvailableJson",
-                        "-ballots", "$testResourcesDir/fakeBallots/json",
-                        "-out", "testOut/encrypt/testRunBatchEncryptionJson",
-                        "-invalid", "testOut/encrypt/testRunBatchEncryptionJson/invalid_ballots",
-                        "-nthreads", "$nthreads",
-                        "-device", "device2",
-                        "--cleanOutput",
+            RunBatchEncryption.batchEncryptionCli(
+                arrayOf(
+                    "-in", "$testResourcesDir/workflow/allAvailableJson",
+                    "-ballots", "$testResourcesDir/fakeBallots/json",
+                    "-out", "testOut/encrypt/testRunBatchEncryptionJson",
+                    "-invalid", "testOut/encrypt/testRunBatchEncryptionJson/invalid_ballots",
+                    "-nthreads", "$nthreads",
+                    "-device", "device2",
+                    "--cleanOutput",
                     )
-                )
-            }
+            )
             RunVerifier.runVerifier(productionGroup(), "testOut/encrypt/testRunBatchEncryptionJson", 11)
         }
     }
@@ -59,8 +54,7 @@ RunBatchEncryptionTest {
     @Test
     fun testRunBatchEncryptionJsonWithProtoBallots(): TestResult {
         return runTest {
-            awaitCli {
-                RunBatchEncryption.main(
+                RunBatchEncryption.batchEncryptionCli(
                     arrayOf(
                         "-in", "$testResourcesDir/workflow/allAvailableJson",
                         "-ballots", "$testResourcesDir/fakeBallots/json",
@@ -71,7 +65,6 @@ RunBatchEncryptionTest {
                         "--cleanOutput",
                     )
                 )
-            }
             RunVerifier.runVerifier(productionGroup(), "testOut/encrypt/testRunBatchEncryptionJsonWithProtoBallots", 11)
         }
     }
@@ -79,7 +72,7 @@ RunBatchEncryptionTest {
     @Test
     fun testRunBatchEncryptionEncryptTwice(): TestResult {
         return runTest {
-            RunBatchEncryption.main(
+            RunBatchEncryption.batchEncryptionCli(
                 arrayOf(
                     "-in", "$testResourcesDir/workflow/allAvailableJson",
                     "-ballots", "$testResourcesDir/fakeBallots/json",
@@ -97,7 +90,7 @@ RunBatchEncryptionTest {
     @Test
     fun testRunBatchEncryptionVerify(): TestResult {
         return runTest {
-            RunBatchEncryption.main(
+            RunBatchEncryption.batchEncryptionCli(
                 arrayOf(
                     "-in", "$testResourcesDir/workflow/allAvailableJson",
                     "-ballots", "$testResourcesDir/fakeBallots/json",
@@ -115,7 +108,7 @@ RunBatchEncryptionTest {
     @Test
     fun testRunBatchEncryptionVerifyDecrypt(): TestResult {
         return runTest {
-            RunBatchEncryption.main(
+            RunBatchEncryption.batchEncryptionCli(
                 arrayOf(
                     "-in", "$testResourcesDir/workflow/allAvailableJson",
                     "-ballots", "$testResourcesDir/fakeBallots/json",

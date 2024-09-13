@@ -51,6 +51,10 @@ class RunBatchEncryption {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) = runCli {
+            batchEncryptionCli(args)
+        }
+
+        suspend fun batchEncryptionCli(args: Array<String>) {
             val parser = ArgParser("RunBatchEncryption")
             val inputDir by parser.option(
                 ArgType.String,

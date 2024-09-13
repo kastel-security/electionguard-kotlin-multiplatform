@@ -42,6 +42,10 @@ class RunTrustedBallotDecryption {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) = runCli {
+            trustedBallotDecryptionCli(args)
+        }
+
+        suspend fun trustedBallotDecryptionCli(args: Array<String>) {
             val parser = ArgParser("RunTrustedBallotDecryption")
             val inputDir by parser.option(
                 ArgType.String,

@@ -1,0 +1,9 @@
+name: Test egk-cli
+
+on: [push]
+
+jobs:
+  trustee-jvm-test:
+    uses: ./.github/workflows/run-gradle-task.yml
+    with:
+      gradle-task: egk-cli:jvmTest

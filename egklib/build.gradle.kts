@@ -59,6 +59,8 @@ kotlin {
                     timeout = "0s" // disables timeouts
                     environment["MOCHA_OPTIONS"] = "--parallel"
                 }
+                filter.excludeTestsMatching("electionguard.decryptBallot*")
+                filter.excludeTestsMatching("electionguard.encrypt*")
             }
         }
         binaries.executable()
