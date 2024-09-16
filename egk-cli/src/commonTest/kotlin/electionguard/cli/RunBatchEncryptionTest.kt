@@ -10,6 +10,7 @@ import kotlinx.coroutines.test.TestResult
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertContains
+import kotlin.time.Duration.Companion.minutes
 
 class
 RunBatchEncryptionTest {
@@ -17,7 +18,7 @@ RunBatchEncryptionTest {
 
     @Test
     fun testRunBatchEncryptionWithJsonBallots(): TestResult {
-        return runTest {
+        return runTest(timeout = 5.minutes) {
             RunBatchEncryption.batchEncryptionCli(
                 arrayOf(
                     "-in", "$testResourcesDir/workflow/allAvailableJson",
@@ -35,7 +36,7 @@ RunBatchEncryptionTest {
 
     @Test
     fun testRunBatchEncryptionJson(): TestResult {
-        return runTest {
+        return runTest(timeout = 5.minutes) {
             RunBatchEncryption.batchEncryptionCli(
                 arrayOf(
                     "-in", "$testResourcesDir/workflow/allAvailableJson",
@@ -53,7 +54,7 @@ RunBatchEncryptionTest {
 
     @Test
     fun testRunBatchEncryptionJsonWithProtoBallots(): TestResult {
-        return runTest {
+        return runTest(timeout = 5.minutes) {
                 RunBatchEncryption.batchEncryptionCli(
                     arrayOf(
                         "-in", "$testResourcesDir/workflow/allAvailableJson",
@@ -71,7 +72,7 @@ RunBatchEncryptionTest {
 
     @Test
     fun testRunBatchEncryptionEncryptTwice(): TestResult {
-        return runTest {
+        return runTest(timeout = 5.minutes) {
             RunBatchEncryption.batchEncryptionCli(
                 arrayOf(
                     "-in", "$testResourcesDir/workflow/allAvailableJson",
@@ -89,7 +90,7 @@ RunBatchEncryptionTest {
 
     @Test
     fun testRunBatchEncryptionVerify(): TestResult {
-        return runTest {
+        return runTest(timeout = 5.minutes) {
             RunBatchEncryption.batchEncryptionCli(
                 arrayOf(
                     "-in", "$testResourcesDir/workflow/allAvailableJson",
@@ -107,7 +108,7 @@ RunBatchEncryptionTest {
 
     @Test
     fun testRunBatchEncryptionVerifyDecrypt(): TestResult {
-        return runTest {
+        return runTest(timeout = 5.minutes) {
             RunBatchEncryption.batchEncryptionCli(
                 arrayOf(
                     "-in", "$testResourcesDir/workflow/allAvailableJson",
@@ -128,7 +129,7 @@ RunBatchEncryptionTest {
         val inputDir = "$testResourcesDir/workflow/allAvailableJson"
         val outputDir = "testOut/testInvalidBallot"
         val invalidDir = "testOut/testInvalidBallot/invalidDir"
-        return runTest {
+        return runTest(timeout = 5.minutes) {
             val group = productionGroup()
             val electionRecord = readElectionRecord(group, inputDir)
 

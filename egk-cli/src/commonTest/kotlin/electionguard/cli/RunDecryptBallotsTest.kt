@@ -10,6 +10,7 @@ import kotlinx.coroutines.test.runTest
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.time.Duration.Companion.minutes
 
 /**
  * Test runDecryptBallots with in-process DecryptingTrustee's. Do not use this in production.
@@ -23,7 +24,7 @@ class RunDecryptBallotsTest {
 
     @Test
     fun testDecryptBallotsAll(): TestResult {
-        return runTest {
+        return runTest(timeout = 5.minutes) {
             val group = productionGroup()
             val inputDir = "$testResourcesDir/workflow/allAvailableJson"
             val trusteeDir = "$inputDir/private_data/trustees"
@@ -82,7 +83,7 @@ class RunDecryptBallotsTest {
     @Test
     fun testDecryptBallotsMainMultiThreaded(): TestResult {
         println("\ntestDecryptBallotsMainMultiThreaded")
-        return runTest {
+        return runTest(timeout = 5.minutes) {
             RunTrustedBallotDecryption.main(
                 arrayOf(
                     "-in",
