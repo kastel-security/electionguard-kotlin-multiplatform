@@ -1,5 +1,3 @@
-import kotlinx.coroutines.test.withTestContext
-
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.serialization)
@@ -8,9 +6,6 @@ plugins {
 repositories {
     mavenCentral()
 }
-
-version = "2.1.1-PREVIEW"
-
 
 kotlin {
     metadata {
