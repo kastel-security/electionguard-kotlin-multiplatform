@@ -1,5 +1,23 @@
 # ElectionGuard-Kotlin-Multiplatform
 
+This is a fork from [https://github.com/votingworks/electionguard-kotlin-multiplatform]() aiming to provide a kotlin/js implementation for ballot encryption in order to be used in a web environment.
+
+Therefore, we split the project in the following modules targeting different platforms:
+
+| Module         | JVM | JS Node | JS Browser |
+|----------------|-----|--------|------------|
+| egklib-core    | ✅   | ✅      | ✅          |
+| egklib-trustee | ✅   | ✅      | ✅          |
+| egklib-encrypt | ✅   | ✅      | ✅          |
+| egklib         | ✅   | ✅      | ❌          |
+| egk-cli        | ✅   | ❌       | ❌          |
+
+### TODO's
+- Provide readline functionality in the `egk-cli` module for the JS Node platform.
+- Investigate performance deficits on node and browser platforms.
+
+
+## The original README follows:
 _last update 01/21/2024_
 
 ElectionGuard-Kotlin-Multiplatform (EGK) is a [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) 
