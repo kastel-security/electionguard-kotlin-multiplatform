@@ -1,9 +1,7 @@
 package electionguard.input
 
-import electionguard.ballot.Manifest
-import electionguard.ballot.Manifest.VoteVariationType.approval
-import electionguard.ballot.Manifest.VoteVariationType.one_of_m
-import electionguard.ballot.Manifest.VoteVariationType.n_of_m
+import electionguard.model.Manifest
+import electionguard.model.Manifest.VoteVariationType.*
 import electionguard.util.ErrorMessages
 import io.github.oshai.kotlinlogging.KotlinLogging
 

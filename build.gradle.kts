@@ -26,7 +26,6 @@ subprojects {
 }
 
 
-// looks for local.properties file and provides the property if it exists
 fun Project.findLocalProperty(name: String): Any? {
     val localProperties = file("${project.rootDir}/local.properties")
     return if (localProperties.exists()) {

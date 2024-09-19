@@ -1,13 +1,13 @@
 package electionguard.publish
 
 import com.github.michaelbull.result.Result
-import electionguard.ballot.*
 import electionguard.core.GroupContext
-import electionguard.core.isDirectory
-import electionguard.core.pathExists
 import electionguard.decrypt.DecryptingTrusteeIF
 import electionguard.input.ManifestInputValidation
+import electionguard.model.*
 import electionguard.util.ErrorMessages
+import electionguard.util.isDirectory
+import electionguard.util.pathExists
 import io.github.oshai.kotlinlogging.KotlinLogging
 
 private val logger = KotlinLogging.logger("Consumer")

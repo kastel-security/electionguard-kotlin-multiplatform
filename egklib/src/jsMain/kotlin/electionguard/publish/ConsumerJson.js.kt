@@ -4,35 +4,16 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.DecryptedTallyOrBallot
-import electionguard.ballot.DecryptionResult
-import electionguard.ballot.ElectionConfig
-import electionguard.ballot.ElectionConstants
-import electionguard.ballot.ElectionInitialized
-import electionguard.ballot.EncryptedBallot
-import electionguard.ballot.EncryptedBallotChain
-import electionguard.ballot.Manifest
-import electionguard.ballot.PlaintextBallot
-import electionguard.ballot.TallyResult
 import electionguard.core.GroupContext
-import electionguard.core.fileReadBytes
-import electionguard.core.fileReadText
-import electionguard.core.isDirectory
-import electionguard.core.pathExists
 import electionguard.decrypt.DecryptingTrusteeIF
-import electionguard.json2.DecryptedTallyOrBallotJson
-import electionguard.json2.ElectionConfigJson
-import electionguard.json2.ElectionConstantsJson
-import electionguard.json2.ElectionInitializedJson
-import electionguard.json2.EncryptedBallotChainJson
-import electionguard.json2.EncryptedBallotJson
-import electionguard.json2.EncryptedTallyJson
-import electionguard.json2.ManifestJson
-import electionguard.json2.PlaintextBallotJson
-import electionguard.json2.TrusteeJson
-import electionguard.json2.import
-import electionguard.json2.importDecryptingTrustee
+import electionguard.json.*
+import electionguard.model.*
 import electionguard.util.ErrorMessages
+import electionguard.util.fileReadBytes
+import electionguard.util.fileReadText
+import electionguard.util.isDirectory
+import electionguard.util.listDir
+import electionguard.util.pathExists
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.json.Json
 import node.buffer.BufferEncoding
@@ -188,7 +169,10 @@ actual class ConsumerJson actual constructor(
         //This is required to resolve overload ambiguity
         val deviceDirs = listDir(topBallotPath)
         //TODO figure out better way to parse paths
-        return deviceDirs.map { it.split("/", "\\")[-1] }
+        return deviceDirs.map {
+            val components = it.split("/", "\\")
+            components[components.size - 1]
+        }
     }
 
     actual override fun readEncryptedBallotChain(device: String): Result<EncryptedBallotChain, ErrorMessages> {
@@ -432,9 +416,5 @@ actual class ConsumerJson actual constructor(
 
     fun getFilesNoDir(path: String): List<String> {
         return listDir(path).filter { !isDirectory(it) }
-    }
-
-    fun listDir(path: String): List<String> {
-        return readdirSync(path, options = null as BufferEncoding?).toList().map { "$path/$it" }
     }
 }

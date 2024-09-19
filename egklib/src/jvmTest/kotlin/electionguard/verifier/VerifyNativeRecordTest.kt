@@ -1,9 +1,9 @@
 package electionguard.verifier
 
-import electionguard.util.Stats
 import electionguard.core.productionGroup
-import electionguard.core.runTest
 import electionguard.publish.readElectionRecord
+import electionguard.runTest
+import electionguard.util.Stats
 import kotlin.test.assertTrue
 
 // run jvm verifier on native election record

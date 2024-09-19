@@ -1,8 +1,8 @@
 package electionguard.input
 
-import electionguard.ballot.Manifest
-import electionguard.ballot.PlaintextBallot
-import electionguard.cli.ManifestBuilder
+import electionguard.demonstrate.ManifestBuilder
+import electionguard.model.Manifest
+import electionguard.model.PlaintextBallot
 
 class BallotInputBuilder internal constructor(val manifest: Manifest, val id: String) {
     private val contests = ArrayList<ContestBuilder>()

@@ -4,7 +4,8 @@ import electionguard.core.ChaumPedersenProof
 import electionguard.core.ChaumPedersenRangeProofKnownNonce
 import electionguard.core.ElementModQ
 import electionguard.core.GroupContext
-import electionguard.json2.*
+import electionguard.json.ElementModQJson
+import electionguard.json.*
 import kotlinx.serialization.Serializable
 
 @Serializable

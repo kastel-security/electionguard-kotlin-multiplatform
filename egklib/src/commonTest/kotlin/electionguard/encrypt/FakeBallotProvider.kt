@@ -1,7 +1,7 @@
 package electionguard.encrypt
 
-import electionguard.ballot.Manifest
-import electionguard.ballot.PlaintextBallot
+import electionguard.model.Manifest
+import electionguard.model.PlaintextBallot
 import kotlin.random.Random
 
 fun makeBallot(election: Manifest, ballotStyleId : String, contestIdx: Int, selectionIdx: Int): PlaintextBallot {

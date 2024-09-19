@@ -3,12 +3,12 @@ package electionguard.testvectors
 import electionguard.core.*
 import electionguard.core.Base16.fromHexSafe
 import electionguard.core.Base16.toHex
+import electionguard.json.*
 import electionguard.keyceremony.*
-import electionguard.keyceremony.PrivateKeyShare
-import electionguard.json2.*
+import electionguard.model.PublicKeys
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -16,7 +16,6 @@ import org.junit.jupiter.api.io.TempDir
 import java.io.FileOutputStream
 import java.nio.file.FileSystems
 import java.nio.file.Path
-import kotlin.io.use
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

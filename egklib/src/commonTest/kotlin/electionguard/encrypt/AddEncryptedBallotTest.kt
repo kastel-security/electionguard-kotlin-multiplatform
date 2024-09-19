@@ -2,12 +2,16 @@ package electionguard.encrypt
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.EncryptedBallot
-import electionguard.core.*
-import electionguard.input.RandomBallotProvider
+import electionguard.core.ElGamalPublicKey
+import electionguard.core.GroupContext
+import electionguard.core.UInt256
+import electionguard.core.productionGroup
+import electionguard.demonstrate.RandomBallotProvider
+import electionguard.model.EncryptedBallot
 import electionguard.publish.makeConsumer
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
+import electionguard.testResourcesDir
 import electionguard.util.ErrorMessages
 import electionguard.util.Stats
 import electionguard.verifier.VerifyEncryptedBallots

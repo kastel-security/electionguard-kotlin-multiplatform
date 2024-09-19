@@ -1,7 +1,8 @@
+import kotlinx.coroutines.test.withTestContext
+
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.serialization)
-    application
 }
 
 repositories {
@@ -12,6 +13,12 @@ version = "2.1.1-PREVIEW"
 
 
 kotlin {
+    metadata {
+        compilations.all {
+            kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes"
+        }
+    }
+
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "17"
@@ -52,18 +59,20 @@ kotlin {
                     timeout = "0s" // disables timeouts
                     environment["MOCHA_OPTIONS"] = "--parallel"
                 }
+                filter.excludeTestsMatching("electionguard.decryptBallot*")
+                filter.excludeTestsMatching("electionguard.encrypt*")
             }
         }
         binaries.executable()
     }
 
     sourceSets {
-        all { languageSettings.optIn("kotlin.RequiresOptIn") }
-
         val commonMain by
             getting {
                 dependencies {
-                    api(libs.bull.result)
+                    implementation(project(":egklib-core"))
+                    implementation(project(":egklib-trustee"))
+                    implementation(project(":egklib-encrypt"))
                     implementation(libs.bundles.eglib)
                 }
             }
@@ -89,8 +98,6 @@ kotlin {
         val jsMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-node-js:18.16.12-pre.686")
-                implementation(npm("big-integer", "1.6.52"))
-                implementation(npm("@noble/hashes", "1.0.0"))
             }
         }
         val jsTest by getting {
@@ -131,6 +138,3 @@ configurations.forEach {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>()
     .configureEach { kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn" }
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-}

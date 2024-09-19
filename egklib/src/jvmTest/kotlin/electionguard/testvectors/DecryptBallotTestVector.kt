@@ -2,18 +2,21 @@
 
 package electionguard.testvectors
 
-import electionguard.ballot.*
 import electionguard.core.*
 import electionguard.decrypt.DecryptingTrusteeDoerre
 import electionguard.decrypt.DecryptorDoerre
 import electionguard.decrypt.Guardians
-import electionguard.json2.*
+import electionguard.demonstrate.ManifestBuilder
 import electionguard.encrypt.Encryptor
 import electionguard.encrypt.submit
-import electionguard.cli.ManifestBuilder
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
+import electionguard.json.*
 import electionguard.keyceremony.KeyCeremonyTrustee
 import electionguard.keyceremony.keyCeremonyExchange
+import electionguard.model.EncryptedBallot
+import electionguard.model.Guardian
+import electionguard.model.Manifest
+import electionguard.model.electionExtendedHash
 import electionguard.util.ErrorMessages
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable

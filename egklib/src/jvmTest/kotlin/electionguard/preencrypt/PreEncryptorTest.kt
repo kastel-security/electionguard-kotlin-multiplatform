@@ -3,24 +3,22 @@ package electionguard.preencrypt
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.ElectionConfig
-import electionguard.ballot.Manifest
-import electionguard.ballot.makeElectionConfig
-import electionguard.ballot.protocolVersion
 import electionguard.core.*
 import electionguard.decryptBallot.DecryptPreencryptWithNonce
 import electionguard.encrypt.cast
-import electionguard.cli.ManifestBuilder
-import electionguard.json2.import
-import electionguard.json2.publishJson
+import electionguard.json.import
+import electionguard.json.publishJson
+import electionguard.model.*
 import electionguard.publish.readElectionRecord
+import electionguard.runTest
+import electionguard.demonstrate.ManifestBuilder
+import electionguard.testResourcesDir
 import electionguard.util.ErrorMessages
 import electionguard.util.Stats
 import electionguard.verifier.VerifyEncryptedBallots
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
-import org.junit.jupiter.api.Disabled
 import kotlin.math.min
 import kotlin.random.Random
 import kotlin.test.*
@@ -28,7 +26,7 @@ import kotlin.test.*
 private val random = Random
 
 class PreEncryptorTest {
-    val input = "src/commonTest/data/workflow/allAvailableJson"
+    val input = "$testResourcesDir/workflow/allAvailableJson"
     val group = productionGroup()
 
     // sanity check that PreEncryptor.preencrypt doesnt barf

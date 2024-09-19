@@ -1,7 +1,7 @@
 package electionguard.verifier
 
-import electionguard.ballot.EncryptedBallot
 import electionguard.core.*
+import electionguard.model.EncryptedBallot
 import electionguard.util.ErrorMessages
 
 //////////////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ fun VerifyEncryptedBallots.verifyPreencryptionShortCodes(
         errs.add("    18. Contest has no preEncryption")
         return
     }
-    val cv = contest.preEncryption
+    val cv = contest.preEncryption!!
     val contestLimit = manifest.contestLimit(contest.contestId)
     val nselection = contest.selections.size
 
@@ -111,7 +111,7 @@ fun VerifyEncryptedBallots.verifyPreencryptedCode(ballot: EncryptedBallot,
             errs.add("    17. Contest ${contest.contestId} for preencrypted '${ballot.ballotId}' has no preEncryption")
             continue
         }
-        val cv = contest.preEncryption
+        val cv = contest.preEncryption!!
         for (sv in cv.selectedVectors) {
             val hashVector: List<ElementModP> = sv.encryptions.map { listOf(it.pad, it.data) }.flatten()
             val selectionHash = hashFunction(extendedBaseHash.bytes, 0x40.toByte(), jointPublicKey, hashVector)

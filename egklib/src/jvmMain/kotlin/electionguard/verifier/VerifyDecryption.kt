@@ -1,22 +1,15 @@
 package electionguard.verifier
 
-import electionguard.ballot.DecryptedTallyOrBallot
-import electionguard.ballot.ManifestIF
 import electionguard.core.*
+import electionguard.model.DecryptedTallyOrBallot
+import electionguard.model.ManifestIF
 import electionguard.util.ErrorMessages
 import electionguard.util.Stats
-import kotlin.collections.mutableSetOf
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
+import electionguard.util.getSystemTimeInMillis
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.produce
-import kotlinx.coroutines.joinAll
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.yield
 import kotlin.math.roundToInt
 
 private const val debug = false
@@ -59,7 +52,7 @@ actual class VerifyDecryption actual constructor(
             val contestLimit = manifest.contestLimit(contest.contestId)
 
             if (contest.decryptedContestData != null) {
-                verifyContestData(contest.decryptedContestData, errs)
+                verifyContestData(contest.decryptedContestData!!, errs)
             }
 
             val contestSelectionSet = mutableSetOf<String>()

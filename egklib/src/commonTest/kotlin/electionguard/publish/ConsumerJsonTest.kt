@@ -1,7 +1,8 @@
 package electionguard.publish
 
-import electionguard.ballot.protocolVersion
+import electionguard.model.protocolVersion
 import electionguard.core.productionGroup
+import electionguard.testResourcesDir
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -11,7 +12,7 @@ class ConsumerJsonTest {
 
     companion object {
         const val electionScopeId = "TestManifest"
-        const val topdir = "../../../../egklib/src/commonTest/data/testElectionRecord/json1.52"
+        val topdir = "$testResourcesDir/testElectionRecord/remoteWorkflow/electionRecord"
     }
 
     //@ParameterizedTest
@@ -52,7 +53,7 @@ class ConsumerJsonTest {
         var count = 0
         for (ballot in consumerIn.iterateAllEncryptedBallots { true }) {
             println("$count ballot = ${ballot.ballotId}")
-            assertTrue(ballot.ballotId.startsWith("ballot-id"))
+            assertTrue(ballot.ballotId.startsWith("id"))
             count++
         }
     }
@@ -65,7 +66,7 @@ class ConsumerJsonTest {
         var count = 0
         for (ballot in consumerIn.iterateAllCastBallots()) {
             println("$count ballot = ${ballot.ballotId}")
-            assertTrue(ballot.ballotId.startsWith("ballot-id"))
+            assertTrue(ballot.ballotId.startsWith("id"))
             count++
         }
     }

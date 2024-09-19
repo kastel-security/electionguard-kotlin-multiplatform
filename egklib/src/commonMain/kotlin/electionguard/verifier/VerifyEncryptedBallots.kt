@@ -1,8 +1,8 @@
 package electionguard.verifier
 
-import electionguard.ballot.ElectionConfig
-import electionguard.ballot.EncryptedBallot
-import electionguard.ballot.ManifestIF
+import electionguard.model.ElectionConfig
+import electionguard.model.EncryptedBallot
+import electionguard.model.ManifestIF
 import electionguard.core.*
 import electionguard.publish.ElectionRecord
 import electionguard.util.ErrorMessages

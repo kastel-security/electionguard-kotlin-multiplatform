@@ -1,15 +1,7 @@
 package electionguard.publish
 
 import com.github.michaelbull.result.Result
-import electionguard.ballot.DecryptedTallyOrBallot
-import electionguard.ballot.DecryptionResult
-import electionguard.ballot.ElectionConfig
-import electionguard.ballot.ElectionInitialized
-import electionguard.ballot.EncryptedBallot
-import electionguard.ballot.EncryptedBallotChain
-import electionguard.ballot.Manifest
-import electionguard.ballot.PlaintextBallot
-import electionguard.ballot.TallyResult
+import electionguard.model.*
 import electionguard.core.GroupContext
 import electionguard.decrypt.DecryptingTrusteeIF
 import electionguard.util.ErrorMessages

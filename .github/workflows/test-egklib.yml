@@ -1,0 +1,14 @@
+name: Test egklib
+
+on: [push]
+
+jobs:
+  egklib-jvm-test:
+    uses: ./.github/workflows/run-gradle-task.yml
+    with:
+      gradle-task: egklib:jvmTest
+
+  egklib-node-test:
+    uses: ./.github/workflows/run-gradle-task.yml
+    with:
+      gradle-task: egklib:jsNodeTest

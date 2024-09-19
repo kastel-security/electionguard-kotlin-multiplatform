@@ -1,13 +1,18 @@
 package electionguard.preencrypt
 
-import electionguard.ballot.Manifest
-import electionguard.core.*
+import electionguard.core.GroupContext
+import electionguard.core.UInt256
+import electionguard.core.productionGroup
+import electionguard.core.toUInt256safe
 import electionguard.encrypt.cast
-import electionguard.cli.ManifestBuilder
-import electionguard.json2.import
-import electionguard.json2.publishJson
+import electionguard.json.import
+import electionguard.json.publishJson
+import electionguard.model.Manifest
+import electionguard.model.PreEncryptedBallot
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
+import electionguard.demonstrate.ManifestBuilder
+import electionguard.testResourcesDir
 import electionguard.util.ErrorMessages
 import kotlin.random.Random
 import kotlin.test.Test
@@ -31,7 +36,7 @@ class PreEncryptorOutputTest {
             .build()
 
         runCompleteOutput(group,
-            "src/commonTest/data/workflow/allAvailableJson",
+            "$testResourcesDir/workflow/allAvailableJson",
             "testOut/preencrypt/PreEncryptorOutputJson",
             "testPreencrypt",
             manifest,
@@ -116,36 +121,5 @@ class PreEncryptorOutputTest {
     }
 
     // pick all selections 0..limit-1
-    internal fun markBallotToLimit(pballot: PreEncryptedBallot): MarkedPreEncryptedBallot {
-        val pcontests = mutableListOf<MarkedPreEncryptedContest>()
-        for (pcontest in pballot.contests) {
-            val shortCodes = mutableListOf<String>()
-            val selections = mutableListOf<String>()
-            val nselections = pcontest.selections.size
-            val doneIdx = mutableSetOf<Int>()
 
-            while (doneIdx.size < pcontest.votesAllowed) {
-                val idx = random.nextInt(nselections)
-                if (!doneIdx.contains(idx)) {
-                    shortCodes.add(sigma(pcontest.selections[idx].selectionHash.toUInt256safe()))
-                    selections.add(pcontest.selections[idx].selectionId)
-                    doneIdx.add(idx)
-                }
-            }
-
-            pcontests.add(
-                MarkedPreEncryptedContest(
-                    pcontest.contestId,
-                    shortCodes,
-                    selections,
-                )
-            )
-        }
-
-        return MarkedPreEncryptedBallot(
-            pballot.ballotId,
-            pballot.ballotStyleId,
-            pcontests,
-        )
-    }
 }

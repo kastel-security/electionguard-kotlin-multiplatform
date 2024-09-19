@@ -1,13 +1,17 @@
 package electionguard.encrypt
 
-import electionguard.ballot.EncryptedBallot
 import electionguard.core.productionGroup
-import electionguard.core.testResourcesDir
-import electionguard.input.RandomBallotProvider
+import electionguard.testResourcesDir
+import electionguard.demonstrate.RandomBallotProvider
+import electionguard.encrypt.AddEncryptedBallot
+import electionguard.model.EncryptedBallot
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertContains
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 
 class AddBallotSyncTest {

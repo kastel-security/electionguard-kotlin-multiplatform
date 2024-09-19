@@ -1,9 +1,9 @@
 package electionguard.tally
 
-import electionguard.ballot.EncryptedBallotIF
-import electionguard.ballot.EncryptedTally
-import electionguard.ballot.ManifestIF
-import electionguard.ballot.EncryptedBallot.BallotState
+import electionguard.model.EncryptedBallotIF
+import electionguard.model.EncryptedTally
+import electionguard.model.ManifestIF
+import electionguard.model.EncryptedBallot.BallotState
 import electionguard.core.*
 import electionguard.util.ErrorMessages
 import io.github.oshai.kotlinlogging.KotlinLogging
