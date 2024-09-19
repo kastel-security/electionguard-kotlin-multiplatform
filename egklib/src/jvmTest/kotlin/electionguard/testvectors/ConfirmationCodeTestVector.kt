@@ -1,16 +1,20 @@
 package electionguard.testvectors
 
-import electionguard.ballot.Manifest
-import electionguard.ballot.PlaintextBallot
-import electionguard.core.*
+import electionguard.byteArrays
 import electionguard.core.Base16.fromHex
 import electionguard.core.Base16.toHex
+import electionguard.core.ElGamalPublicKey
+import electionguard.core.UInt256
+import electionguard.core.base16ToElementModP
+import electionguard.core.productionGroup
+import electionguard.demonstrate.ManifestBuilder
 import electionguard.encrypt.CiphertextBallot
 import electionguard.encrypt.Encryptor
 import electionguard.input.BallotInputValidation
-import electionguard.cli.ManifestBuilder
-import electionguard.input.RandomBallotProvider
-import electionguard.json2.*
+import electionguard.demonstrate.RandomBallotProvider
+import electionguard.json.*
+import electionguard.model.Manifest
+import electionguard.model.PlaintextBallot
 import electionguard.util.ErrorMessages
 import io.kotest.property.arbitrary.single
 import kotlinx.serialization.Serializable

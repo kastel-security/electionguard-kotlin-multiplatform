@@ -2,20 +2,25 @@ package electionguard.encrypt
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.EncryptedBallot
-import electionguard.core.*
-import electionguard.input.RandomBallotProvider
+import electionguard.core.ElGamalPublicKey
+import electionguard.core.GroupContext
+import electionguard.core.UInt256
+import electionguard.core.productionGroup
+import electionguard.demonstrate.RandomBallotProvider
+import electionguard.model.EncryptedBallot
 import electionguard.publish.makeConsumer
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
+import electionguard.testResourcesDir
 import electionguard.util.ErrorMessages
 import electionguard.util.Stats
 import electionguard.verifier.VerifyEncryptedBallots
 import kotlin.test.*
 
+
 class AddEncryptedBallotTest {
     val group = productionGroup()
-    val input = "src/commonTest/data/workflow/allAvailableJson"
+    val input = "$testResourcesDir/workflow/allAvailableJson"
     val outputDir = "testOut/encrypt/addEncryptedBallot"
 
     val nballots = 4
@@ -35,7 +40,7 @@ class AddEncryptedBallotTest {
             electionRecord.manifest(),
             electionInit.config.chainConfirmationCodes,
             electionInit.config.configBaux0,
-            electionInit.jointPublicKey(),
+            electionInit.jointElGamalPublicKey(),
             electionInit.extendedBaseHash,
             device,
             outputDir,
@@ -70,7 +75,7 @@ class AddEncryptedBallotTest {
             electionRecord.manifest(),
             electionInit.config.chainConfirmationCodes,
             electionInit.config.configBaux0,
-            electionInit.jointPublicKey(),
+            electionInit.jointElGamalPublicKey(),
             electionInit.extendedBaseHash,
             device,
             outputDir,
@@ -105,7 +110,7 @@ class AddEncryptedBallotTest {
             electionRecord.manifest(),
             electionInit.config.chainConfirmationCodes,
             electionInit.config.configBaux0,
-            electionInit.jointPublicKey(),
+            electionInit.jointElGamalPublicKey(),
             electionInit.extendedBaseHash,
             device,
             outputDir,
@@ -141,7 +146,7 @@ class AddEncryptedBallotTest {
                 electionRecord.manifest(),
                 electionInit.config.chainConfirmationCodes,
                 electionInit.config.configBaux0,
-                electionInit.jointPublicKey(),
+                electionInit.jointElGamalPublicKey(),
                 electionInit.extendedBaseHash,
                 device,
                 outputDir,
@@ -177,7 +182,7 @@ class AddEncryptedBallotTest {
                 electionRecord.manifest(),
                 electionInit.config.chainConfirmationCodes,
                 electionInit.config.configBaux0,
-                electionInit.jointPublicKey(),
+                electionInit.jointElGamalPublicKey(),
                 electionInit.extendedBaseHash,
                 "device$it",
                 outputDir,
@@ -215,7 +220,7 @@ class AddEncryptedBallotTest {
             electionRecord.manifest(),
             electionInit.config.chainConfirmationCodes,
             electionInit.config.configBaux0,
-            electionInit.jointPublicKey(),
+            electionInit.jointElGamalPublicKey(),
             electionInit.extendedBaseHash,
             device,
             outputDir,
@@ -253,7 +258,7 @@ class AddEncryptedBallotTest {
                 electionRecord.manifest(),
                 electionInit.config.chainConfirmationCodes,
                 electionInit.config.configBaux0,
-                electionInit.jointPublicKey(),
+                electionInit.jointElGamalPublicKey(),
                 electionInit.extendedBaseHash,
                 device,
                 outputDir,
@@ -291,7 +296,7 @@ class AddEncryptedBallotTest {
                 electionRecord.manifest(),
                 electionInit.config.chainConfirmationCodes,
                 electionInit.config.configBaux0,
-                electionInit.jointPublicKey(),
+                electionInit.jointElGamalPublicKey(),
                 electionInit.extendedBaseHash,
                 "device$it",
                 outputDir,

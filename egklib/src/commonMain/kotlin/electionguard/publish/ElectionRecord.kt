@@ -1,9 +1,9 @@
 package electionguard.publish
 
 import com.github.michaelbull.result.Result
-import electionguard.ballot.*
 import electionguard.core.ElementModP
 import electionguard.core.UInt256
+import electionguard.model.*
 import electionguard.util.ErrorMessages
 
 /** Interface to the published election record.  */

@@ -1,17 +1,23 @@
 package electionguard.encrypt
 
-import electionguard.ballot.EncryptedBallot
 import electionguard.core.productionGroup
-import electionguard.input.RandomBallotProvider
+import electionguard.testResourcesDir
+import electionguard.demonstrate.RandomBallotProvider
+import electionguard.encrypt.AddEncryptedBallot
+import electionguard.model.EncryptedBallot
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
 import electionguard.util.ErrorMessages
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertContains
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
+
 
 class AddBallotSyncTest {
     val group = productionGroup()
-    val inputProto = "src/commonTest/data/workflow/allAvailableProto"
-    val inputJson = "src/commonTest/data/workflow/allAvailableJson"
+    val inputProto = "$testResourcesDir/workflow/allAvailableProto"
+    val inputJson = "$testResourcesDir/workflow/allAvailableJson"
     val outputDirTop = "testOut/encrypt/AddBallotSyncTest"
 
     val nballots = 4
@@ -32,7 +38,7 @@ class AddBallotSyncTest {
             electionRecord.manifest(),
             electionInit.config.chainConfirmationCodes,
             electionInit.config.configBaux0,
-            electionInit.jointPublicKey(),
+            electionInit.jointElGamalPublicKey(),
             electionInit.extendedBaseHash,
             device,
             outputDir,
@@ -80,7 +86,7 @@ class AddBallotSyncTest {
             electionRecord.manifest(),
             electionInit.config.chainConfirmationCodes,
             electionInit.config.configBaux0,
-            electionInit.jointPublicKey(),
+            electionInit.jointElGamalPublicKey(),
             electionInit.extendedBaseHash,
             device,
             outputDir,

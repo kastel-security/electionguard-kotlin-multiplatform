@@ -1,18 +1,24 @@
+import kotlinx.coroutines.test.withTestContext
+
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.serialization)
-    application
-    id("maven-publish")
 }
 
 repositories {
     mavenCentral()
 }
 
-group = "electionguard-kotlin-multiplatform"
-version = "2.0.4-SNAPSHOT"
+version = "2.1.1-PREVIEW"
+
 
 kotlin {
+    metadata {
+        compilations.all {
+            kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes"
+        }
+    }
+
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "17"
@@ -37,12 +43,36 @@ kotlin {
             }
     }
 
-    sourceSets {
-        all { languageSettings.optIn("kotlin.RequiresOptIn") }
+    js(IR) {
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
+                compilerOptions.freeCompilerArgs.add(
+                    "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi,kotlinx.serialization.ExperimentalSerializationApi"
+                )
+            }
+        }
+        nodejs {
+            testTask {
+                environment["NODE_OPTIONS"] = "--max-old-space-size=4096"
+                useMocha {
+                    timeout = "0s" // disables timeouts
+                    environment["MOCHA_OPTIONS"] = "--parallel"
+                }
+                filter.excludeTestsMatching("electionguard.decryptBallot*")
+                filter.excludeTestsMatching("electionguard.encrypt*")
+            }
+        }
+        binaries.executable()
+    }
 
+    sourceSets {
         val commonMain by
             getting {
                 dependencies {
+                    implementation(project(":egklib-core"))
+                    implementation(project(":egklib-trustee"))
+                    implementation(project(":egklib-encrypt"))
                     implementation(libs.bundles.eglib)
                 }
             }
@@ -65,6 +95,16 @@ kotlin {
                     implementation(libs.bundles.jvmtest)
                 }
             }
+        val jsMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-node-js:18.16.12-pre.686")
+            }
+        }
+        val jsTest by getting {
+            dependencies {
+                implementation(kotlin("test-js"))
+            }
+        }
         /* val nativeMain by getting {
             dependencies {
                 implementation(project(":hacllib"))
@@ -77,7 +117,7 @@ kotlin {
     jvmToolchain(17)
 }
 
-tasks.withType<Test> { testLogging { showStandardStreams = true } }
+//tasks.withType<Test> { testLogging { showStandardStreams = true } }
 
 // LOOK some kind of javascript security thing, but may be causing coupled projects
 // https://docs.gradle.org/current/userguide/multi_project_configuration_and_execution.html#sec:decoupled_projects
@@ -98,25 +138,3 @@ configurations.forEach {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>()
     .configureEach { kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn" }
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-}
-
-// publish github package
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/votingworks/electionguard-kotlin-multiplatform")
-            credentials {
-                username = project.findProperty("github.user") as String? ?: System.getenv("GITHUB_USER")
-                password = project.findProperty("github.key") as String? ?: System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
-    publications {
-        register<MavenPublication>("gpr") {
-            from(components["java"])
-        }
-    }
-}

@@ -1,27 +1,34 @@
 package electionguard.decryptBallot
 
 import com.github.michaelbull.result.unwrap
-import electionguard.ballot.*
+import electionguard.ballot.makeDoerreTrustee
+import electionguard.ballot.makeGuardian
 import electionguard.core.*
 import electionguard.decrypt.DecryptingTrusteeDoerre
 import electionguard.decrypt.DecryptorDoerre
 import electionguard.decrypt.Guardians
 import electionguard.encrypt.Encryptor
 import electionguard.encrypt.submit
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
 import electionguard.keyceremony.KeyCeremonyTrustee
+import electionguard.model.*
 import electionguard.publish.makePublisher
 import electionguard.publish.readElectionRecord
+import electionguard.testResourcesDir
 import electionguard.util.ErrorMessages
 import electionguard.util.Stats
+import electionguard.util.getSystemTimeInMillis
 import electionguard.verifier.VerifyDecryption
 import kotlin.math.roundToInt
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 
 /** Test KeyCeremony Trustee generation and recovered decryption. */
 class EncryptDecryptBallotTest {
     val group = productionGroup()
-    val configDir = "src/commonTest/data/startConfigJson"
+    val configDir = "$testResourcesDir/startConfigJson"
     val outputDir = "testOut/RecoveredDecryptionTest"
     val trusteeDir = "$outputDir/private_data"
 
@@ -61,15 +68,15 @@ fun runEncryptDecryptBallot(
     val trustees: List<KeyCeremonyTrustee> = List(nguardians) {
         val seq = it + 1
         KeyCeremonyTrustee(group, "guardian$seq", seq, nguardians, quorum)
-    }.sortedBy { it.xCoordinate }
+    }.sortedBy { it.xCoordinateAttribute }
     trustees.forEach { t1 ->
         trustees.forEach { t2 ->
             t1.receivePublicKeys(t2.publicKeys().unwrap())
         }
     }
     trustees.forEach { t1 ->
-        trustees.filter { it.id != t1.id }.forEach { t2 ->
-            t2.receiveEncryptedKeyShare(t1.encryptedKeyShareFor(t2.id).unwrap())
+        trustees.filter { it.idAttribute != t1.idAttribute }.forEach { t2 ->
+            t2.receiveEncryptedKeyShare(t1.encryptedKeyShareFor(t2.idAttribute).unwrap())
         }
     }
     val guardianList: List<Guardian> = trustees.map { makeGuardian(it) }

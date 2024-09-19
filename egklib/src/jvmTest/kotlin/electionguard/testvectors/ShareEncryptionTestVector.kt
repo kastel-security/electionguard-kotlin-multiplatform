@@ -3,12 +3,12 @@ package electionguard.testvectors
 import electionguard.core.*
 import electionguard.core.Base16.fromHexSafe
 import electionguard.core.Base16.toHex
+import electionguard.json.*
 import electionguard.keyceremony.*
-import electionguard.keyceremony.PrivateKeyShare
-import electionguard.json2.*
+import electionguard.model.PublicKeys
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -16,7 +16,6 @@ import org.junit.jupiter.api.io.TempDir
 import java.io.FileOutputStream
 import java.nio.file.FileSystems
 import java.nio.file.Path
-import kotlin.io.use
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -131,21 +130,21 @@ class ShareEncryptionTestVector {
         val trustees: List<KeyCeremonyTrusteeSaveNonces> = List(numberOfGuardians) {
             val seq = it + 1
             KeyCeremonyTrusteeSaveNonces(group, "guardian$seq", seq, numberOfGuardians, quorum)
-        }.sortedBy { it.xCoordinate }
+        }.sortedBy { it.xCoordinate() }
 
         keyCeremonyExchange(trustees)
 
         val guardians = trustees.map { trustee ->
             GuardianJson(
-                trustee.id,
-                trustee.xCoordinate,
+                trustee.id(),
+                trustee.xCoordinate(),
                 trustee.polynomial.coefficients.map { it.publishJson() },
             )
         }
 
         val guardianShares = trustees.map { trustee ->
             GuardianSharesJson(
-                trustee.id,
+                trustee.id(),
                 trustee.shareNonces.mapValues { it.value.publishJson()},
                 "Generate this guardian's shares for other guardians (Pi(ℓ) = yCoordinate, El(Pi(ℓ) = encryptedCoordinate), eq 17",
                 trustee.myShareOfOthers.values.map { it.publishJson() },
@@ -218,7 +217,7 @@ class ShareEncryptionTestVector {
     }
 
     internal fun PrivateKeyShare.findMatchingShare(trustees : List<KeyCeremonyTrustee>) : PrivateKeyShare {
-        val trustee = trustees.find { it.id == this.secretShareFor }!!
+        val trustee = trustees.find { it.id() == this.secretShareFor }!!
         return trustee.myShareOfOthers[this.polynomialOwner]!!
     }
 }

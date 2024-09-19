@@ -1,12 +1,11 @@
 package electionguard.decryptBallot
 
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.partition
-import com.github.michaelbull.result.unwrap
-import electionguard.ballot.*
+import com.github.michaelbull.result.*
 import electionguard.core.*
+import electionguard.model.ContestDataStatus
+import electionguard.model.EncryptedBallot
+import electionguard.model.PlaintextBallot
+import electionguard.model.decryptWithNonceToContestData
 
 /** Decryption of an EncryptedBallot using the ballot nonce. */
 class DecryptWithNonce(val group : GroupContext, val publicKey: ElGamalPublicKey, val extendedBaseHash: UInt256) {

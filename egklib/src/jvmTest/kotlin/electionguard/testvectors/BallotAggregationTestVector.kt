@@ -2,13 +2,13 @@
 
 package electionguard.testvectors
 
-import electionguard.ballot.*
+import electionguard.model.*
 import electionguard.core.*
-import electionguard.json2.*
+import electionguard.demonstrate.ManifestBuilder
 import electionguard.encrypt.Encryptor
 import electionguard.encrypt.cast
-import electionguard.cli.ManifestBuilder
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
+import electionguard.json.*
 import electionguard.tally.AccumulateTally
 import electionguard.util.ErrorMessages
 import kotlinx.serialization.ExperimentalSerializationApi

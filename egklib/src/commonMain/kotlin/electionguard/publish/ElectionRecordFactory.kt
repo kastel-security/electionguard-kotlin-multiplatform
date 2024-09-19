@@ -3,11 +3,11 @@ package electionguard.publish
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.unwrapError
-import electionguard.ballot.*
 import electionguard.core.ElementModP
 import electionguard.core.GroupContext
 import electionguard.core.UInt256
 import electionguard.input.ManifestInputValidation
+import electionguard.model.*
 import electionguard.util.ErrorMessages
 import io.github.oshai.kotlinlogging.KotlinLogging
 
@@ -91,16 +91,16 @@ fun readElectionRecord(consumer: Consumer) : ElectionRecord {
 }
 
 private class ElectionRecordImpl(val consumer: Consumer,
-                                 val stage: ElectionRecord.Stage,
-                                 val decryptionResult : DecryptionResult?,
-                                 val tallyResult : TallyResult?,
+                                 val stageAttribute: ElectionRecord.Stage,
+                                 val decryptionResultAttribute : DecryptionResult?,
+                                 val tallyResultAttribute : TallyResult?,
                                  val init : ElectionInitialized?,
-                                 val config : ElectionConfig,
-                                 val manifest: Manifest
+                                 val configAttribute : ElectionConfig,
+                                 val manifestAttribute: Manifest
 ) : ElectionRecord {
 
     override fun stage(): ElectionRecord.Stage {
-        return stage
+        return stageAttribute
     }
 
     override fun topdir(): String {
@@ -112,35 +112,35 @@ private class ElectionRecordImpl(val consumer: Consumer,
     }
 
     override fun constants(): ElectionConstants {
-        return config.constants
+        return configAttribute.constants
     }
 
     override fun manifest(): Manifest {
-        return manifest
+        return manifestAttribute
     }
 
     override fun manifestBytes(): ByteArray {
-        return config.manifestBytes
+        return configAttribute.manifestBytes
     }
 
     override fun numberOfGuardians(): Int {
-        return config.numberOfGuardians
+        return configAttribute.numberOfGuardians
     }
 
     override fun quorum(): Int {
-        return config.quorum
+        return configAttribute.quorum
     }
 
     override fun config(): ElectionConfig {
-        return config
+        return configAttribute
     }
 
     override fun parameterBaseHash(): UInt256 {
-        return config.parameterBaseHash
+        return configAttribute.parameterBaseHash
     }
 
     override fun electionBaseHash(): UInt256 {
-        return config.electionBaseHash
+        return configAttribute.electionBaseHash
     }
 
     override fun extendedBaseHash(): UInt256? {
@@ -176,15 +176,15 @@ private class ElectionRecordImpl(val consumer: Consumer,
     }
 
     override fun encryptedTally(): EncryptedTally? {
-        return tallyResult?.encryptedTally
+        return tallyResultAttribute?.encryptedTally
     }
 
     override fun tallyResult(): TallyResult? {
-        return tallyResult
+        return tallyResultAttribute
     }
 
     override fun decryptedTally(): DecryptedTallyOrBallot? {
-        return decryptionResult?.decryptedTally
+        return decryptionResultAttribute?.decryptedTally
     }
 
     override fun decryptedBallots(): Iterable<DecryptedTallyOrBallot> {
@@ -192,6 +192,6 @@ private class ElectionRecordImpl(val consumer: Consumer,
     }
 
     override fun decryptionResult(): DecryptionResult? {
-        return decryptionResult
+        return decryptionResultAttribute
     }
 }

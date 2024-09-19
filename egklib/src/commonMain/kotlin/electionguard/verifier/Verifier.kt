@@ -1,11 +1,15 @@
 package electionguard.verifier
 
-import com.github.michaelbull.result.*
-import electionguard.ballot.*
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.unwrapError
 import electionguard.core.*
+import electionguard.model.*
 import electionguard.publish.ElectionRecord
 import electionguard.util.ErrorMessages
 import electionguard.util.Stats
+import electionguard.util.getSystemTimeInMillis
 
 class Verifier(val record: ElectionRecord, val nthreads: Int = 11) {
     val group: GroupContext = productionGroup()

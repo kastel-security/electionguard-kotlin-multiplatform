@@ -2,18 +2,21 @@
 
 package electionguard.testvectors
 
-import electionguard.ballot.*
 import electionguard.core.*
 import electionguard.decrypt.DecryptingTrusteeDoerre
 import electionguard.decrypt.DecryptorDoerre
 import electionguard.decrypt.Guardians
-import electionguard.json2.*
+import electionguard.demonstrate.ManifestBuilder
 import electionguard.encrypt.Encryptor
 import electionguard.encrypt.submit
-import electionguard.cli.ManifestBuilder
-import electionguard.input.RandomBallotProvider
+import electionguard.demonstrate.RandomBallotProvider
+import electionguard.json.*
 import electionguard.keyceremony.KeyCeremonyTrustee
 import electionguard.keyceremony.keyCeremonyExchange
+import electionguard.model.EncryptedBallot
+import electionguard.model.Guardian
+import electionguard.model.Manifest
+import electionguard.model.electionExtendedHash
 import electionguard.util.ErrorMessages
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
@@ -61,7 +64,7 @@ class DecryptBallotTestVector {
         val keyCeremonyTrustees: List<KeyCeremonyTrustee> = List(numberOfGuardians) {
             val seq = it + 1
             KeyCeremonyTrustee(group, "guardian$seq", seq, numberOfGuardians, quorum)
-        }.sortedBy { it.xCoordinate }
+        }.sortedBy { it.xCoordinate() }
 
         keyCeremonyExchange(keyCeremonyTrustees)
 
@@ -89,10 +92,10 @@ class DecryptBallotTestVector {
         val encryptedBallot = ciphertextBallot.submit(EncryptedBallot.BallotState.CAST)
 
         val trusteesAll = keyCeremonyTrustees.map {
-            DecryptingTrusteeDoerre(it.id, it.xCoordinate, it.guardianPublicKey(), it.computeSecretKeyShare())
+            DecryptingTrusteeDoerre(it.id(), it.xCoordinate(), it.guardianPublicKey(), it.computeSecretKeyShare())
         }
 
-        val guardians = keyCeremonyTrustees.map { Guardian(it.id, it.xCoordinate, it.coefficientProofs()) }
+        val guardians = keyCeremonyTrustees.map { Guardian(it.id(), it.xCoordinate(), it.coefficientProofs()) }
         val guardiansWrapper = Guardians(group, guardians)
 
         val decryptor = DecryptorDoerre(group,
@@ -134,7 +137,7 @@ class DecryptBallotTestVector {
 
         val keyCeremonyTrustees =  testVector.trustees.map { it.importKeyCeremonyTrustee(group, numberOfGuardians) }
         val trusteesAll = testVector.trustees.map { it.importDecryptingTrustee(group) }
-        val guardians = keyCeremonyTrustees.map { Guardian(it.id, it.xCoordinate, it.coefficientProofs()) }
+        val guardians = keyCeremonyTrustees.map { Guardian(it.id(), it.xCoordinate(), it.coefficientProofs()) }
         val guardiansWrapper = Guardians(group, guardians)
 
         val decryptor = DecryptorDoerre(group,
