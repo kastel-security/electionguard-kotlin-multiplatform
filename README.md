@@ -5,12 +5,20 @@ This is a fork from [https://github.com/votingworks/electionguard-kotlin-multipl
 Therefore, we split the project in the following modules targeting different platforms:
 
 | Module         | JVM | JS Node | JS Browser |
-|----------------|-----|--------|------------|
-| egklib-core    | ✅   | ✅      | ✅          |
-| egklib-trustee | ✅   | ✅      | ✅          |
-| egklib-encrypt | ✅   | ✅      | ✅          |
-| egklib         | ✅   | ✅      | ❌          |
+|----------------|-----|---------|------------|
+| egklib-core    | ✅   | ✅       | ✅          |
+| egklib-trustee | ✅   | ✅       | ✅          |
+| egklib-encrypt | ✅   | ✅       | ✅          |
+| egklib         | ✅   | ✅       | ❌          |
 | egk-cli        | ✅   | ❌       | ❌          |
+
+## Contributions Overview
+- Using the [big-integer](https://www.npmjs.com/package/big-integer) module as a replacement for `java.math.BigInteger`
+- Getting randomness from [`window.crypto`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto) or [`node:crypto.webcrypto`](https://nodejs.org/api/webcrypto.html) instead of `java.security.SecureRandom`
+- Using [@noble/hashes](https://www.npmjs.com/package/@noble/hashes) for `sha256` and `hmac`.
+- For IO operations, we are using `kotlin-node` from the [kotlin-wrappers](https://github.com/JetBrains/kotlin-wrappers/tree/master/kotlin-node) project. 
+- Amend signature of `hashFunction` and `hmacFunction` to address platform differences regarding number types.
+- Parallelized and thread-safe implementations are ported to the JS platform by only considering single-threaded execution.
 
 ### TODO's
 - Provide readline functionality in the `egk-cli` module for the JS Node platform.
