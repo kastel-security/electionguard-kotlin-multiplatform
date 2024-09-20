@@ -65,7 +65,7 @@ kotlin {
         val commonMain by
             getting {
                 dependencies {
-                    implementation(project(":egklib-core"))
+                    api(project(":egklib-core"))
                     implementation(project(":egklib-trustee"))
                     implementation(project(":egklib-encrypt"))
                     implementation(libs.bundles.eglib)
