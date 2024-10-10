@@ -189,10 +189,8 @@ actual class VerifyEncryptedBallots actual constructor(
                 // (7.E) For all 1 ≤ j ≤ ℓ, the additional input byte array used to compute Hj = H(Bj) is equal to
                 //       Baux,j = H(Bj−1) ∥ Baux,0 .
                 var prevCC = H0
-                var first = true
                 ballots.forEach { ballot ->
-                    val expectedBaux = if (first) H0 else prevCC + config.configBaux0  // eq 7.D and 7.E
-                    first = false
+                    val expectedBaux = prevCC + config.configBaux0  // eq 7.D and 7.E
                     if (!expectedBaux.contentEquals(ballot.codeBaux)) {
                         errs.add("    7.E. additional input byte array Baux != H(Bj−1 ) ∥ Baux,0 for ballot=${ballot.ballotId}")
                     }

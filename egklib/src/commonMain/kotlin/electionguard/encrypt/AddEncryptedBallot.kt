@@ -48,7 +48,6 @@ class AddEncryptedBallot(
 
     val publisher = makePublisher(outputDir, false, isJson)
     val sink: EncryptedBallotSinkIF = publisher.encryptedBallotSink(deviceName)
-    val baux0: ByteArray
 
     private val ballotIds = mutableListOf<String>()
     private val pending = mutableMapOf<UInt256, CiphertextBallot>() // key = ccode.toHex()
@@ -63,7 +62,6 @@ class AddEncryptedBallot(
             // this is a restart on an existing chain
             val chain: EncryptedBallotChain = chainResult.unwrap()
             require(configChaining == chain.chaining) { "mismatched chaining config=$configChaining ouputDir=${chain.chaining}" }
-            baux0 = chain.baux0
             ballotIds.addAll(chain.ballotIds)
             this.lastConfirmationCode = chain.lastConfirmationCode
             first = false
@@ -71,9 +69,8 @@ class AddEncryptedBallot(
             // hmmm you could check EncryptedBallotChain each time, in case of crash
 
         } else {
-            baux0 = if (!configChaining) configBaux0 else
-                // H0 = H(HE ; 0x24, Baux,0 ), eq (59)
-                hashFunction(extendedBaseHash.bytes, 0x24.toByte(), configBaux0).bytes
+            // H0 = H(HE ; 0x24, Baux,0 ), eq (59)
+            this.lastConfirmationCode = hashFunction(extendedBaseHash.bytes, 0x24.toByte(), configBaux0)
         }
     }
 
@@ -91,7 +88,7 @@ class AddEncryptedBallot(
         }
 
         // Baux,j = Hj−1 ∥ Baux,0 eq (60)
-        val bauxj: ByteArray = if (!configChaining || first) baux0 else lastConfirmationCode.bytes + configBaux0
+        val bauxj: ByteArray = if (!configChaining) configBaux0 else lastConfirmationCode.bytes + configBaux0
         first = false
 
         val ciphertextBallot = encryptor.encrypt(ballot, bauxj, errs)
@@ -178,8 +175,8 @@ class AddEncryptedBallot(
                 submit(it, EncryptedBallot.BallotState.UNKNOWN)
             }
         }
-        val closing =
-            EncryptedBallotChain(deviceName, baux0, ballotIds, this.lastConfirmationCode, configChaining, closeChain())
+        val closing = EncryptedBallotChain(
+            deviceName, configBaux0, ballotIds, this.lastConfirmationCode, configChaining, closeChain())
         publisher.writeEncryptedBallotChain(closing)
     }
 
