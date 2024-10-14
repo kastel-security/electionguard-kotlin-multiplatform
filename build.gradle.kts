@@ -9,7 +9,7 @@ plugins {
 
 subprojects {
     group = "electionguard-kotlin-multiplatform"
-    version = "2.2.1"
+    version = "2.2.2"
 
     apply(plugin = "maven-publish")
     configure<PublishingExtension> {
